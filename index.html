@@ -154,7 +154,7 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
 /* ---------- 화면 ---------- */
 .screen{position:absolute;inset:0;display:flex;overflow:auto;touch-action:pan-y;padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
 .screen>*{margin:auto}
-#lab,#dex,#levelup,#pause,#result{background:rgba(1,3,6,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#lab,#dex,#daily,#levelup,#pause,#result{background:rgba(1,3,6,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 
 /* 타이틀 */
 #menu{padding:0;display:block;overflow:hidden;background:linear-gradient(90deg,rgba(2,4,7,.9) 0%,rgba(2,4,7,.55) 38%,rgba(2,4,7,0) 66%)}
@@ -286,12 +286,14 @@ h4.sub em{font-style:normal;color:var(--tx2);letter-spacing:0;margin-left:8px}
 .gslot.lock{opacity:.6;padding:10px}
 .gslot .gcard{width:100%;height:100%}
 .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:8px}
-.gcard{--c:#9fb0c0;position:relative;display:flex;flex-direction:column;gap:6px;text-align:left;padding:12px 12px 10px;border:0;background:#0d141b;color:var(--tx);cursor:pointer;box-shadow:inset 0 0 0 1px var(--line),inset 0 3px 0 var(--c);min-width:0;transition:background .12s,transform .12s}
+.gcard{--c:#9fb0c0;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:6px;text-align:left;padding:12px 12px 10px;border:0;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 13%,#0d141b),#0d141b 58%);color:var(--tx);cursor:pointer;box-shadow:inset 0 0 0 1px var(--line),inset 0 3px 0 var(--c);min-width:0;transition:background .12s,transform .12s}
 .gcard:hover{background:#131d26;transform:translateY(-2px)}
 .gcard.none{cursor:default;opacity:.5}.gcard.none:hover{transform:none;background:#0d141b}
 .gcard.eq{box-shadow:inset 0 0 0 1px var(--c),inset 0 3px 0 var(--c),0 0 22px color-mix(in srgb,var(--c) 28%,transparent)}
 .gcard .rar{position:absolute;right:10px;top:10px;font:900 10px/1 var(--font);letter-spacing:.1em;color:var(--c)}
-.gi{width:34px;height:34px;padding:7px;color:var(--c);box-shadow:inset 0 0 0 1px var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.gcard.r3::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 38%,rgba(255,214,120,.2) 50%,transparent 62%);background-size:260% 100%;animation:sheen 3.4s linear infinite}
+@keyframes sheen{from{background-position:160% 0}to{background-position:-60% 0}}
+.gi{width:36px;height:36px;padding:8px;color:var(--c);box-shadow:inset 0 0 0 1px var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
 .gi .ic{width:100%;height:100%}
 .gcard b{font:900 14px/1.25 var(--font);letter-spacing:-.02em}
 .gcard p{font:500 12px/1.45 var(--font);color:var(--tx2);min-height:2.9em}
@@ -302,6 +304,11 @@ h4.sub em{font-style:normal;color:var(--tx2);letter-spacing:0;margin-left:8px}
 .pullres[hidden]{display:none!important}
 .pr-in{width:min(900px,100%);display:flex;flex-direction:column;gap:18px;max-height:100%;overflow:auto}
 .pr-in h3{font:900 26px/1.1 var(--font);letter-spacing:-.04em}
+.pbest{display:inline-block;margin-left:12px;padding:5px 9px;vertical-align:middle;font:900 12px/1 var(--font);font-style:normal;letter-spacing:.04em}
+.pbest.r2{color:#dcbcff;background:rgba(197,139,255,.16);box-shadow:inset 0 0 0 1px #c58bff}
+.pbest.r3{color:#ffd97a;background:rgba(255,194,61,.16);box-shadow:inset 0 0 0 1px #ffc23d}
+.pullres.r2{background:radial-gradient(ellipse at 50% 20%,rgba(154,130,255,.2),rgba(1,3,6,.94) 62%)}
+.pullres.r3{background:radial-gradient(ellipse at 50% 20%,rgba(255,194,61,.22),rgba(1,3,6,.94) 62%)}
 .pr-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
 .pr-grid.one{grid-template-columns:minmax(0,230px);justify-content:center}
 .pr-card{--c:#9fb0c0;position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 10px 14px;background:#0c1319;box-shadow:inset 0 0 0 1px var(--c),inset 0 4px 0 var(--c);text-align:center;animation:prin .5s cubic-bezier(.2,1,.3,1) both;animation-delay:calc(var(--i,0) * .09s)}
@@ -331,7 +338,11 @@ h4.sub em{font-style:normal;color:var(--tx2);letter-spacing:0;margin-left:8px}
 .dgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .dday{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:104px;padding:10px 6px;background:#0f161d;box-shadow:inset 0 0 0 1px var(--line);text-align:center}
 .dday small{font:700 10px/1 var(--font);letter-spacing:.14em;color:var(--mut)}
-.dday b{font:900 12px/1.5 var(--font);color:var(--tx)}
+.dday .rw{display:flex;align-items:center;gap:7px;font:900 14px/1 var(--font);color:#fff;font-variant-numeric:tabular-nums}
+.dday .rw i{width:8px;height:8px;background:var(--pink);box-shadow:0 0 8px var(--pink);flex:none}
+.dday .rw.tk i{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.dday .rw small{font:700 10px/1 var(--font);letter-spacing:0;color:var(--tx2)}
+.dday.big>small::after{content:" · BONUS";color:var(--amber)}
 .dday.done{opacity:.5}
 .dday.done::after{content:"✓";position:absolute;top:6px;right:8px;color:var(--green);font:900 14px/1 var(--font)}
 .dday.today{background:#17130a;box-shadow:inset 0 0 0 1px var(--amber),0 0 24px rgba(245,180,0,.25)}
@@ -343,7 +354,10 @@ h4.sub em{font-style:normal;color:var(--tx2);letter-spacing:0;margin-left:8px}
 .mrow em{color:var(--cyan);font-style:normal}
 .mrow i{font:900 9px/1 var(--font);font-style:normal;letter-spacing:.1em;padding:3px 5px;background:var(--amber);color:#201600}
 .mrow.ach{box-shadow:inset 3px 0 0 var(--green)}.mrow.ach i{background:var(--green)}
-.mrow.unlock{box-shadow:inset 3px 0 0 var(--amber)}
+.mrow.unlock{box-shadow:inset 3px 0 0 var(--amber);align-items:flex-start}
+.chips{display:flex;flex-wrap:wrap;gap:5px;flex:1}
+.chips span{margin-left:0;padding:4px 8px;background:rgba(245,180,0,.1);box-shadow:inset 0 0 0 1px rgba(245,180,0,.35);color:#ffd86b;font:700 11.5px/1.3 var(--font)}
+.mrow.more{background:transparent;box-shadow:none;color:var(--mut);padding:2px 12px;font-weight:500}
 
 /* 면역 반응 (레벨업) */
 .lu-wrap{width:min(1000px,100%);display:flex;flex-direction:column;align-items:flex-start;gap:26px}
@@ -3619,7 +3633,7 @@ const cardPips = lv => `<div class="pips">${Array.from({ length: CARD_MAX }, (_,
 function cardTile(id) {
   const c = CARDS[id], lv = save.cards[id] || 0, r = RARITY[c.r], eq = save.equip.includes(id);
   if (!lv) return `<div class="gcard none" style="--c:${r.col}"><span class="rar">${r.ko}</span><div class="gi">${icon(c.icon)}</div><b>미획득</b><p>배양에서 얻을 수 있습니다</p></div>`;
-  return `<button class="gcard${eq ? ' eq' : ''}" data-id="${id}" style="--c:${r.col}" title="${c.en}"><span class="rar">${r.ko}</span><div class="gi">${icon(c.icon)}</div><b>${c.ko} <small>Lv ${lv}</small></b><p>${c.t(lv)}</p>${cardPips(lv)}<em>${eq ? '장착 중 · 눌러서 해제' : '눌러서 장착'}</em></button>`;
+  return `<button class="gcard r${c.r}${eq ? ' eq' : ''}" data-id="${id}" style="--c:${r.col}" title="${c.en}"><span class="rar">${r.ko}</span><div class="gi">${icon(c.icon)}</div><b>${c.ko} <small>Lv ${lv}</small></b><p>${c.t(lv)}</p>${cardPips(lv)}<em>${eq ? '장착 중 · 눌러서 해제' : '눌러서 장착'}</em></button>`;
 }
 function renderGene() {
   const p = save.pity, own = CARD_IDS.filter(k => save.cards[k]).length, slots = slotCount();
@@ -3650,7 +3664,8 @@ function doPull(n) {
   if (!res) { dataMsg('혈청이 부족합니다'); return; }
   const ach = checkAch(); writeSave();
   const best = Math.max(...res.map(r => r.r));
-  $('#prTitle').textContent = n === 1 ? '배양 결과' : `${n}회 배양 결과`;
+  $('#prTitle').innerHTML = (n === 1 ? '배양 결과' : `${n}회 배양 결과`) + (best >= 2 ? `<em class="pbest r${best}">${RARITY[best].ko} 획득</em>` : '');
+  $('#pullRes').className = 'pullres' + (best >= 2 ? ' r' + best : '');
   $('#prGrid').className = 'pr-grid' + (n === 1 ? ' one' : '');
   $('#prGrid').innerHTML = res.map((r, i) => {
     const c = CARDS[r.id], rar = RARITY[r.r];
@@ -3658,7 +3673,7 @@ function doPull(n) {
       <p>${r.refund ? `최대 단계 · 혈청 +${r.refund}` : `Lv ${r.lv} · ${c.t(r.lv)}`}</p></div>`;
   }).join('');
   const dup = res.reduce((s, r) => s + r.refund, 0);
-  $('#prSum').textContent = (ach.length ? `업적 달성: ${ach.map(a => a.ko).join(', ')} · ` : '') + (dup ? `중복 환급 혈청 +${fmtNum(dup)}` : '');
+  $('#prSum').textContent = [ach.length ? `업적 달성: ${ach.map(a => a.ko).join(', ')}` : '', dup ? `중복 환급 혈청 +${fmtNum(dup)}` : ''].filter(Boolean).join(' · ');
   $('#pullRes').hidden = false;
   if (best >= 3) Sfx.evo(); else if (best >= 2) Sfx.level(); else Sfx.pick();
   renderLab(); renderMenu();
@@ -3679,7 +3694,7 @@ function renderDaily() {
   const n = save.daily.n, ready = dailyReady(), cur = n % DAILY.length, cycleDone = !ready && cur === 0 && n > 0;
   $('#dGrid').innerHTML = DAILY.map((rw, i) => {
     const done = cycleDone || i < cur, today = ready && i === cur;
-    return `<div class="dday${done ? ' done' : ''}${today ? ' today' : ''}${i === DAILY.length - 1 ? ' big' : ''}"><small>DAY ${i + 1}</small><b>${[rw.serum ? `혈청 ${fmtNum(rw.serum)}` : '', rw.tk ? `배양권 ${rw.tk}` : ''].filter(Boolean).join('<br>')}</b></div>`;
+    return `<div class="dday${done ? ' done' : ''}${today ? ' today' : ''}${i === DAILY.length - 1 ? ' big' : ''}"><small>DAY ${i + 1}</small>${rw.serum ? `<span class="rw"><i></i>${fmtNum(rw.serum)} <small>혈청</small></span>` : ''}${rw.tk ? `<span class="rw tk"><i></i>${rw.tk} <small>배양권</small></span>` : ''}</div>`;
   }).join('');
   $('#dailySub').textContent = ready ? `오늘의 보상을 받으세요 · 누적 출석 ${n}일` : `오늘 보상을 이미 받았습니다. 내일 다시 오세요 · 누적 출석 ${n}일`;
   $('#btnClaim').disabled = !ready;
@@ -3802,9 +3817,12 @@ function finishRun() {
   const ach = checkAch();
   writeSave();
   const meta = [`<div class="mrow"><b>연구 경험치 +${fmtNum(xpGain)}</b><span>${lv1 > lv0 ? `Lv ${lv0} → <em>Lv ${lv1}</em>` : lv1 >= LEVEL_MAX ? 'Lv MAX' : `Lv ${lv1} · 다음 등급까지 ${fmtNum(xpToNext(lv1) - save.xp)}`}</span></div>`];
-  for (let L = lv0 + 1; L <= lv1; L++) unlocksAt(L).forEach(u => meta.push(`<div class="mrow unlock"><i>해금</i><b>${u}</b></div>`));
-  DIFF_ORDER.filter(k => diffOpen(k) && !diffsBefore.includes(k)).forEach(k => meta.push(`<div class="mrow unlock"><i>해금</i><b>난이도 · ${DIFFS[k].ko}</b></div>`));
-  ach.forEach(a => meta.push(`<div class="mrow ach"><i>업적</i><b>${a.ko}</b><span>${rwText(a.rw)}</span></div>`));
+  const unl = [];
+  for (let L = lv0 + 1; L <= lv1; L++) unlocksAt(L).forEach(u => unl.push(u));
+  DIFF_ORDER.filter(k => diffOpen(k) && !diffsBefore.includes(k)).forEach(k => unl.push(`난이도 · ${DIFFS[k].ko}`));
+  if (unl.length) meta.push(`<div class="mrow unlock"><i>해금</i><div class="chips">${unl.map(u => `<span>${u}</span>`).join('')}</div></div>`);
+  ach.slice(0, 3).forEach(a => meta.push(`<div class="mrow ach"><i>업적</i><b>${a.ko}</b><span>${rwText(a.rw)}</span></div>`));
+  if (ach.length > 3) meta.push(`<div class="mrow more">외 업적 ${ach.length - 3}개 달성 · 연구소에서 확인하세요</div>`);
   $('#resMeta').innerHTML = meta.join('');
   $('#resultPop').className = 'pop panel ' + (G.cleared ? 'win' : 'lose');
   $('#resTitle').textContent = `${G.cycle + 1}차 유행에서 면역 붕괴`;
