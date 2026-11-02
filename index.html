@@ -93,6 +93,13 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
 .tier.lit{opacity:1;filter:none}
 .nextboss{font:700 11px/1.2 var(--font);color:var(--tx2);text-shadow:0 1px 6px #000;min-height:12px}
 .hud-r{flex:1 1 0;display:flex;align-items:flex-start;justify-content:flex-end;gap:8px}
+.scorewrap{position:relative}
+.score{display:flex;align-items:center;gap:10px;height:40px;padding:0 16px 0 14px;box-shadow:inset 0 0 0 1px var(--line),inset 3px 0 0 var(--amber)}
+.score small{font:700 9px/1 var(--font);color:var(--mut);letter-spacing:.14em}
+.score b{font:900 17px/1 var(--font);font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+.combo{position:absolute;right:4px;top:calc(100% + 7px);font:900 16px/1 var(--font);font-style:normal;color:var(--amber);text-shadow:0 1px 8px #000,0 0 2px #000;font-variant-numeric:tabular-nums;white-space:nowrap}
+.combo:not(:empty)::after{content:" COMBO";font-size:9px;letter-spacing:.16em;opacity:.8}
+.combo.hot{color:var(--red2);font-size:20px}
 .kills{display:flex;align-items:center;gap:10px;height:40px;padding:0 16px 0 12px}
 .kills svg{width:16px;height:16px;color:var(--mut)}
 .kills b{font:900 17px/1 var(--font);font-variant-numeric:tabular-nums}
@@ -166,6 +173,15 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
 .coin i{width:8px;height:8px;background:var(--pink);box-shadow:0 0 8px var(--pink)}
 .coin b{font-weight:900;color:#fff;font-size:15px;letter-spacing:0;font-variant-numeric:tabular-nums}
 .tt-right{position:absolute;right:clamp(24px,5vw,80px);bottom:calc(11vh + 20px);width:min(400px,calc(100% - 48px));display:flex;flex-direction:column;gap:14px}
+.diff{padding:10px;clip-path:var(--cut)}
+.dsel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.dbtn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 4px;border:0;background:rgba(255,255,255,.04);color:var(--mut);cursor:pointer;box-shadow:inset 0 0 0 1px var(--line);transition:background .12s,color .12s}
+.dbtn b{font:900 15px/1 var(--font)}
+.dbtn small{font:700 9px/1 var(--font);letter-spacing:.2em}
+.dbtn:hover{color:#fff;background:rgba(255,255,255,.08)}
+.dbtn.on{color:#fff;background:rgba(224,49,49,.2);box-shadow:inset 0 0 0 1px var(--red),inset 0 -3px 0 var(--red)}
+.diff p{margin:9px 2px 0;font:500 12px/1.5 var(--font);color:var(--tx2);min-height:3em}
+.kv .new{font:900 9px/1 var(--font);font-style:normal;color:#000;background:var(--amber);padding:2px 4px;margin-left:6px;vertical-align:middle;letter-spacing:.08em}
 .cellpick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 .cellbtn{display:flex;flex-direction:column;align-items:center;gap:0;padding:6px 2px 8px;background:rgba(7,11,16,.7);border:0;color:var(--mut);cursor:pointer;font:700 11px/1.1 var(--font);box-shadow:inset 0 0 0 1px var(--line);transition:background .12s,color .12s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%)}
 .cellbtn:hover{background:rgba(20,30,40,.9);color:#fff}
@@ -307,7 +323,11 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
   .slots{max-width:100%}
   #zone{order:5}
   .nextboss{order:6;width:100%;text-align:left}
-  .vital{flex:1}
+  .vital{flex:1;min-width:0}
+  .kills{display:none}
+  .score{padding:0 10px;gap:6px}.score small{display:none}.score b{min-width:0;font-size:15px}
+  .scorewrap{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+  .combo{position:static;font-size:13px}.combo.hot{font-size:15px}
   #vitals{display:none}
   .resrow{flex-direction:column}.rank{width:auto;padding:12px}
   .toast{font-size:12px;white-space:normal;text-align:center}
@@ -362,6 +382,7 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
         <div id="nextboss" class="nextboss"></div>
       </div>
       <div class="hud-r">
+        <div class="scorewrap"><div class="score blk"><small>점수</small><b id="scoreN">0</b></div><i id="comboN" class="combo"></i></div>
         <div class="kills blk"><svg class="ic" viewBox="0 0 32 32"><circle cx="16" cy="16" r="10"/><path d="M11 11l10 10M21 11 11 21"/></svg><div><b id="killn">0</b></div><small>제거</small></div>
         <button class="iconbtn" id="btnPause" aria-label="일시정지"><svg class="ic" viewBox="0 0 32 32"><path d="M11 6v20M21 6v20"/></svg></button>
       </div>
@@ -407,11 +428,12 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
       </nav>
     </div>
     <div class="tt-right">
+      <div class="diff blk"><div class="dsel" id="diffSel" role="radiogroup" aria-label="난이도"></div><p id="diffDesc"></p></div>
       <div class="cellpick" id="cellPick" role="radiogroup" aria-label="면역세포"></div>
       <div class="heroinfo" id="heroInfo"></div>
     </div>
     <div class="tt-foot">
-      <div class="rec"><div><small>최고 생존</small><b id="recTime">--:--</b></div><div><small>최다 제거</small><b id="recKills">0</b></div><div><small>변종 제압</small><b id="recWins">0회</b></div></div>
+      <div class="rec"><div><small>최고 생존</small><b id="recTime">--:--</b></div><div><small>최고 점수</small><b id="recKills">0</b></div><div><small>최고 유행</small><b id="recWins">-</b></div></div>
       <p class="keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 이동 · <kbd>P</kbd> 일시정지 · 공격은 자동 · 터치는 화면을 누른 채 드래그</p>
     </div>
   </section>
@@ -508,7 +530,9 @@ const turn = (a, b, max) => { const d = ((b - a + Math.PI) % TAU + TAU) % TAU - 
    저장 (localStorage가 막혀 있어도 게임은 동작)
    ============================================================ */
 const SAVE_KEY = 'immune-survivors-v2';
-const save = { serum: 0, vacc: {}, best: { time: 0, kills: 0, wins: 0, score: 0 }, char: 'macro', sound: true, seen: {} };
+const DIFFS_KEYS = ['std', 'hz', 'cat'];
+const save = { serum: 0, vacc: {}, best: { time: 0, kills: 0, wins: 0, score: 0 }, bests: {}, diff: 'std', char: 'macro', sound: true, seen: {} };
+const bestOf = d => (save.bests[d] = Object.assign({ time: 0, score: 0, cycle: 0, kills: 0, runs: 0 }, save.bests[d]));
 function loadSave() {
   try {
     const raw = localStorage.getItem(SAVE_KEY);
@@ -516,7 +540,8 @@ function loadSave() {
     const d = JSON.parse(raw);
     if (d && typeof d === 'object') {
       Object.assign(save, d);
-      save.vacc = save.vacc || {}; save.seen = save.seen || {};
+      save.vacc = save.vacc || {}; save.seen = save.seen || {}; save.bests = save.bests || {};
+      if (!DIFFS_KEYS.includes(save.diff)) save.diff = 'std';
       save.best = Object.assign({ time: 0, kills: 0, wins: 0, score: 0 }, save.best);
     }
   } catch (e) { /* 저장소 사용 불가 */ }
@@ -578,8 +603,8 @@ const TIERS = [
 ];
 const ZONES = [
   { ko: '비강', sub: '코 점막 · 감기 바이러스의 영역', at: 0 },
-  { ko: '폐', sub: '기관지와 폐포 · 독감과 코로나의 영역', at: 135 },
-  { ko: '신경·뇌', sub: '신경을 타고 올라온 치명적 병원체', at: 270 },
+  { ko: '폐', sub: '기관지와 폐포 · 독감과 코로나의 영역', at: 140 },
+  { ko: '신경·뇌', sub: '신경을 타고 올라온 치명적 병원체', at: 315 },
 ];
 const LIN_NAME = { rhino: '리노바이러스', flu: '인플루엔자', corona: '코로나바이러스', ebola: '에볼라', rabies: '광견병' };
 
@@ -598,7 +623,7 @@ const VIRUS = {
   flu: { ko: '인플루엔자', en: 'Influenza', tier: 1, lin: 'flu', r: 16, hp: 44, spd: 62, dmg: 10, xp: 7, ai: 'lunge', col: [255, 154, 46], draw: 'flu', mood: 'angry', size: '100 nm', note: '독감을 일으킵니다. 잠깐 웅크렸다가 갑자기 돌진합니다.' },
   corona: { ko: '코로나바이러스', en: 'Coronavirus', tier: 1, lin: 'corona', r: 16, hp: 48, spd: 44, dmg: 8, xp: 8, ai: 'shooter', col: [255, 210, 58], draw: 'corona', mood: 'smug', size: '120 nm', note: '왕관 모양 스파이크. 거리를 두고 가시를 쏩니다.' },
   omicron: { ko: '오미크론 변이', en: 'Omicron', tier: 1, lin: 'corona', r: 12, hp: 26, spd: 96, dmg: 7, xp: 6, ai: 'weaver', pack: [2, 3], col: [255, 128, 96], draw: 'omicron', mood: 'grin', size: '100 nm', note: '코로나가 변이한 잔재주꾼. 지그재그로 재빠르게 파고듭니다.' },
-  measles: { ko: '홍역 바이러스', en: 'Measles', tier: 1, lin: 'measles', r: 15, hp: 34, spd: 92, dmg: 14, touch: 4, xp: 7, ai: 'exploder', col: [255, 112, 84], draw: 'measles', mood: 'grin', size: '150 nm', note: '빠르게 다가와 부풀다가 펑 터집니다. 부풀면 거리를 벌리세요.' },
+  measles: { ko: '홍역 바이러스', en: 'Measles', tier: 1, lin: 'measles', r: 15, hp: 34, spd: 92, dmg: 12, touch: 4, xp: 7, ai: 'exploder', col: [255, 112, 84], draw: 'measles', mood: 'grin', size: '150 nm', note: '빠르게 다가와 부풀다가 펑 터집니다. 부풀면 거리를 벌리세요.' },
   hiv: { ko: 'HIV', en: 'HIV', tier: 1, lin: 'hiv', r: 16, hp: 70, spd: 48, dmg: 8, xp: 10, ai: 'chase', onHit: 'slow', bar: true, col: [255, 184, 77], draw: 'hiv', mood: 'smug', size: '120 nm', note: '면역세포를 노립니다. 닿으면 면역이 억제되어 느려집니다.' },
   hbv: { ko: 'B형 간염 바이러스', en: 'Hepatitis B', tier: 1, lin: 'hbv', r: 19, hp: 120, spd: 34, dmg: 12, armor: 3, xp: 12, ai: 'chase', bar: true, col: [224, 138, 46], draw: 'hbv', mood: 'flat', size: '42 nm', note: '두꺼운 껍질을 가졌습니다. 약한 공격은 거의 통하지 않습니다.' },
   // ---- 심각한 바이러스: 신경·혈관 ----
@@ -629,10 +654,10 @@ const TAXON = {
    ============================================================ */
 const BOSS = {
   riC: { ko: '리노바이러스 C 변이주', short: '리노 C형', base: 'rhino', lin: 'rhino', sub: '감기 바이러스가 변이했습니다', tier: 0, r: 46, hp: 640, spd: 52, dmg: 12, xp: 120, ai: 'bossCold', col: [168, 232, 76], draw: 'ico', at: 80, size: '30 nm' },
-  h1n1: { ko: 'H1N1 신종플루', short: 'H1N1', base: 'flu', lin: 'flu', sub: '돼지·조류·사람 독감이 재조합됐습니다', tier: 1, r: 52, hp: 1800, spd: 60, dmg: 18, xp: 360, ai: 'bossFlu', col: [255, 154, 46], draw: 'flu', at: 190, size: '100 nm' },
-  covid: { ko: '코로나19', short: 'SARS-CoV-2', base: 'corona', lin: 'corona', sub: '코로나바이러스가 변이했습니다', tier: 1, r: 54, hp: 4200, spd: 56, dmg: 18, xp: 520, ai: 'bossCorona', col: [255, 210, 58], draw: 'corona', at: 265, size: '120 nm' },
-  zaire: { ko: '에볼라 자이르 변종', short: '자이르', base: 'ebola', lin: 'ebola', sub: '출혈열 변종이 혈관을 타고 번집니다', tier: 2, r: 56, hp: 5600, spd: 50, dmg: 22, xp: 650, ai: 'bossEbola', col: [232, 60, 140], draw: 'filo', at: 345, size: '80 × 1,000 nm' },
-  rabx: { ko: '광견병 변이주 RABV-X', short: 'RABV-X', base: 'rabies', lin: 'rabies', sub: '신경을 타고 뇌까지 올라온 최종 변이', tier: 2, r: 56, hp: 8200, spd: 64, dmg: 26, xp: 900, ai: 'bossRabies', col: [255, 69, 96], draw: 'bullet', at: 430, size: '75 × 180 nm' },
+  h1n1: { ko: 'H1N1 신종플루', short: 'H1N1', base: 'flu', lin: 'flu', sub: '돼지·조류·사람 독감이 재조합됐습니다', tier: 1, r: 52, hp: 1800, spd: 60, dmg: 18, xp: 360, ai: 'bossFlu', col: [255, 154, 46], draw: 'flu', at: 205, size: '100 nm' },
+  covid: { ko: '코로나19', short: 'SARS-CoV-2', base: 'corona', lin: 'corona', sub: '코로나바이러스가 변이했습니다', tier: 1, r: 54, hp: 4200, spd: 56, dmg: 18, xp: 520, ai: 'bossCorona', col: [255, 210, 58], draw: 'corona', at: 285, size: '120 nm' },
+  zaire: { ko: '에볼라 자이르 변종', short: '자이르', base: 'ebola', lin: 'ebola', sub: '출혈열 변종이 혈관을 타고 번집니다', tier: 2, r: 56, hp: 5600, spd: 50, dmg: 22, xp: 650, ai: 'bossEbola', col: [232, 60, 140], draw: 'filo', at: 365, size: '80 × 1,000 nm' },
+  rabx: { ko: '광견병 변이주 RABV-X', short: 'RABV-X', base: 'rabies', lin: 'rabies', sub: '신경을 타고 뇌까지 올라온 최종 변이', tier: 2, r: 56, hp: 8200, spd: 64, dmg: 26, xp: 900, ai: 'bossRabies', col: [255, 69, 96], draw: 'bullet', at: 440, size: '75 × 180 nm' },
 };
 const BOSS_ORDER = ['riC', 'h1n1', 'covid', 'zaire', 'rabx'];
 const FINAL_BOSS = 'rabx';
@@ -762,6 +787,35 @@ const VACCINES = [
   { id: 'revive', ko: '항체 보유', eff: '사망 시 1회 부활', max: 1, base: 240, icon: 'revive' },
 ];
 const vaccCost = (v, lv) => Math.round(v.base * (1 + lv * .8));
+
+/* ============================================================
+   무한 진행: 난이도 · 유행 주기 · 정예 변이 · 무한 강화
+   ============================================================ */
+const DIFFS = {
+  std: { ko: '표준', en: 'STANDARD', hp: 1, dmg: 1, spawn: 1, reward: 1, rank: 1, desc: '기본 난이도. 유행이 거듭될수록 강해집니다.' },
+  hz: { ko: '위험', en: 'HAZARD', hp: 1.4, dmg: 1.25, spawn: 1.15, reward: 1.6, rank: 1.35, desc: '적 체력 +40% · 피해 +25% · 출현 +15% · 보상 ×1.6' },
+  cat: { ko: '재앙', en: 'CATASTROPHE', hp: 1.9, dmg: 1.5, spawn: 1.3, reward: 2.4, rank: 1.8, desc: '적 체력 +90% · 피해 +50% · 출현 +30% · 보상 ×2.4' },
+};
+const DIFF_ORDER = ['std', 'hz', 'cat'];
+const CYCLE = 480;                    // 한 유행 주기(초). 끝나면 더 강한 다음 유행이 시작된다
+const ELITES = {
+  giant: { ko: '거대', col: [255, 196, 60], hp: 4, dmg: 1.5, spd: .85, scale: 1.45 },
+  swift: { ko: '신속', col: [120, 230, 255], hp: 2, dmg: 1, spd: 1.65, scale: 1.1 },
+  regen: { ko: '재생', col: [90, 230, 130], hp: 2.5, dmg: 1.1, spd: 1, scale: 1.15, regen: .05 },
+  shield: { ko: '경화', col: [210, 214, 230], hp: 2.5, dmg: 1.2, spd: .95, scale: 1.2, armor: 6 },
+  split: { ko: '증식', col: [255, 110, 200], hp: 2.2, dmg: 1.1, spd: 1, scale: 1.2, split: 3 },
+};
+const ELITE_KEYS = Object.keys(ELITES);
+const AREA_BOOST_MAX = 15;
+const KILL_HEAL_PS = 6;          // 처치 시 회복의 초당 상한
+const EXPLODE_R = 72, EXPLODE_FUSE = 1;   // 홍역(자폭형) 폭발 반경 · 부풀기 시간: 보고 피할 수 있게
+const BOOSTS = {               // 모든 무기·패시브가 최대일 때도 성장이 이어지도록
+  b_dmg: { ko: '세포독성 증폭', en: 'Cytotoxic boost', per: '공격력 +8%', icon: 'burst', col: '#ff9d6c' },
+  b_hp: { ko: '세포막 강화', en: 'Membrane boost', per: '최대 체력 +6%, 체력 25% 회복', icon: 'heart', col: '#ffd45e' },
+  b_cd: { ko: '신호 가속', en: 'Signal boost', per: '재사용 대기시간 -4% (최대 -60%)', icon: 'clonal', col: '#8ef0b8' },
+  b_area: { ko: '수용체 증폭', en: 'Receptor boost', per: '공격 범위 +6% (최대 15단계)', icon: 'receptor', col: '#9fb4ff' },
+};
+const rankOf = (sec, diff) => { const m = sec / 60 * DIFFS[diff].rank; return m >= 22 ? 'SS' : m >= 16 ? 'S' : m >= 11 ? 'A' : m >= 7.5 ? 'B' : m >= 4 ? 'C' : 'D'; };
 
 /* ============================================================
    아이콘 (32×32 선 아이콘)
@@ -1308,15 +1362,15 @@ const VIEW_K = 1;
 const EVENTS = [
   { at: 40, types: ['rhino'], n: 30, msg: '포위 감염', sub: '리노바이러스 무리가 사방에서 몰려옵니다', tier: 0 },
   { at: 120, types: ['rhino', 'noro'], n: 34, msg: '집단 감염', sub: '감기와 식중독 바이러스가 에워쌉니다', tier: 0 },
-  { at: 232, types: ['flu', 'omicron'], n: 20, msg: '독감 유행', sub: '인플루엔자와 변이 코로나가 퍼집니다', tier: 1 },
-  { at: 280, types: ['flu', 'measles', 'hiv'], n: 24, msg: '폐 감염 확산', sub: '강한 바이러스가 한꺼번에 달려듭니다', tier: 1 },
-  { at: 318, types: ['rabies', 'dengue'], n: 18, msg: '치명적 포위', sub: '신경계 병원체가 에워쌉니다', tier: 2 },
-  { at: 395, types: ['ebola', 'nipah', 'rabies'], n: 18, msg: '출혈열 확산', sub: '심각한 바이러스가 몰려옵니다', tier: 2 },
+  { at: 245, types: ['flu', 'omicron'], n: 20, msg: '독감 유행', sub: '인플루엔자와 변이 코로나가 퍼집니다', tier: 1 },
+  { at: 305, types: ['flu', 'measles', 'hiv'], n: 24, msg: '폐 감염 확산', sub: '강한 바이러스가 한꺼번에 달려듭니다', tier: 1 },
+  { at: 350, types: ['rabies', 'dengue'], n: 18, msg: '치명적 포위', sub: '신경계 병원체가 에워쌉니다', tier: 2 },
+  { at: 410, types: ['ebola', 'nipah', 'rabies'], n: 18, msg: '출혈열 확산', sub: '심각한 바이러스가 몰려옵니다', tier: 2 },
 ];
 const SPAWN = [   // [종, 시작, 시작 가중치, 최종 가중치, 증가 구간(초)]
   ['rhino', 0, 10, 3, 270], ['adeno', 20, 2.5, 4, 200], ['noro', 45, 1.2, 2.5, 200], ['rota', 75, 1.8, 3, 200], ['herpes', 100, .8, 1.6, 200],
-  ['flu', 130, 2.5, 5, 200], ['corona', 145, 2, 4, 200], ['measles', 160, 1.5, 3, 200], ['omicron', 170, 1.5, 3, 200], ['hiv', 190, 1, 2.4, 200], ['hbv', 210, .8, 1.8, 200],
-  ['rabies', 265, 2, 4, 200], ['ebola', 280, 1.3, 2.8, 200], ['pox', 300, .8, 1.8, 200], ['cmv', 320, .7, 1.4, 200], ['dengue', 335, 1.2, 2.6, 200], ['nipah', 350, .8, 1.8, 200],
+  ['flu', 140, 2.5, 5, 200], ['corona', 160, 2, 4, 200], ['measles', 185, 1.5, 3, 200], ['omicron', 205, 1.5, 3, 200], ['hiv', 230, 1, 2.4, 200], ['hbv', 255, .8, 1.8, 200],
+  ['rabies', 315, 2, 4, 200], ['ebola', 330, 1.3, 2.8, 200], ['pox', 345, .8, 1.8, 200], ['cmv', 360, .7, 1.4, 200], ['dengue', 375, 1.2, 2.6, 200], ['nipah', 390, .8, 1.8, 200],
 ];
 
 function newGame(charId) {
@@ -1327,12 +1381,14 @@ function newGame(charId) {
     bw: {}, bs: {}, ev: {}, seen: [true, false, false], boss: null, pending: 0,
     over: false, won: false, endTimer: 0, timeScale: 1, shake: 0, hint: 7,
     char: charId, loadoutDirty: true, zone: 0, prevZone: 0, zf: 1, mut: {}, pendCounter: [], forced: [], bonusSerum: 0, newSeen: 0,
+    diffKey: save.diff, diff: DIFFS[save.diff] || DIFFS.std, cycle: 0, ct: 0, dm: 1, cleared: 0,
+    score: 0, combo: 0, comboT: 0, maxCombo: 0, eliteKills: 0, eliteAlive: 0, eliteCd: 0,
   };
   P = {
     id: charId, ch, x: 0, y: 0, vx: 0, vy: 0, fx: 1, fy: 0, r: 11,
-    hp: 1, maxHp: 1, weapons: [], passives: {}, counter: {}, lv: 1, xp: 0, xpNeed: needFor(1),
+    hp: 1, maxHp: 1, weapons: [], passives: {}, counter: {}, boost: {}, lv: 1, xp: 0, xpNeed: needFor(1),
     inv: 0, slowT: 0, hurtT: 0, revive: save.vacc.revive ? 1 : 0, rerolls: 1 + (save.vacc.reroll || 0),
-    dmgM: 1, cdM: 1, areaM: 1, speed: 100, magnet: 70, xpM: 1, regen: 0, armor: 0, crit: .05, moving: false,
+    dmgM: 1, cdM: 1, areaM: 1, speed: 100, magnet: 70, xpM: 1, regen: 0, armor: 0, crit: .05, moving: false, khB: 0,
   };
   recalc();
   P.hp = P.maxHp;
@@ -1341,12 +1397,12 @@ function newGame(charId) {
 }
 
 function recalc() {
-  const ch = P.ch, v = save.vacc, L = id => P.passives[id] || 0;
+  const ch = P.ch, v = save.vacc, L = id => P.passives[id] || 0, B = id => P.boost[id] || 0;
   const oldMax = P.maxHp;
-  P.maxHp = Math.round((ch.hp * 1.25 + L('vitamin') * 20) * (1 + (v.hp || 0) * .08));
-  P.dmgM = (1 + L('activation') * .10) * (1 + (v.dmg || 0) * .04) * (ch.dmg || 1);
-  P.cdM = Math.max(.4, 1 - L('clonal') * .07 - (ch.cd || 0));
-  P.areaM = 1 + L('receptor') * .10;
+  P.maxHp = Math.round((ch.hp * 1.25 + L('vitamin') * 20) * (1 + (v.hp || 0) * .08) * (1 + B('hp') * .06));
+  P.dmgM = (1 + L('activation') * .10) * (1 + (v.dmg || 0) * .04) * (ch.dmg || 1) * (1 + B('dmg') * .08);
+  P.cdM = Math.max(.4, 1 - L('clonal') * .07 - (ch.cd || 0) - B('cd') * .04);
+  P.areaM = 1 + L('receptor') * .10 + Math.min(B('area'), AREA_BOOST_MAX) * .06;
   P.speed = ch.spd * (1 + L('flow') * .08) * (1 + (v.spd || 0) * .03);
   P.magnet = 70 * (1 + L('lymph') * .25) * (1 + (v.magnet || 0) * .15);
   P.xpM = (1 + L('memory') * .10) * (1 + (v.xp || 0) * .06) * (ch.xp || 1);
@@ -1427,21 +1483,31 @@ function burst(x, y, color, n, spd, size) {
     parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: rand(.25, .55), max: .55, size: rand(.6, 1) * size, c: color });
   }
 }
-function ring(x, y, max, color, life, w) { rings.push({ x, y, r: 4, max, c: color, life: life || .5, t: 0, w: w || 3 }); }
+function ring(x, y, max, color, life, w) { if (rings.length < 160) rings.push({ x, y, r: 4, max, c: color, life: life || .5, t: 0, w: w || 3 }); }
 function addNum(x, y, v, crit, color, small) { if (nums.length < 70) nums.push({ x, y, v, crit, t: 0, c: color || null, small }); }
 function addPool(x, y, r, life, delay) { if (pools.length < 64) pools.push({ x, y, r, life, max: life, delay: delay || 0 }); }
 
 /* ============================================================
    생성
    ============================================================ */
-function spawnEnemy(key, x, y, isBoss) {
+/* 난이도 곡선: 시간(분)에 따라 체력은 2차로 오르고, 6분 뒤부터는 유행 한 주기(8분)마다 ×1.8 씩 지수적으로 붙는다.
+   플레이어 성장(무한 강화)은 선형이라 언젠가는 반드시 따라잡힌다 → 끝없는 게임이지만 결국 끝나는 판 */
+/* 위험·재앙 난이도의 배율은 처음엔 40%만 걸리고 3분 30초에 걸쳐 전부 적용된다 (초반 진입 장벽 완화) */
+const diffK = v => 1 + (v - 1) * Math.min(1, .4 + G.t / 350);
+const hpEsc = () => diffK(G.diff.hp) * Math.pow(1.8, Math.max(0, G.t - 360) / CYCLE);
+function spawnEnemy(key, x, y, isBoss, el) {
   const def = isBoss ? BOSS[key] : VIRUS[key];
-  const m = G.t / 60;
+  const m = G.t / 60, cyc = G.cycle;
   const mut = !isBoss && !!G.mut[def.lin];
-  const hpMul = (isBoss ? 1 + m * .05 : 1 + m * .15 + m * m * .015 + Math.max(0, G.t - 300) / 200 * .35) * (mut ? 1.25 : 1);
+  const base = isBoss ? (1 + m * .05) * (1 + cyc * .6) : 1 + m * .15 + m * m * .015 + Math.max(0, G.t - 300) / 200 * .35;
+  const hpMul = base * hpEsc() * (mut ? 1.25 : 1) * (el ? el.hp : 1);
+  const sc = el ? el.scale : 1;
+  if (el) G.eliteAlive++;
   const e = {
-    id: nextId++, key, def, boss: !!isBoss, mut, x, y, kx: 0, ky: 0, r: def.r,
-    hp: def.hp * hpMul, maxHp: def.hp * hpMul, spd: def.spd * (isBoss ? 1 : rand(.94, 1.06)) * (mut ? 1.1 : 1), dmg: def.dmg, armor: def.armor || 0,
+    id: nextId++, key, def, boss: !!isBoss, mut, elite: el || null, scale: sc, x, y, kx: 0, ky: 0, r: def.r * sc,
+    hp: def.hp * hpMul, maxHp: def.hp * hpMul,
+    spd: def.spd * (isBoss ? 1 : rand(.94, 1.06)) * (mut ? 1.1 : 1) * (1 + Math.min(.3, cyc * .06)) * (el ? el.spd : 1),
+    dmg: def.dmg * G.dm * (el ? el.dmg : 1), armor: (def.armor || 0) + (el && el.armor || 0),
     flash: 0, slowT: 0, buffT: 0, orbCd: 0, spinA: 0, ang: rand(0, TAU), wob: rand(0, TAU), swell: 0, fade: 1, tx: 0, ty: 0, hitBar: 0,
     t: 0, st: rand(.6, 2.4), sp: rand(1.5, 3), state: 0, ax: 1, ay: 0, mx: 0, my: 0, p: 0, left: 0, burstRot: 0, tang: 0,
     dead: false, q: 0, nv: 0,
@@ -1456,19 +1522,22 @@ function spawnBoss(key) {
   const def = BOSS[key];
   const e = spawnEnemy(key, P.x + Math.cos(a) * d, P.y + Math.sin(a) * d, true);
   G.boss = e; G.mut[def.lin] = true;
-  G.pendCounter.push(def.lin); G.pending++;     // 변이 대응: 백신 부스터 선택 기회
+  if (!P.counter[def.lin] && !G.pendCounter.includes(def.lin)) { G.pendCounter.push(def.lin); G.pending++; }   // 변이 대응 항체 선택 기회
   showBossBar(def);
-  banner('변종 출현', `${LIN_NAME[def.base] || VIRUS[def.base].ko} → ${def.ko}`, def.tier);
+  banner(G.cycle ? `${G.cycle + 1}차 변종 출현` : '변종 출현', `${LIN_NAME[def.base] || VIRUS[def.base].ko} → ${def.ko}`, def.tier);
   G.shake = Math.max(G.shake, 8);
 }
 function pickType(t) {
+  const late = G.cycle > 0;                     // 2차 유행부터: 모든 병원체가 섞여 나오고, 현재 구역의 위협 단계가 더 자주 나온다
+  if (late) t = 1e4;
   let sum = 0; const ws = [];
   for (const row of SPAWN) {
     let w = 0;
     if (t >= row[1]) {
       w = row[2] + (row[3] - row[2]) * clamp((t - row[1]) / row[4], 0, 1);
       const tier = VIRUS[row[0]].tier;
-      if (tier === 0) w *= t < 200 ? 1 : Math.max(.3, 1 - (t - 200) / 220);
+      if (late) w = row[3] * (tier === G.zone ? 1.8 : .8);
+      else if (tier === 0) w *= t < 200 ? 1 : Math.max(.3, 1 - (t - 200) / 220);
       else if (tier === 1) w *= t < 340 ? 1 : Math.max(.45, 1 - (t - 340) / 260);
     }
     ws.push(w); sum += w;
@@ -1478,11 +1547,16 @@ function pickType(t) {
   return 'rhino';
 }
 function spawnGroup() {
-  const key = pickType(G.t), def = VIRUS[key];
+  const key = pickType(G.ct), def = VIRUS[key];
   const a = rand(0, TAU), d = spawnDist() + rand(0, 50);
   const cx = P.x + Math.cos(a) * d, cy = P.y + Math.sin(a) * d;
   const n = def.pack ? randi(def.pack[0], def.pack[1]) : key === 'rhino' ? randi(1, 3) : 1;
-  for (let i = 0; i < n; i++) spawnEnemy(key, cx + rand(-26, 26), cy + rand(-26, 26));
+  const pe = G.t < 150 ? 0 : Math.min(.14, (.004 + G.t / 7000) * (1 + G.cycle * .5));  // 정예 변이 확률 (2분 30초부터)
+  for (let i = 0; i < n; i++) {
+    const el = i === 0 && G.eliteAlive < 6 && G.t >= G.eliteCd && Math.random() < pe ? ELITES[ELITE_KEYS[randi(0, ELITE_KEYS.length - 1)]] : null;
+    if (el) G.eliteCd = G.t + 6 / (1 + G.cycle * .4);                  // 정예는 몰려나오지 않게 간격을 둔다
+    spawnEnemy(key, cx + rand(-26, 26), cy + rand(-26, 26), false, el);
+  }
 }
 function spawnRing(ev) {
   const d = spawnDist() + 30;
@@ -1498,6 +1572,7 @@ function recycle(e) {
   e.x = P.x + Math.cos(a) * d; e.y = P.y + Math.sin(a) * d; e.kx = e.ky = 0;
 }
 function dropGem(x, y, v) {
+  v *= 1 + G.cycle * .5;
   if (gems.length >= 500) { addXp(v); return; }
   gems.push({ x: x + rand(-6, 6), y: y + rand(-6, 6), v, m: false, t: rand(0, TAU) });
 }
@@ -1532,8 +1607,8 @@ function startDemo(charId, startT) {
   G.demo = true; G.t = startT; G.hint = 0;
   const zi = startT >= ZONES[2].at ? 2 : startT >= ZONES[1].at ? 1 : 0;
   G.zone = G.prevZone = zi; G.zf = 1; G.seen = [true, zi > 0, zi > 1];
-  for (const k of BOSS_ORDER) if (BOSS[k].at < startT + 4) { G.bs[k] = true; G.bw[k] = true; }
-  for (const ev of EVENTS) if (ev.at < startT + 4) G.ev[ev.at] = true;
+  for (const k of BOSS_ORDER) if (BOSS[k].at < startT + 4) { G.bs[k + '_0'] = true; G.bw[k + '_0'] = true; }
+  for (const ev of EVENTS) if (ev.at < startT + 4) G.ev[ev.at + '_0'] = true;
   for (let i = 0; i < Math.floor(startT / 22) + 2; i++) applyChoice(rollChoices(3, [])[0]);
   P.hp = P.maxHp; G.demoEnd = startT + 55;
 }
@@ -1560,6 +1635,7 @@ function updatePlayer(dt) {
   }
   P.inv = Math.max(0, P.inv - dt);
   if (P.regen > 0 && P.hp < P.maxHp) P.hp = Math.min(P.maxHp, P.hp + P.regen * dt);
+  P.khB = Math.min(KILL_HEAL_PS, P.khB + KILL_HEAL_PS * dt);
   const ck = 1 - Math.exp(-12 * dt);
   cam.x += (P.x - cam.x) * ck; cam.y += (P.y - cam.y) * ck;
 }
@@ -1567,6 +1643,7 @@ function hurt(dmg, inv) {
   if (G.demo || P.inv > 0 || G.over || G.won) return false;
   const d = Math.max(1, Math.round(dmg - P.armor));
   P.hp -= d; P.inv = inv || .5; P.hurtT = .35;
+  G.combo = 0;                                   // 피격 시 콤보 초기화
   G.shake = Math.max(G.shake, 7);
   addNum(P.x, P.y - 18, d, false, '#ff5a5a');
   burst(P.x, P.y, '#ff9ec7', 10, 150, 2.4);
@@ -1621,33 +1698,51 @@ function killEnemy(e) {
   e.dead = true;
   const def = e.def;
   G.kills++; G.tk[def.tier]++;
+  G.combo++; G.comboT = 3; if (G.combo > G.maxCombo) G.maxCombo = G.combo;
+  G.score += Math.round(def.xp * 10 * (1 + Math.min(G.combo, 300) * .01) * G.diff.reward * (e.elite ? 5 : 1) * (e.boss ? 3 : 1) * (1 + G.cycle * .5));
   burst(e.x, e.y, css(def.col), e.boss ? 34 : 8, e.boss ? 260 : 130, e.boss ? 3.6 : 2.6);
   ring(e.x, e.y, e.boss ? 160 : e.r * 2.2, 'rgba(255,255,255,.9)', .25, 2);
   Sfx.kill();
   if (e.boss) {
     ring(e.x, e.y, 340, css(def.col), .8, 7);
     for (let i = 0; i < 10; i++) dropGem(e.x + rand(-40, 40), e.y + rand(-40, 40), def.xp / 10);
-    pickups.push({ kind: 'chest', x: e.x, y: e.y, t: 0 });
+    addPickup('chest', e.x, e.y);
     G.bossKills++; G.shake = 12;
     if (G.boss === e) { G.boss = null; hideBossBar(); }
     banner(def.ko + ' 제압', '변종을 물리쳤습니다', def.tier);
-    if (e.key === FINAL_BOSS) winRun();
+    if (e.key === FINAL_BOSS) cycleClear();
     return;
+  }
+  if (e.elite) {                                          // 정예 변이: 큰 보상
+    G.eliteAlive = Math.max(0, G.eliteAlive - 1); G.eliteKills++;
+    ring(e.x, e.y, e.r * 3.2, css(e.elite.col), .5, 4);
+    dropGem(e.x, e.y, def.xp * 5);
+    const r2 = Math.random();
+    if (r2 < .22) addPickup('chest', e.x, e.y);
+    else if (r2 < .55) addPickup('glucose', e.x, e.y);
+    if (e.elite.split && enemies.length < 420) for (let i = 0; i < e.elite.split; i++) { const a = i / e.elite.split * TAU, m = spawnEnemy(e.key, e.x + Math.cos(a) * 16, e.y + Math.sin(a) * 16); m.kx = Math.cos(a) * 200; m.ky = Math.sin(a) * 200; }
   }
   if (def.onDeath === 'split' && !G.won) {
     for (let i = 0; i < 4; i++) { const a = i / 4 * TAU + rand(0, 1), m = spawnEnemy('mpox', e.x + Math.cos(a) * 14, e.y + Math.sin(a) * 14); m.kx = Math.cos(a) * 220; m.ky = Math.sin(a) * 220; }
   }
   dropGem(e.x, e.y, def.xp);
   const t = def.tier, r = Math.random(), gl = [.012, .025, .055][t];
-  if (r < gl) pickups.push({ kind: 'glucose', x: e.x, y: e.y, t: 0 });
-  else if (r < gl + .0035) pickups.push({ kind: 'magnet', x: e.x, y: e.y, t: 0 });
-  else if (t > 0 && r < gl + .0065) pickups.push({ kind: 'bomb', x: e.x, y: e.y, t: 0 });
+  if (r < gl) addPickup('glucose', e.x, e.y);
+  else if (r < gl + .0035) addPickup('magnet', e.x, e.y);
+  else if (t > 0 && r < gl + .0065) addPickup('bomb', e.x, e.y);
   const ph = weaponOf('phago');
-  if (ph && WEAPONS.phago.lv[ph.lv - 1].heal && P.hp < P.maxHp) P.hp = Math.min(P.maxHp, P.hp + WEAPONS.phago.lv[ph.lv - 1].heal);
+  const hl = ph ? WEAPONS.phago.lv[ph.lv - 1].heal : 0;
+  if (hl && P.hp < P.maxHp && P.khB > 0) {                 // 처치 회복은 초당 상한이 있다 (대량 처치로 무적이 되지 않게)
+    const h = Math.min(hl, P.khB); P.khB -= h; P.hp = Math.min(P.maxHp, P.hp + h);
+  }
 }
-function winRun() {
-  G.won = true; G.endTimer = 2.6; G.timeScale = .5;
-  for (const e of enemies) if (!e.dead) damageEnemy(e, 99999, 0, 0, true);
+/* 최종 변종을 쓰러뜨려도 게임은 끝나지 않는다: 회복·보상 후 더 강한 다음 유행이 이어진다 */
+function cycleClear() {
+  const n = G.cycle + 1;
+  G.cleared++;
+  banner(`${n}차 유행 진압`, '잠시 숨을 돌리세요. 더 강한 다음 유행이 다가옵니다', 0);
+  P.hp = Math.min(P.maxHp, P.hp + P.maxHp * .4);
+  G.bonusSerum += 80 * n;
   for (const g of gems) g.m = true;
   eprojs.length = 0; pools.length = 0;
   Sfx.win();
@@ -1657,26 +1752,35 @@ function winRun() {
    스폰 감독: 구역 이동 → 약함 · 강함 · 심각, 변종 출현
    ============================================================ */
 function spawnDirector(dt) {
-  const t = G.t;
-  const zi = t >= ZONES[2].at ? 2 : t >= ZONES[1].at ? 1 : 0;
+  const t = G.t, cyc = Math.floor(t / CYCLE), ct = t - cyc * CYCLE;
+  G.ct = ct;
+  // 적이 주는 피해: 5분 뒤부터 5분마다 +50%, 2차 유행부터는 주기마다 ×1.25 가 더 붙는다
+  G.dm = diffK(G.diff.dmg) * (1 + Math.max(0, t - 300) / 300 * .5) * Math.pow(1.25, Math.max(0, t - CYCLE) / CYCLE);
+  const zi = ct >= ZONES[2].at ? 2 : ct >= ZONES[1].at ? 1 : 0;
   if (zi !== G.zone) {
     G.prevZone = G.zone; G.zone = zi; G.zf = 0;
     banner('구역 이동 · ' + ZONES[zi].ko, ZONES[zi].sub, zi);
     Sfx.level();
   }
+  if (cyc !== G.cycle) {                                                   // 다음 유행 시작
+    G.cycle = cyc;
+    banner(`${cyc + 1}차 유행`, '병원체가 더 강해져 다시 퍼집니다 · 모든 위협 단계가 동시에 나타납니다', 2);
+    Sfx.warn();
+  }
   G.zf = Math.min(1, G.zf + dt / 2.5);
   for (const key of BOSS_ORDER) {
-    const b = BOSS[key];
-    if (!G.bw[key] && t >= b.at - 3) { G.bw[key] = true; warnBanner(b); Sfx.warn(); }
-    if (!G.bs[key] && t >= b.at) { G.bs[key] = true; spawnBoss(key); }
+    const b = BOSS[key], fk = key + '_' + cyc;
+    if (!G.bw[fk] && ct >= b.at - 3) { G.bw[fk] = true; warnBanner(b); Sfx.warn(); }
+    if (!G.bs[fk] && ct >= b.at) { G.bs[fk] = true; spawnBoss(key); }
   }
-  for (const ev of EVENTS) if (!G.ev[ev.at] && t >= ev.at) { G.ev[ev.at] = true; spawnRing(ev); }
+  for (const ev of EVENTS) { const fk = ev.at + '_' + cyc; if (!G.ev[fk] && ct >= ev.at) { G.ev[fk] = true; spawnRing(ev); } }
   if (G.won || G.over) return;
-  const rate = (1.3 + .026 * t) * (1 + Math.max(0, t - 300) / 300 * .8) * (G.boss ? .6 : 1);
+  const rate = Math.min(32, (1.3 + .02 * t) * (1 + Math.max(0, t - 300) / 300 * .9)) * diffK(G.diff.spawn) * (G.boss ? .6 : 1);
+  const cap = Math.min(420, MAX_ENEMIES + 30 * cyc);
   G.spawnAcc += rate * dt;
   while (G.spawnAcc >= 1) {
     G.spawnAcc -= 1;
-    if (enemies.length < MAX_ENEMIES) spawnGroup();
+    if (enemies.length < cap) spawnGroup();
   }
 }
 
@@ -1684,8 +1788,9 @@ function spawnDirector(dt) {
    적 AI
    ============================================================ */
 function shootAt(e, speed, dmg, col, ang) {
+  if (eprojs.length >= 450) return;
   const a = ang == null ? Math.atan2(P.y - e.y, P.x - e.x) : ang;
-  eprojs.push({ x: e.x, y: e.y, vx: Math.cos(a) * speed, vy: Math.sin(a) * speed, r: 7, dmg, life: 5, col });
+  eprojs.push({ x: e.x, y: e.y, vx: Math.cos(a) * speed, vy: Math.sin(a) * speed, r: 7, dmg: dmg * G.dm, life: 5, col });
 }
 function spikeBurst(e, n, speed, dmg) {
   for (let i = 0; i < n; i++) shootAt(e, speed, dmg, e.def.col, e.burstRot + i / n * TAU);
@@ -1703,10 +1808,10 @@ function trackAim(e, nx, ny, rate, dt) {
   e.ax = Math.cos(a); e.ay = Math.sin(a);
 }
 function explode(e) {
-  ring(e.x, e.y, 82, '#ff7054', .45, 7); burst(e.x, e.y, '#ffb36b', 16, 220, 3);
+  ring(e.x, e.y, EXPLODE_R, '#ff7054', .45, 7); burst(e.x, e.y, '#ffb36b', 16, 220, 3);
   Sfx.boom(); G.shake = Math.max(G.shake, 6);
   const dx = P.x - e.x, dy = P.y - e.y;
-  if (dx * dx + dy * dy < (80 + P.r) * (80 + P.r)) hurt(e.dmg);
+  if (dx * dx + dy * dy < (EXPLODE_R + P.r) * (EXPLODE_R + P.r)) hurt(e.dmg);
   killEnemy(e);
 }
 function keepDistance(e, d, nx, ny, sp, near, far) {
@@ -1771,9 +1876,9 @@ const AI = {
   exploder(e, dt, d, nx, ny, sp) {
     if (e.state === 0) {
       e.mx = nx * sp; e.my = ny * sp;
-      if (d < 95) { e.state = 1; e.st = .8; }
+      if (d < 90) { e.state = 1; e.st = EXPLODE_FUSE; }
     } else {
-      e.mx = 0; e.my = 0; e.st -= dt; e.swell = 1 - e.st / .8;
+      e.mx = 0; e.my = 0; e.st -= dt; e.swell = 1 - e.st / EXPLODE_FUSE;
       if (e.st <= 0) explode(e);
     }
     e.tang = Math.atan2(ny, nx);
@@ -1904,6 +2009,7 @@ function updateEnemies(dt) {
     e.slowT = Math.max(0, e.slowT - dt);
     e.buffT = Math.max(0, e.buffT - dt);
     e.hitBar = Math.max(0, e.hitBar - dt);
+    if (e.elite && e.elite.regen && e.hp < e.maxHp) e.hp = Math.min(e.maxHp, e.hp + e.maxHp * e.elite.regen * dt);
     e.t += dt;
     const dx = P.x - e.x, dy = P.y - e.y;
     const d = Math.hypot(dx, dy) || 1, nx = dx / d, ny = dy / d;
@@ -1951,7 +2057,7 @@ const WFN = {
     const base = Math.atan2(t.y - P.y, t.x - P.x);
     for (let i = 0; i < S.n; i++) {
       const a = S.radial ? base + i / S.n * TAU : base + (i - (S.n - 1) / 2) * .17;
-      projs.push({ k: 0, x: P.x, y: P.y, vx: Math.cos(a) * S.spd, vy: Math.sin(a) * S.spd, r: 9 * P.areaM, dmg: S.dmg * P.dmgM, pierce: S.pierce, life: 1.6, hits: [] });
+      if (projs.length < 700) projs.push({ k: 0, x: P.x, y: P.y, vx: Math.cos(a) * S.spd, vy: Math.sin(a) * S.spd, r: 9 * P.areaM, dmg: S.dmg * P.dmgM, pierce: S.pierce, life: 1.6, hits: [] });
     }
     w.cd = S.cd * P.cdM;
   },
@@ -1961,7 +2067,7 @@ const WFN = {
     const base = Math.atan2(P.fy, P.fx);
     for (let i = 0; i < S.n; i++) {
       const a = base + (i - (S.n - 1) / 2) * .22;
-      projs.push({ k: 1, x: P.x, y: P.y, vx: Math.cos(a) * S.spd, vy: Math.sin(a) * S.spd, r: 10 * P.areaM, dmg: S.dmg * P.dmgM, pierce: S.pierce, life: 1.1, hits: [] });
+      if (projs.length < 700) projs.push({ k: 1, x: P.x, y: P.y, vx: Math.cos(a) * S.spd, vy: Math.sin(a) * S.spd, r: 10 * P.areaM, dmg: S.dmg * P.dmgM, pierce: S.pierce, life: 1.1, hits: [] });
     }
     w.cd = S.cd * P.cdM;
   },
@@ -2011,7 +2117,7 @@ const WFN = {
     if (!cand.length) { w.cd = .2; return; }
     for (let i = 0; i < S.n; i++) {
       const e = cand[randi(0, cand.length - 1)], t = .3 + i * .06;
-      strikes.push({ x: e.x + rand(-10, 10), y: e.y + rand(-10, 10), t, max: t, r: S.rad * P.areaM, dmg: S.dmg * P.dmgM, flash: 0, chain: S.chain });
+      if (strikes.length < 160) strikes.push({ x: e.x + rand(-10, 10), y: e.y + rand(-10, 10), t, max: t, r: S.rad * P.areaM, dmg: S.dmg * P.dmgM, flash: 0, chain: S.chain });
     }
     w.cd = S.cd * P.cdM;
   },
@@ -2072,7 +2178,7 @@ function updateStrikes(dt) {
       for (const e of hit) { const dx = e.x - s.x, dy = e.y - s.y, d = Math.hypot(dx, dy) || 1; damageEnemy(e, s.dmg, dx / d * 120, dy / d * 120); }
       if (s.chain) {                                   // 진화: 주변으로 번개 연쇄
         const near = enemies.filter(e => !e.dead && Math.hypot(e.x - s.x, e.y - s.y) < 190 && Math.hypot(e.x - s.x, e.y - s.y) > 40).slice(0, 3);
-        for (const e of near) strikes.push({ x: e.x, y: e.y, t: .12, max: .12, r: s.r * .8, dmg: s.dmg * .6, flash: 0, chain: 0 });
+        for (const e of near) if (strikes.length < 160) strikes.push({ x: e.x, y: e.y, t: .12, max: .12, r: s.r * .8, dmg: s.dmg * .6, flash: 0, chain: 0 });
       }
       ring(s.x, s.y, s.r * 1.2, '#ffe14d', .3, 4);
       burst(s.x, s.y, '#fff2a8', 8, 170, 2.4);
@@ -2101,7 +2207,7 @@ function updatePools(dt) {
     if (p.delay > 0) { p.delay -= dt; continue; }
     p.life -= dt;
     const dx = P.x - p.x, dy = P.y - p.y, rr = p.r + P.r * .5;
-    if (dx * dx + dy * dy < rr * rr) hurt(6, .6);
+    if (dx * dx + dy * dy < rr * rr) hurt(6 * G.dm, .6);
     if (p.life <= 0) { pools[i] = pools[pools.length - 1]; pools.pop(); }
   }
 }
@@ -2122,12 +2228,21 @@ function updateGems(dt) {
     }
   }
 }
+/* 아이템: 보물 상자 외에는 일정 시간 뒤 사라지고, 개수 상한을 둬서 장시간 플레이에도 쌓이지 않는다 */
+const PICKUP_LIFE = 40, PICKUP_MAX = 60, CHEST_MAX = 24;
+function addPickup(kind, x, y) {
+  if (kind === 'chest') { if (pickups.filter(k => k.kind === 'chest').length >= CHEST_MAX) return; }
+  else if (pickups.length >= PICKUP_MAX) return;
+  pickups.push({ kind, x, y, t: 0 });
+}
 function updatePickups(dt) {
   for (let i = pickups.length - 1; i >= 0; i--) {
     const k = pickups[i];
     k.t += dt;
     const dx = P.x - k.x, dy = P.y - k.y;
-    if (dx * dx + dy * dy < (P.r + 16) * (P.r + 16)) { applyPickup(k); pickups[i] = pickups[pickups.length - 1]; pickups.pop(); }
+    const take = dx * dx + dy * dy < (P.r + 16) * (P.r + 16);
+    if (take) applyPickup(k);
+    if (take || (k.kind !== 'chest' && k.t > PICKUP_LIFE)) { pickups[i] = pickups[pickups.length - 1]; pickups.pop(); }
   }
 }
 function applyPickup(k) {
@@ -2180,6 +2295,8 @@ function update(dt) {
   G.frame++;
   G.t += dt;
   if (G.hint > 0) G.hint -= dt;
+  if (G.comboT > 0) { G.comboT -= dt; if (G.comboT <= 0) G.combo = 0; }
+  if (!G.over) G.score += dt * 5 * (1 + G.cycle);
   updatePlayer(dt);
   gridBuild();
   spawnDirector(dt);
@@ -2211,6 +2328,9 @@ function rollChoices(n, forced) {
     const lv = P.passives[id] || 0;
     if (lv < PASSIVES[id].max) pool.push({ kind: 'passive', id, lv: lv + 1, wt: 1 });
   }
+  const boostOk = id => !taken.has('boost' + id) && !(id === 'b_cd' && P.cdM <= .4) && !(id === 'b_area' && (P.boost.area || 0) >= AREA_BOOST_MAX);
+  const boostIds = Object.keys(BOOSTS).filter(boostOk);
+  if (P.lv >= 30) for (const id of boostIds) pool.push({ kind: 'boost', id, lv: (P.boost[id.slice(2)] || 0) + 1, wt: .6 });
   const out = [];
   while (out.length < n && pool.length) {
     let sum = 0; for (const c of pool) sum += c.wt;
@@ -2218,6 +2338,8 @@ function rollChoices(n, forced) {
     for (; idx < pool.length - 1; idx++) { x -= pool[idx].wt; if (x <= 0) break; }
     out.push(pool.splice(idx, 1)[0]);
   }
+  const left = boostIds.filter(id => !out.some(c => c.kind === 'boost' && c.id === id)).sort(() => Math.random() - .5);
+  while (out.length < n && left.length) { const id = left.pop(); out.push({ kind: 'boost', id, lv: (P.boost[id.slice(2)] || 0) + 1 }); }
   while (out.length < n) out.push(out.length % 2 ? { kind: 'heal', id: 'heal', lv: 0 } : { kind: 'serum', id: 'serum', lv: 0 });
   return out;
 }
@@ -2248,6 +2370,10 @@ function applyChoice(c) {
   } else if (c.kind === 'counter') {
     P.counter[c.lin] = true;
     toast(`${LIN_NAME[c.lin]} 계열 대응 항체 · 피해 +40%`);
+  } else if (c.kind === 'boost') {
+    const k = c.id.slice(2);
+    P.boost[k] = (P.boost[k] || 0) + 1; recalc();
+    if (k === 'hp') P.hp = Math.min(P.maxHp, P.hp + P.maxHp * .25);
   } else if (c.kind === 'heal') {
     P.hp = Math.min(P.maxHp, P.hp + P.maxHp * .35);
   } else if (c.kind === 'serum') {
@@ -2362,6 +2488,7 @@ function drawWorld(g) {
     drawSpr(g, q.v < 5 ? GEMS[0] : q.v < 15 ? GEMS[1] : GEMS[2], q.x, q.y + Math.sin(t * 6 + q.t) * 1.5, 0, 1 + (q.v >= 15 ? .3 : 0));
   }
   for (const k of pickups) {
+    if (k.kind !== 'chest' && k.t > PICKUP_LIFE - 6 && Math.floor(k.t * 8) % 2) continue;   // 사라지기 직전 깜빡임
     drawSpr(g, SHADOW, k.x, k.y + 12, 0, .6, .6);
     drawSpr(g, PICK[k.kind], k.x, k.y + Math.sin(k.t * 4) * 3, 0, k.kind === 'chest' ? 1.25 : 1);
   }
@@ -2377,7 +2504,7 @@ function drawWorld(g) {
       g.setLineDash([10, 8]); g.lineWidth = 3; g.strokeStyle = OUT; g.strokeRect(0, -w, len, w * 2); g.setLineDash([]);
       g.restore();
     } else if (ai === 'exploder' && e.state === 1) {
-      g.fillStyle = `rgba(255,80,60,${.14 + .12 * Math.sin(t * 24)})`; g.beginPath(); g.arc(e.x, e.y, 82, 0, TAU); g.fill();
+      g.fillStyle = `rgba(255,80,60,${.14 + .12 * Math.sin(t * 24)})`; g.beginPath(); g.arc(e.x, e.y, EXPLODE_R, 0, TAU); g.fill();
       g.setLineDash([8, 8]); g.lineWidth = 3; g.strokeStyle = '#ff5030'; g.stroke(); g.setLineDash([]);
     } else if (ai === 'blinker' && e.state === 1) {
       toonRing(g, e.tx, e.ty, 20 + Math.sin(t * 20) * 3, '#ffd0f0', 4, .9);
@@ -2396,7 +2523,7 @@ function drawWorld(g) {
       if (e.dead || e.boss !== (pass === 1) || !inView(e.x, e.y, 120)) continue;
       const d = e.def.draw, oriented = d === 'bullet' || d === 'filo';
       const ph2 = t * (e.boss ? 3.5 : 7) + e.wob, sq = Math.sin(ph2) * (e.boss ? .025 : .05);
-      let sx = 1 + sq, sy = 1 - sq;
+      let sx = (1 + sq) * e.scale, sy = (1 - sq) * e.scale;
       if (e.swell) { const k = 1 + e.swell * .55; sx *= k; sy *= k; }
       const ang = oriented ? e.ang : (e.def.ai === 'roller' ? e.spinA : 0);
       const hop = e.boss ? 0 : -Math.abs(Math.sin(t * 5 + e.wob)) * 2.5;
@@ -2414,10 +2541,19 @@ function drawWorld(g) {
     if (e.boss) {
       g.setLineDash([10, 12]); g.lineDashOffset = -t * 30; g.lineWidth = 3; g.strokeStyle = rgba(e.def.col, .7);
       g.beginPath(); g.arc(e.x, e.y, e.r * 1.4, 0, TAU); g.stroke(); g.setLineDash([]);
-    } else if (e.def.bar && e.hitBar > 0) {
-      const bw = e.r * 1.8, bx = e.x - bw / 2, by = e.y - e.r * 1.45;
-      g.fillStyle = OUT; g.fillRect(bx - 2, by - 2, bw + 4, 8);
-      g.fillStyle = TIERS[e.def.tier].css; g.fillRect(bx, by, bw * clamp(e.hp / e.maxHp, 0, 1), 4);
+    } else {
+      if (e.elite) {                              // 정예 변이: 색 고리 + 이름표 + 항상 보이는 체력
+        const ec = e.elite.col;
+        g.setLineDash([6, 6]); g.lineDashOffset = -t * 24; g.lineWidth = 2.4; g.strokeStyle = rgba(ec, .85);
+        g.beginPath(); g.arc(e.x, e.y, e.r * 1.35, 0, TAU); g.stroke(); g.setLineDash([]);
+        g.font = '900 10px "Noto Sans KR",sans-serif'; g.textAlign = 'center'; g.lineWidth = 3; g.strokeStyle = 'rgba(0,0,0,.85)';
+        g.strokeText('정예 · ' + e.elite.ko, e.x, e.y - e.r * 1.75); g.fillStyle = rgbs(ec); g.fillText('정예 · ' + e.elite.ko, e.x, e.y - e.r * 1.75);
+      }
+      if ((e.def.bar || e.elite) && (e.hitBar > 0 || e.elite)) {
+        const bw = e.r * 1.8, bx = e.x - bw / 2, by = e.y - e.r * 1.45;
+        g.fillStyle = OUT; g.fillRect(bx - 2, by - 2, bw + 4, 8);
+        g.fillStyle = e.elite ? rgbs(e.elite.col) : TIERS[e.def.tier].css; g.fillRect(bx, by, bw * clamp(e.hp / e.maxHp, 0, 1), 4);
+      }
     }
   }
   for (const p of eprojs) { if (inView(p.x, p.y, 20)) drawSpr(g, orbSprite(p.col), p.x, p.y, t * 3, 1.1); }
@@ -2614,6 +2750,7 @@ const el = {
   xp: $('#xpfill'), hp: $('#hpfill'), ghost: $('#hpghost'), hptxt: $('#hptxt'), lv: $('#lv'), timer: $('#timerTxt'), kill: $('#killn'),
   tiers: $$('#tiers .tier'), wslots: $('#wslots'), pslots: $('#pslots'), bossbar: $('#bossbar'), bossname: $('#bossname'),
   bosssub: $('#bosssub'), bossfill: $('#bossfill'), banner: $('#banner'), warn: $('#warn'), toasts: $('#toasts'), hint: $('#hint'),
+  score: $('#scoreN'), combo: $('#comboN'),
   hurt: $('#hurt'), hpState: $('#hpState'), ecg: $('#ecg'), nextboss: $('#nextboss'), vTemp: $('#vTemp'), vLoad: $('#vLoad'), vTiter: $('#vTiter'), vSpark: $('#vSpark'), zone: $('#zone'), status: $('#status'),
 };
 const hc = {};
@@ -2653,7 +2790,8 @@ const buildHtml = () => {
   const ws = P.weapons.map(w => `<span class="bi${w.lv >= 6 ? ' evo' : ''}">${badge(WEAPONS[w.id].col, WEAPONS[w.id].icon)}${wname(w)}<em>Lv ${w.lv >= 6 ? 'MAX★' : w.lv}</em></span>`);
   const ps = PASSIVE_IDS.filter(id => P.passives[id]).map(id => `<span class="bi">${badge(PASSIVES[id].col, PASSIVES[id].icon)}${PASSIVES[id].ko}<em>Lv ${P.passives[id]}</em></span>`);
   const cs = Object.keys(P.counter).map(l => `<span class="bi">${badge('#b98bff', 'dna')}${LIN_NAME[l]} 대응<em>+40%</em></span>`);
-  return ws.concat(ps, cs).join('');
+  const bs = Object.keys(BOOSTS).filter(id => P.boost[id.slice(2)]).map(id => `<span class="bi">${badge(BOOSTS[id].col, BOOSTS[id].icon)}${BOOSTS[id].ko}<em>×${P.boost[id.slice(2)]}</em></span>`);
+  return ws.concat(ps, cs, bs).join('');
 };
 function renderLoadout() {
   G.loadoutDirty = false;
@@ -2746,15 +2884,18 @@ function updateHud(dt) {
   setTxt(el.lv, 'lv', P.lv);
   setTxt(el.timer, 'tm', fmtTime(G.t));
   setTxt(el.kill, 'kl', fmtNum(G.kills));
-  setTxt(el.zone, 'zn', `구역 ${G.zone + 1} · ${ZONES[G.zone].ko}`);
+  setTxt(el.zone, 'zn', `${G.cycle + 1}차 유행 · 구역 ${G.zone + 1} ${ZONES[G.zone].ko} · ${G.diff.ko}`);
+  setTxt(el.score, 'sc', fmtNum(G.score));
+  const cb = G.combo >= 5 ? `×${G.combo}` : '';
+  if (hc.cb !== cb) { hc.cb = cb; el.combo.textContent = cb; el.combo.classList.toggle('hot', G.combo >= 50); }
   for (let i = 0; i < 3; i++) {
     setTxt($('b', el.tiers[i]), 'tk' + i, G.tk[i]);
     if (hc['seen' + i] !== G.seen[i]) { hc['seen' + i] = G.seen[i]; el.tiers[i].classList.toggle('lit', G.seen[i]); }
   }
   if (G.loadoutDirty) renderLoadout();
   if (G.boss) { const f = clamp(G.boss.hp / G.boss.maxHp, 0, 1); if (hc.bf !== f) { hc.bf = f; el.bossfill.style.transform = `scaleX(${f})`; } }
-  const nk = BOSS_ORDER.find(k => !G.bs[k]);
-  setTxt(el.nextboss, 'nb', nk && !G.boss ? `다음 변종 · ${BOSS[nk].ko} · ${fmtTime(Math.max(0, BOSS[nk].at - G.t))}` : '');
+  const nk = BOSS_ORDER.find(k => !G.bs[k + '_' + G.cycle]);
+  setTxt(el.nextboss, 'nb', G.boss ? '' : nk ? `다음 변종 · ${BOSS[nk].ko} · ${fmtTime(Math.max(0, BOSS[nk].at - G.ct))}` : `${G.cycle + 2}차 유행까지 · ${fmtTime(Math.max(0, CYCLE - G.ct))}`);
   const stHtml = P.slowT > 0 ? `<span class="chip">면역 억제 ${P.slowT.toFixed(1)}s</span>` : '';
   if (hc.st !== stHtml) { hc.st = stHtml; el.status.innerHTML = stHtml; }
   if (G.hint <= 0 && !hc.hintOff) { hc.hintOff = true; el.hint.classList.add('off'); }
@@ -2793,10 +2934,12 @@ function renderMenu() {
       <span>속도</span><div class="bar"><i style="width:${Math.round(c.spd / 145 * 100)}%;--bc:#7fe8ff"></i></div>
     </div>
     <div class="tags"><span class="tag">시작 · ${w.ko}</span><span class="tag" style="--c:#0e1218">${c.trait}</span></div>`;
-  const b = save.best;
+  const b = bestOf(save.diff), d = DIFFS[save.diff];
   $('#recTime').textContent = b.time > 0 ? fmtTime(b.time) : '--:--';
-  $('#recKills').textContent = fmtNum(b.kills);
-  $('#recWins').textContent = `${b.wins}회`;
+  $('#recKills').textContent = fmtNum(b.score);
+  $('#recWins').textContent = b.cycle > 0 ? `${b.cycle}차` : '-';
+  $('#diffSel').innerHTML = DIFF_ORDER.map(k => `<button class="dbtn${k === save.diff ? ' on' : ''}" role="radio" aria-checked="${k === save.diff}" data-d="${k}"><b>${DIFFS[k].ko}</b><small>${DIFFS[k].en}</small></button>`).join('');
+  $('#diffDesc').textContent = d.desc;
   $('#dexCount').textContent = `${seenCount()}/${VIRUS_ORDER.length + BOSS_ORDER.length}`;
 }
 function animatePortraits(now) {
@@ -2847,6 +2990,9 @@ function cardHtml(c, i) {
   } else if (c.kind === 'counter') {
     col = '#b98bff'; ico = 'dna'; name = `${LIN_NAME[c.lin]} 대응 항체`; en = 'Booster'; cls = ' counter';
     tag = '변이 대응'; desc = `${LIN_NAME[c.lin]} 계열(변종 포함)에게 주는 피해 +40%`; flav = '새로운 변종에는 새로운 항체가 필요합니다. 백신 부스터가 면역 기억을 갱신합니다.';
+  } else if (c.kind === 'boost') {
+    const d = BOOSTS[c.id]; col = d.col; ico = d.icon; name = d.ko; en = d.en;
+    tag = `무한 강화 · ${c.lv}단계`; desc = d.per; flav = '모든 무기와 패시브가 최대에 도달한 뒤에도 면역 반응은 끝없이 강해질 수 있습니다.';
   } else if (c.kind === 'heal') {
     col = '#ff9cbb'; ico = 'heart'; name = '응급 회복'; en = 'Recovery'; tag = '보상'; desc = '최대 체력의 35%를 회복합니다.'; flav = '충분한 휴식은 가장 좋은 면역 강화제입니다.';
   } else {
@@ -2891,22 +3037,25 @@ function startRun() {
   setMode('play');
   acc = 0; last = performance.now();
 }
-function rankOf(score) { return score >= 3000 ? 'S' : score >= 1800 ? 'A' : score >= 1000 ? 'B' : score >= 450 ? 'C' : 'D'; }
 function finishRun() {
-  const win = G.won, sec = G.t;
-  const earned = Math.floor(G.kills * .12 + sec / 6 + G.bossKills * 20 + (win ? 150 : 0) + G.bonusSerum);
-  const score = G.kills + G.bossKills * 150 + (win ? 800 : 0) + sec * 2;
+  if (G.finished) return;                        // 한 판의 결과는 한 번만 정산
+  G.finished = true;
+  const sec = G.t, score = Math.floor(G.score), dk = G.diffKey, b = bestOf(dk);
+  const earned = Math.floor((G.kills * .12 + sec / 6 + G.bossKills * 20 + G.eliteKills * 3 + G.bonusSerum) * G.diff.reward);
+  const newTime = sec > b.time, newScore = score > b.score;
   save.serum += earned;
-  save.best.time = Math.max(save.best.time, sec);
-  save.best.kills = Math.max(save.best.kills, G.kills);
-  if (win) save.best.wins++;
+  b.time = Math.max(b.time, sec); b.score = Math.max(b.score, score); b.cycle = Math.max(b.cycle, G.cycle + 1); b.kills = Math.max(b.kills, G.kills); b.runs++;
+  save.best.time = Math.max(save.best.time, sec); save.best.kills = Math.max(save.best.kills, G.kills);
   writeSave();
-  $('#resultPop').className = 'pop panel ' + (win ? 'win' : 'lose');
-  $('#resTitle').textContent = win ? '완치 · 병원체 제거 완료' : '치료 실패 · 면역 붕괴';
-  $('#resSub').textContent = win ? '최종 변이주 RABV-X를 제거해 감염이 종결되었습니다.' : '병원체가 숙주를 장악했습니다. 백신을 접종하고 다시 시도하세요.';
-  $('#resRank').textContent = rankOf(score);
-  $('#resKv').innerHTML = `<div><small>생존 시간</small><b>${fmtTime(sec)}</b></div><div><small>면역 Lv</small><b>${P.lv}</b></div>
-    <div><small>변종 제거</small><b>${G.bossKills} / ${BOSS_ORDER.length}</b></div><div class="earn"><small>획득 혈청</small><b>+${fmtNum(earned)}</b></div>`;
+  $('#resultPop').className = 'pop panel ' + (G.cleared ? 'win' : 'lose');
+  $('#resTitle').textContent = `${G.cycle + 1}차 유행에서 면역 붕괴`;
+  $('#resSub').textContent = `${G.diff.ko} 난이도 · 진압한 유행 ${G.cleared}회. 유행은 끝나지 않습니다. 백신을 접종하고 더 오래 버텨 보세요.`;
+  $('#resRank').textContent = rankOf(sec, dk);
+  const nb = f => f ? ' <i class="new">NEW</i>' : '';
+  $('#resKv').innerHTML = `<div><small>생존 시간</small><b>${fmtTime(sec)}${nb(newTime)}</b></div><div><small>점수</small><b>${fmtNum(score)}${nb(newScore)}</b></div>
+    <div><small>도달 유행</small><b>${G.cycle + 1}차</b></div><div><small>면역 Lv</small><b>${P.lv}</b></div>
+    <div><small>최대 콤보</small><b>×${fmtNum(G.maxCombo)}</b></div><div><small>정예 · 변종 제거</small><b>${G.eliteKills} · ${G.bossKills}</b></div>
+    <div><small>최고 기록 (${G.diff.ko})</small><b>${fmtTime(b.time)}</b></div><div class="earn"><small>획득 혈청</small><b>+${fmtNum(earned)}</b></div>`;
   $('#resTier').innerHTML = TIERS.map((t, i) => `<div style="--c:${t.css}"><small>${t.short} 처치</small><b>${fmtNum(G.tk[i])}</b></div>`).join('');
   $('#resBuild').innerHTML = buildHtml();
   hideBossBar();
@@ -2968,6 +3117,10 @@ $('#btnSound').addEventListener('click', () => { save.sound = !save.sound; write
 $('#cellPick').addEventListener('click', e => {
   const b = e.target.closest('.cellbtn'); if (!b) return;
   save.char = b.dataset.id; writeSave(); renderMenu(); beginDemo();
+});
+$('#diffSel').addEventListener('click', e => {
+  const b = e.target.closest('.dbtn'); if (!b) return;
+  save.diff = b.dataset.d; writeSave(); Sfx.init(); Sfx.pick(); renderMenu();
 });
 $('#vGrid').addEventListener('click', e => {
   const b = e.target.closest('button[data-id]'); if (!b) return;
@@ -3058,13 +3211,14 @@ requestAnimationFrame(frame);
 // 테스트용 훅 (플레이에는 영향 없음)
 window.__immune = {
   get G() { return G; }, get P() { return P; }, get mode() { return mode; }, enemies, gems, BOT, save,
+  pools: { pickups, projs, eprojs, strikes, novas, pools, parts, rings, nums },
   start: id => { if (id) save.char = id; startRun(); },
   step: n => { for (let i = 0; i < n; i++) { if (mode !== 'play') break; update(STEP); if (G.pending > 0 && !G.over && !G.won) openLevelUp(); } },
   pickAny: () => { if (mode === 'levelup') { luLock = 0; pickChoice(Math.floor(Math.random() * 3)); } },
   get choices() { return choices; },
   pick: i => { luLock = 0; pickChoice(i); },
   finish: () => finishRun(),
-  spawn: (k, x, y, b) => spawnEnemy(k, x, y, b),
+  spawn: (k, x, y, b, el) => spawnEnemy(k, x, y, b, el && ELITES[el]),
   demoRun: n => { for (let i = 0; i < n; i++) stepDemo(STEP * 5); },
   bench: n => { const t0 = performance.now(); for (let i = 0; i < n; i++) render(performance.now(), 1 / 60); return (performance.now() - t0) / n; },
 };
