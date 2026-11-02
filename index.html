@@ -43,6 +43,15 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
 .btn.primary:hover{background:var(--red2)}
 .btn.lg{min-height:54px;padding:0 30px;font-size:16px}
 .btn.pink{color:#ff8f8f}.btn.pink:hover{background:#2a1214}
+.btn.sm{min-height:32px;padding:0 12px;font-size:12px}
+.datarow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font:700 11px/1 var(--font);color:var(--mut);letter-spacing:.06em}
+.datarow em{font-style:normal;font-weight:500;color:var(--cyan);letter-spacing:0}
+.savechip{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 12px;font:700 11px/1 var(--font);color:var(--mut);white-space:nowrap}
+.savechip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green,#3dd68c);box-shadow:0 0 8px var(--green,#3dd68c)}
+.savechip.tab{color:var(--amber)}.savechip.tab::before{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.savechip.mem{color:var(--red2)}.savechip.mem::before{background:var(--red2);box-shadow:0 0 8px var(--red2)}
+#btnContinue{flex-wrap:wrap;row-gap:7px}
+#btnContinue small{flex:1 0 100%;letter-spacing:.04em;text-align:left;color:var(--tx2);font-weight:500;font-size:11px}
 .btn svg{width:16px;height:16px;flex:none}
 .btn:focus-visible,.iconbtn:focus-visible,.cellbtn:focus-visible,.card:focus-visible,.mi:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 .iconbtn{flex:none;pointer-events:auto;width:40px;height:40px;padding:10px;border:0;background:var(--blk);color:var(--tx);cursor:pointer;box-shadow:inset 0 0 0 1px var(--line);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
@@ -231,6 +240,111 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
 .dcard dt{color:var(--mut)}.dcard dd{color:var(--tx);font-weight:700}
 .dcard.lock .pic canvas{opacity:.5}.dcard.lock b{color:var(--mut)}
 
+/* 메타: 연구 등급 · 연구소 탭 · 유전자 배양 · 업적 · 출석 */
+.tt-top{flex-wrap:wrap;justify-content:flex-end;max-width:calc(100% - 40px)}
+.acct{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;background:var(--blk);box-shadow:inset 0 0 0 1px var(--line);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.acct b{font:900 13px/1 var(--font);color:#fff;white-space:nowrap}
+.acct .axp{display:block;width:70px;height:5px;background:rgba(255,255,255,.14)}
+.acct .axp u{display:block;height:100%;width:0;background:var(--cyan);box-shadow:0 0 8px var(--cyan);transition:width .4s}
+.acct small{font:700 10px/1 var(--font);color:var(--mut);font-variant-numeric:tabular-nums;white-space:nowrap}
+.coin.tk i{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--red2);box-shadow:0 0 8px var(--red2);flex:none}
+.mi{position:relative}
+.mi .dot{position:absolute;left:5px;top:50%;margin-top:-4px}
+.cellbtn{position:relative}
+.cellbtn.lock{color:var(--mut)}.cellbtn.lock canvas{opacity:.28;filter:grayscale(1)}
+.cellbtn .lk{position:absolute;left:50%;top:24px;transform:translateX(-50%);padding:4px 7px;background:rgba(0,0,0,.8);box-shadow:inset 0 0 0 1px var(--line2);font:700 10px/1 var(--font);color:var(--tx2);white-space:nowrap}
+.dbtn.lock{opacity:.5}.dbtn.lock small{color:var(--amber)}
+.mtoast{position:absolute;left:50%;bottom:84px;transform:translate(-50%,8px);padding:10px 16px;background:var(--blk);box-shadow:inset 0 0 0 1px var(--line),inset 3px 0 0 var(--amber);font:700 13px/1.4 var(--font);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-width:calc(100% - 32px);text-align:center;z-index:5}
+.mtoast.on{opacity:1;transform:translate(-50%,0)}
+.tabs{display:flex;gap:2px;padding:0 28px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{position:relative;padding:15px 18px;border:0;background:transparent;color:var(--mut);font:900 14px/1 var(--font);cursor:pointer;letter-spacing:-.02em;white-space:nowrap}
+.tabs button:hover{color:var(--tx)}
+.tabs button.on{color:#fff;box-shadow:inset 0 -3px 0 var(--red)}
+.tabs button em{font-style:normal;font-weight:700;font-size:11px;color:var(--mut);margin-left:4px}
+.pane{padding:22px 28px 10px}
+.pane[hidden]{display:none}
+.modal .pane .vgrid{margin:0}
+.mfoot{padding:6px 28px 22px}
+.vcard.lock{opacity:.5}
+.vcard .lockcap{font:700 11px/1 var(--font);color:var(--amber);white-space:nowrap}
+.gbox{display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:18px 20px;background:linear-gradient(120deg,rgba(154,130,255,.2),rgba(127,232,255,.05) 60%,rgba(0,0,0,0)),#0b1218;box-shadow:inset 0 0 0 1px var(--line),inset 4px 0 0 var(--violet)}
+.gtxt{flex:1 1 320px;min-width:0}
+.gtxt h3{font:900 20px/1.2 var(--font);letter-spacing:-.04em}
+.gtxt p{margin-top:8px;font:400 12.5px/1.65 var(--font);color:var(--tx2)}
+.pity{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font:700 11px/1 var(--font);color:var(--cyan)}
+.pity span+span{color:#ffc23d}
+.odds{margin-top:8px;font:500 11px/1 var(--font);color:var(--mut)}
+.gbtns{display:flex;gap:8px;flex-wrap:wrap}
+.gbtns .btn{flex-direction:column;gap:6px;min-width:150px;min-height:60px;padding:0 16px}
+.gbtns .btn b{font:900 16px/1 var(--font)}
+.gbtns .btn small{font:700 11px/1 var(--font);opacity:.85}
+h4.sub{margin:22px 0 10px;font:700 11px/1 var(--font);letter-spacing:.18em;color:var(--mut)}
+h4.sub em{font-style:normal;color:var(--tx2);letter-spacing:0;margin-left:8px}
+.gslots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.gslot{display:flex;align-items:center;justify-content:center;min-height:96px;text-align:center;padding:0;background:#0a1016;box-shadow:inset 0 0 0 1px var(--line);font:700 11px/1.5 var(--font);color:var(--mut)}
+.gslot.lock{opacity:.6;padding:10px}
+.gslot .gcard{width:100%;height:100%}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:8px}
+.gcard{--c:#9fb0c0;position:relative;display:flex;flex-direction:column;gap:6px;text-align:left;padding:12px 12px 10px;border:0;background:#0d141b;color:var(--tx);cursor:pointer;box-shadow:inset 0 0 0 1px var(--line),inset 0 3px 0 var(--c);min-width:0;transition:background .12s,transform .12s}
+.gcard:hover{background:#131d26;transform:translateY(-2px)}
+.gcard.none{cursor:default;opacity:.5}.gcard.none:hover{transform:none;background:#0d141b}
+.gcard.eq{box-shadow:inset 0 0 0 1px var(--c),inset 0 3px 0 var(--c),0 0 22px color-mix(in srgb,var(--c) 28%,transparent)}
+.gcard .rar{position:absolute;right:10px;top:10px;font:900 10px/1 var(--font);letter-spacing:.1em;color:var(--c)}
+.gi{width:34px;height:34px;padding:7px;color:var(--c);box-shadow:inset 0 0 0 1px var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.gi .ic{width:100%;height:100%}
+.gcard b{font:900 14px/1.25 var(--font);letter-spacing:-.02em}
+.gcard p{font:500 12px/1.45 var(--font);color:var(--tx2);min-height:2.9em}
+.gcard em{font:700 10px/1 var(--font);font-style:normal;color:var(--mut);letter-spacing:.08em}
+.gcard.eq em{color:var(--c)}
+.gcard .pips i.on{background:var(--c)}
+.pullres{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;margin:0!important;background:rgba(1,3,6,.93);backdrop-filter:blur(6px)}
+.pullres[hidden]{display:none!important}
+.pr-in{width:min(900px,100%);display:flex;flex-direction:column;gap:18px;max-height:100%;overflow:auto}
+.pr-in h3{font:900 26px/1.1 var(--font);letter-spacing:-.04em}
+.pr-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.pr-grid.one{grid-template-columns:minmax(0,230px);justify-content:center}
+.pr-card{--c:#9fb0c0;position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 10px 14px;background:#0c1319;box-shadow:inset 0 0 0 1px var(--c),inset 0 4px 0 var(--c);text-align:center;animation:prin .5s cubic-bezier(.2,1,.3,1) both;animation-delay:calc(var(--i,0) * .09s)}
+@keyframes prin{from{opacity:0;transform:translateY(24px) scale(.9)}to{opacity:1;transform:none}}
+.pr-card .gi{width:52px;height:52px;padding:11px}
+.pr-card b{font:900 14px/1.25 var(--font)}
+.pr-card p{font:500 11.5px/1.4 var(--font);color:var(--tx2)}
+.pr-card small{font:700 10px/1.3 var(--font);color:var(--c);letter-spacing:.08em}
+.pr-card .tagn{position:absolute;top:8px;left:8px;padding:3px 5px;background:var(--amber);color:#201600;font:900 9px/1 var(--font);letter-spacing:.06em}
+.pr-card.r2{box-shadow:inset 0 0 0 1px var(--c),inset 0 4px 0 var(--c),0 0 26px rgba(197,139,255,.4)}
+.pr-card.r3{background:linear-gradient(160deg,#2c2208,#0c1319 65%);box-shadow:inset 0 0 0 1px var(--c),inset 0 4px 0 var(--c),0 0 40px rgba(255,194,61,.5)}
+.pr-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font:700 13px/1.4 var(--font);color:var(--tx2)}
+.agrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.arow{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;background:#0f161d;box-shadow:inset 0 0 0 1px var(--line)}
+.arow .ck{width:24px;height:24px;box-shadow:inset 0 0 0 1px var(--line2);text-align:center;font:900 14px/24px var(--font);color:var(--green)}
+.arow.done .ck{background:rgba(66,224,111,.15);box-shadow:inset 0 0 0 1px var(--green)}
+.arow b{font:900 13px/1.3 var(--font)}
+.arow p{font:400 11.5px/1.4 var(--font);color:var(--tx2)}
+.abar{height:4px;margin-top:7px;background:rgba(255,255,255,.1)}
+.abar i{display:block;height:100%;background:var(--cyan)}
+.arow.done .abar i{background:var(--green)}
+.arow.done{opacity:.55}
+.arw{text-align:right;font:700 11px/1.5 var(--font)}
+.arw small{display:block;color:var(--mut);font:700 10px/1.5 var(--font);font-variant-numeric:tabular-nums}
+.arw span{color:var(--amber)}
+.dpop{width:min(640px,100%)}
+.dgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.dday{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:104px;padding:10px 6px;background:#0f161d;box-shadow:inset 0 0 0 1px var(--line);text-align:center}
+.dday small{font:700 10px/1 var(--font);letter-spacing:.14em;color:var(--mut)}
+.dday b{font:900 12px/1.5 var(--font);color:var(--tx)}
+.dday.done{opacity:.5}
+.dday.done::after{content:"✓";position:absolute;top:6px;right:8px;color:var(--green);font:900 14px/1 var(--font)}
+.dday.today{background:#17130a;box-shadow:inset 0 0 0 1px var(--amber),0 0 24px rgba(245,180,0,.25)}
+.dday.today small{color:var(--amber)}
+.dday.big{grid-column:span 2;background:linear-gradient(135deg,#1c1530,#0f161d)}
+.meta{display:flex;flex-direction:column;gap:6px}
+.mrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 12px;background:#0f161d;font:700 12.5px/1.4 var(--font);box-shadow:inset 3px 0 0 var(--cyan)}
+.mrow span{margin-left:auto;color:var(--tx2);font-weight:500}
+.mrow em{color:var(--cyan);font-style:normal}
+.mrow i{font:900 9px/1 var(--font);font-style:normal;letter-spacing:.1em;padding:3px 5px;background:var(--amber);color:#201600}
+.mrow.ach{box-shadow:inset 3px 0 0 var(--green)}.mrow.ach i{background:var(--green)}
+.mrow.unlock{box-shadow:inset 3px 0 0 var(--amber)}
+
 /* 면역 반응 (레벨업) */
 .lu-wrap{width:min(1000px,100%);display:flex;flex-direction:column;align-items:flex-start;gap:26px}
 .lu-head{display:flex;flex-direction:column;gap:8px}
@@ -297,13 +411,25 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
   .vrow{padding:5px 0}
   .tt-left{gap:22px}.mi{padding:11px 18px}.tt-emblem{width:48px;height:48px}
 }
+@media (max-height:800px) and (min-width:901px){
+  .tt-left{gap:20px}.tt-brand{gap:10px}.mi{padding:11px 18px}.mi b{font-size:19px}.mi.main b{font-size:23px}.tt-emblem{width:48px;height:48px}.tt-sub{margin-top:8px}
+}
 @media (max-width:900px){
-  #menu{background:linear-gradient(180deg,rgba(2,4,7,.75),rgba(2,4,7,.2) 40%,rgba(2,4,7,.85))}
+  #menu{display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;background:linear-gradient(180deg,rgba(2,4,7,.75),rgba(2,4,7,.2) 40%,rgba(2,4,7,.85))}
+  #menu .tt-left{position:relative;top:auto;left:auto;transform:none;width:auto;margin:108px 20px 0;gap:16px}
+  #menu .tt-right{position:relative;left:auto;right:auto;bottom:auto;width:auto;margin:20px 20px 64px}
+  #menu .tt-foot{position:sticky;left:auto;right:auto;bottom:0;margin-top:auto}
+  .mtoast{position:fixed;bottom:70px}
+  .mi{flex:1 1 30%;padding:11px 10px}.mi b{font-size:16px}.mi.main{flex-basis:100%}.mi.main b{font-size:22px}
+  .tt-emblem{display:none}
   .tt-left{top:76px;transform:none;left:20px;gap:18px;width:calc(100% - 40px)}
   .tt-emblem{width:44px;height:44px}
   .tt-sub{margin-top:6px}
   .tt-menu{flex-direction:row;flex-wrap:wrap;gap:6px}
-  .mi{padding:12px 16px;flex:1 1 140px}.mi.main{flex-basis:100%}.mi small{display:none}
+  .mi small{display:none}
+  #btnContinue small{display:block}
+  .savechip:not(.tab):not(.mem){display:none}
+  .savechip{font-size:10px;padding:0 6px;white-space:normal;max-width:48vw;line-height:1.3}
   .mi:hover,.mi.sel{transform:none}
   .tt-right{position:absolute;left:20px;right:20px;width:auto;bottom:60px}
   .heroinfo p{display:none}
@@ -318,7 +444,14 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
   .card .head .tag{display:none}
   .card .body{padding:14px 16px 14px 0}
   .card .flav,.card .key{display:none}.card h3{font-size:16px}
-  .vgrid{grid-template-columns:minmax(0,1fr)}
+  .vgrid,.agrid{grid-template-columns:minmax(0,1fr)}
+  .tabs{padding:0 10px}.tabs button{padding:14px 12px}
+  .pane{padding:16px 14px 6px}.mfoot{padding:6px 14px 18px}
+  .gslots{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gbtns{width:100%}.gbtns .btn{flex:1 1 130px;min-width:0}
+  .pr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.dday.big{grid-column:span 2}
+  .acct small{display:none}.acct .axp{width:34px}.acct,.coin,.savechip{padding:0 9px;gap:6px;height:36px}
   #timer{font-size:18px;padding:4px 14px}
   .tier{padding:2px 8px 2px 3px}.tier canvas{width:20px;height:20px}.tier b{font-size:12px}
   .hud-top{top:14px;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"lv r" "m m" "w w" "p p" "s s";gap:8px 8px}
@@ -411,6 +544,9 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
   <!-- 타이틀 -->
   <section id="menu" class="screen" aria-label="타이틀">
     <div class="tt-top">
+      <span class="savechip" id="saveChip"></span>
+      <span class="acct" title="연구 등급 · 판이 끝나면 경험치가 쌓이고 새 세포와 무기가 해금됩니다"><b id="acctLv">연구 Lv 1</b><i class="axp"><u id="acctXp"></u></i><small id="acctTxt"></small></span>
+      <span class="coin tk"><i></i>배양권 <b id="tkTop">0</b></span>
       <span class="coin"><i></i>혈청 <b id="serumTop">0</b></span>
       <button class="iconbtn" id="btnSound" aria-label="소리 켜기/끄기"></button>
     </div>
@@ -427,8 +563,10 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
         <div class="tt-sub"><b>면역 서바이벌</b><i>BIOHAZARD OUTBREAK RESPONSE</i></div>
       </div>
       <nav class="tt-menu" aria-label="메인 메뉴">
+        <button class="mi main" id="btnContinue" hidden><b>이어하기</b><small id="contInfo"></small></button>
         <button class="mi main" id="btnStart"><b>시작하기</b><small>START</small></button>
-        <button class="mi" id="btnLab"><b>백신 연구소</b><small>LAB</small></button>
+        <button class="mi" id="btnLab"><b>연구소</b><small>백신 · 유전자 · 업적</small><i class="dot" id="labDot" hidden></i></button>
+        <button class="mi" id="btnDaily"><b>출석 보상</b><small>DAILY</small><i class="dot" id="dailyDot" hidden></i></button>
         <button class="mi" id="btnDex"><b>병원체 정보</b><small>DATABASE <span id="dexCount"></span></small></button>
       </nav>
     </div>
@@ -437,6 +575,7 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
       <div class="cellpick" id="cellPick" role="radiogroup" aria-label="면역세포"></div>
       <div class="heroinfo" id="heroInfo"></div>
     </div>
+    <div class="mtoast" id="mtoast" role="status"></div>
     <div class="tt-foot">
       <div class="rec"><div><small>최고 생존</small><b id="recTime">--:--</b></div><div><small>최고 점수</small><b id="recKills">0</b></div><div><small>최고 유행</small><b id="recWins">-</b></div></div>
       <p class="keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 이동 · <kbd>P</kbd> 일시정지 · 공격은 자동 · 터치는 화면을 누른 채 드래그</p>
@@ -444,13 +583,45 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
   </section>
 
   <!-- 백신 연구소 -->
-  <section id="lab" class="screen" hidden role="dialog" aria-label="백신 연구소">
+  <section id="lab" class="screen" hidden role="dialog" aria-label="연구소">
     <div class="modal panel">
       <div class="mhead">
-        <div><h2>백신 연구소</h2><p>출격에서 얻은 혈청으로 백신을 접종하면 다음 판부터 영구적으로 강해집니다. 백신은 병원체를 미리 보여줘서 면역계가 빠르게 대응하도록 돕습니다.</p></div>
-        <div class="side"><span class="coin"><i></i>혈청 <b id="serumLab">0</b></span><button class="btn" id="btnLabClose">닫기</button></div>
+        <div><h2>연구소</h2><p id="labDesc"></p></div>
+        <div class="side"><span class="coin tk"><i></i>배양권 <b id="tkLab">0</b></span><span class="coin"><i></i>혈청 <b id="serumLab">0</b></span><button class="btn" id="btnLabClose">닫기</button></div>
       </div>
-      <div class="vgrid" id="vGrid"></div>
+      <nav class="tabs" id="labTabs" role="tablist" aria-label="연구소 메뉴">
+        <button role="tab" data-t="vacc">백신</button><button role="tab" data-t="gene">유전자 배양</button><button role="tab" data-t="ach">업적 <em id="achCnt"></em></button>
+      </nav>
+      <div class="pane" id="paneVacc"><div class="vgrid" id="vGrid"></div></div>
+      <div class="pane" id="paneGene" hidden>
+        <div class="gbox">
+          <div class="gtxt"><h3>유전자 배양</h3>
+            <p>유전자 카드를 뽑아 슬롯에 장착하면 모든 판에 영구 강화가 적용됩니다. 같은 카드가 또 나오면 단계가 오르고(최대 5단계), 이미 최대면 혈청으로 돌려받습니다.</p>
+            <div class="pity"><span id="pityE"></span><span id="pityL"></span></div>
+            <div class="odds">일반 60% · 희귀 28% · 영웅 10.5% · 전설 1.5%</div></div>
+          <div class="gbtns"><button class="btn primary lg" id="btnPull1"></button><button class="btn lg" id="btnPull10"></button></div>
+        </div>
+        <h4 class="sub">장착 슬롯 <em id="slotInfo"></em></h4>
+        <div class="gslots" id="gSlots"></div>
+        <h4 class="sub">카드 도감 <em id="cardInfo"></em></h4>
+        <div class="cgrid" id="cGrid"></div>
+      </div>
+      <div class="pane" id="paneAch" hidden><div class="agrid" id="aGrid"></div></div>
+      <div class="mfoot"><div class="datarow"><span>저장 데이터</span><button class="btn sm" id="btnExport">내보내기</button><button class="btn sm" id="btnImport">불러오기</button><em id="dataMsg"></em><input type="file" id="fileImport" accept=".json,application/json" hidden></div></div>
+    </div>
+    <div class="pullres" id="pullRes" hidden role="dialog" aria-label="배양 결과">
+      <div class="pr-in"><h3 id="prTitle">배양 결과</h3><div class="pr-grid" id="prGrid"></div><div class="pr-foot"><span id="prSum"></span><button class="btn primary" id="btnPullOk">확인</button></div></div>
+    </div>
+  </section>
+
+  <!-- 출석 보상 -->
+  <section id="daily" class="screen" hidden role="dialog" aria-label="출석 보상">
+    <div class="pop panel dpop">
+      <div class="eyebrow">DAILY CHECK-IN</div>
+      <h2>출석 보상</h2>
+      <p class="sub" id="dailySub"></p>
+      <div class="sec"><div class="dgrid" id="dGrid"></div></div>
+      <div class="row"><button class="btn primary" id="btnClaim">보상 받기</button><button class="btn" id="btnDailyClose">닫기</button></div>
     </div>
   </section>
 
@@ -488,7 +659,8 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
       <div class="sec"><div class="lbl">현재 구성</div><div class="build" id="pauseBuild"></div></div>
       <div class="row">
         <button class="btn primary" id="btnResume">계속하기</button>
-        <button class="btn pink" id="btnQuit">포기하고 메뉴로</button>
+        <button class="btn" id="btnSaveQuit">저장하고 메뉴로</button>
+        <button class="btn pink" id="btnQuit">포기하고 정산</button>
       </div>
     </div>
   </section>
@@ -500,6 +672,7 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
       <h2 id="resTitle"></h2>
       <p class="sub" id="resSub"></p>
       <div class="sec"><div class="resrow"><div class="rank"><small>GRADE</small><b id="resRank">A</b><em id="resNext"></em></div><div class="kv" id="resKv"></div></div></div>
+      <div class="sec"><div class="lbl">연구 경과</div><div class="meta" id="resMeta"></div></div>
       <div class="sec"><div class="lbl">위협 단계별 제거</div><div class="t3" id="resTier"></div></div>
       <div class="sec"><div class="lbl">최종 구성</div><div class="build" id="resBuild"></div></div>
       <div class="row">
@@ -536,22 +709,71 @@ const turn = (a, b, max) => { const d = ((b - a + Math.PI) % TAU + TAU) % TAU - 
    ============================================================ */
 const SAVE_KEY = 'immune-survivors-v2';
 const DIFFS_KEYS = ['std', 'hz', 'cat', 'ext'];
-const save = { serum: 0, vacc: {}, best: { time: 0, kills: 0, wins: 0, score: 0 }, bests: {}, diff: 'std', char: 'macro', sound: true, seen: {} };
+const newStats = () => ({ runs: 0, sec: 0, kills: 0, bosses: 0, elites: 0, lv: 0, combo: 0, cleared: 0, rank: 0, cells: {}, legend: 0 });
+const save = {
+  serum: 0, vacc: {}, best: { time: 0, kills: 0, wins: 0, score: 0 }, bests: {}, diff: 'std', char: 'macro', sound: true, seen: {},
+  level: 1, xp: 0, tickets: 3, cards: {}, equip: [], pity: { e: 0, l: 0, total: 0 }, daily: { last: '', n: 0 }, ach: {}, stats: newStats(),
+};
 const bestOf = d => (save.bests[d] = Object.assign({ time: 0, score: 0, cycle: 0, kills: 0, runs: 0 }, save.bests[d]));
+const RUN_KEY = SAVE_KEY + '-run';
+
+/* 저장소: localStorage → (막힌 환경이면) 이 탭의 window.name → 메모리 순으로 대신한다.
+   kind: 'local' 영구 저장 · 'tab' 이 탭에서만 유지 · 'mem' 저장 불가 */
+const store = (() => {
+  let kind = 'mem';
+  const mem = {};
+  try { localStorage.setItem('__iz', '1'); localStorage.removeItem('__iz'); kind = 'local'; }
+  catch (e) {
+    try { const o = JSON.parse(window.name || '{}'); if (o && o.__iz) Object.assign(mem, o.__iz); window.name = JSON.stringify({ __iz: mem }); kind = 'tab'; } catch (e2) { /* 메모리만 */ }
+  }
+  const flush = () => { if (kind === 'tab') { try { window.name = JSON.stringify({ __iz: mem }); } catch (e) { kind = 'mem'; } } };
+  return {
+    get kind() { return kind; },
+    get(k) { if (k in mem) return mem[k]; if (kind === 'local') { try { return localStorage.getItem(k); } catch (e) { return null; } } return null; },
+    set(k, v) {
+      if (kind === 'local') { try { localStorage.setItem(k, v); delete mem[k]; return true; } catch (e) { /* 용량 초과 등: 메모리로 */ } }
+      mem[k] = v; flush(); return kind !== 'mem';
+    },
+    del(k) { delete mem[k]; flush(); if (kind === 'local') { try { localStorage.removeItem(k); } catch (e) { /* 무시 */ } } },
+  };
+})();
+
+/* 불러온 저장 데이터를 검증해서 받아들인다 (손상되었거나 다른 버전이어도 안전하게) */
+function adoptSave(d) {
+  const num = v => (Number.isFinite(+v) && +v > 0 ? Math.floor(+v) : 0);
+  save.serum = num(d.serum);
+  save.vacc = {};
+  VACCINES.forEach(v => { const l = Math.min(v.max, num(d.vacc && d.vacc[v.id])); if (l) save.vacc[v.id] = l; });
+  save.best = { time: num(d.best && d.best.time), kills: num(d.best && d.best.kills), wins: num(d.best && d.best.wins), score: num(d.best && d.best.score) };
+  save.bests = {};
+  DIFFS_KEYS.forEach(k => { const b = d.bests && d.bests[k]; if (b) save.bests[k] = { time: Math.max(0, +b.time || 0), score: num(b.score), cycle: num(b.cycle), kills: num(b.kills), runs: num(b.runs) }; });
+  save.diff = DIFFS_KEYS.includes(d.diff) ? d.diff : 'std';
+  save.char = CHARS[d.char] ? d.char : 'macro';
+  save.sound = d.sound !== false;
+  save.seen = {};
+  if (d.seen && typeof d.seen === 'object') Object.keys(d.seen).forEach(k => { if (VIRUS[k] || BOSS[k]) save.seen[k] = 1; });
+  // 메타 진행
+  save.level = clamp(num(d.level) || 1, 1, LEVEL_MAX); save.xp = num(d.xp);
+  save.tickets = d.tickets === undefined ? 3 : num(d.tickets);
+  save.cards = {}; Object.keys(d.cards || {}).forEach(k => { if (CARDS[k]) save.cards[k] = clamp(num(d.cards[k]), 1, CARD_MAX); });
+  const p = d.pity || {}; save.pity = { e: num(p.e), l: num(p.l), total: num(p.total) };
+  save.daily = { last: typeof (d.daily && d.daily.last) === 'string' ? d.daily.last.slice(0, 10) : '', n: num(d.daily && d.daily.n) };
+  save.ach = {}; Object.keys(d.ach || {}).forEach(k => { if (ACH.some(a => a.id === k)) save.ach[k] = 1; });
+  const st = d.stats || {}, ns = newStats();
+  ['runs', 'sec', 'kills', 'bosses', 'elites', 'lv', 'combo', 'cleared', 'rank', 'legend'].forEach(k => { ns[k] = num(st[k]); });
+  Object.keys(st.cells || {}).forEach(k => { if (CHARS[k]) ns.cells[k] = 1; });
+  save.stats = ns;
+  save.equip = [...new Set(Array.isArray(d.equip) ? d.equip : [])].filter(k => save.cards[k]).slice(0, slotCount());
+  if (!cellOpen(save.char)) save.char = 'macro';
+  if (!diffOpen(save.diff)) save.diff = 'std';
+}
 function loadSave() {
   try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if (!raw) return;
-    const d = JSON.parse(raw);
-    if (d && typeof d === 'object') {
-      Object.assign(save, d);
-      save.vacc = save.vacc || {}; save.seen = save.seen || {}; save.bests = save.bests || {};
-      if (!DIFFS_KEYS.includes(save.diff)) save.diff = 'std';
-      save.best = Object.assign({ time: 0, kills: 0, wins: 0, score: 0 }, save.best);
-    }
-  } catch (e) { /* 저장소 사용 불가 */ }
+    const raw = store.get(SAVE_KEY);
+    if (raw) { const d = JSON.parse(raw); if (d && typeof d === 'object') adoptSave(d); }
+  } catch (e) { /* 손상된 저장: 새로 시작 */ }
 }
-function writeSave() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) { /* 무시 */ } }
+function writeSave() { return store.set(SAVE_KEY, JSON.stringify(save)); }
 
 /* ============================================================
    사운드 (WebAudio 합성, 사용자 조작 후에만 시작)
@@ -784,39 +1006,39 @@ const WEAPON_IDS = Object.keys(WEAPONS);
 const wname = w => (w.lv >= 6 ? WEAPONS[w.id].evo.ko : WEAPONS[w.id].ko);
 
 const PASSIVES = {
-  activation: { ko: '활성화', en: 'Activation', col: '#ff9d6c', icon: 'burst', max: 5, per: '공격력 +10%', flavor: '활성화된 면역세포는 더 강하게 공격합니다.' },
-  clonal: { ko: '클론 증식', en: 'Clonal expansion', col: '#8ef0b8', icon: 'clonal', max: 5, per: '재사용 대기시간 -7%', flavor: '표적을 만난 림프구는 빠르게 복제됩니다.' },
-  receptor: { ko: '수용체 확장', en: 'Receptor', col: '#9fb4ff', icon: 'receptor', max: 5, per: '공격 범위 +10%', flavor: '표면 수용체가 늘어 더 넓게 병원체를 포착합니다.' },
-  flow: { ko: '혈류 가속', en: 'Blood flow', col: '#ff8fa3', icon: 'flow', max: 5, per: '이동 속도 +8%', flavor: '혈류를 타고 감염 부위로 빠르게 이동합니다.' },
+  activation: { ko: '활성화', en: 'Activation', col: '#ff9d6c', icon: 'burst', max: 5, per: '공격력 +8%', flavor: '활성화된 면역세포는 더 강하게 공격합니다.' },
+  clonal: { ko: '클론 증식', en: 'Clonal expansion', col: '#8ef0b8', icon: 'clonal', max: 5, per: '재사용 대기시간 -5.5%', flavor: '표적을 만난 림프구는 빠르게 복제됩니다.' },
+  receptor: { ko: '수용체 확장', en: 'Receptor', col: '#9fb4ff', icon: 'receptor', max: 5, per: '공격 범위 +8%', flavor: '표면 수용체가 늘어 더 넓게 병원체를 포착합니다.' },
+  flow: { ko: '혈류 가속', en: 'Blood flow', col: '#ff8fa3', icon: 'flow', max: 5, per: '이동 속도 +6%', flavor: '혈류를 타고 감염 부위로 빠르게 이동합니다.' },
   lymph: { ko: '림프절', en: 'Lymph node', col: '#7de0ff', icon: 'magnet', max: 5, per: '획득 범위 +25%', flavor: '림프절은 면역세포가 모이는 거점입니다.' },
-  memory: { ko: '면역 기억', en: 'Immune memory', col: '#d6a8ff', icon: 'gem', max: 5, per: '경험치 +10%', flavor: '한 번 만난 병원체는 기억해 두었다가 더 빠르게 대응합니다.' },
-  homeo: { ko: '항상성', en: 'Homeostasis', col: '#74f0c4', icon: 'cross', max: 5, per: '초당 체력 +0.4 회복', flavor: '몸은 스스로 균형을 되찾으려 합니다.' },
+  memory: { ko: '면역 기억', en: 'Immune memory', col: '#d6a8ff', icon: 'gem', max: 5, per: '경험치 +8%', flavor: '한 번 만난 병원체는 기억해 두었다가 더 빠르게 대응합니다.' },
+  homeo: { ko: '항상성', en: 'Homeostasis', col: '#74f0c4', icon: 'cross', max: 5, per: '초당 체력 +0.3 회복', flavor: '몸은 스스로 균형을 되찾으려 합니다.' },
   barrier: { ko: '피부 장벽', en: 'Skin barrier', col: '#ffc78a', icon: 'shield', max: 5, per: '받는 피해 -1', flavor: '피부와 점막은 가장 바깥쪽 방어선입니다.' },
-  vitamin: { ko: '비타민 C', en: 'Vitamin C', col: '#ffd45e', icon: 'heart', max: 5, per: '최대 체력 +20, 즉시 회복', flavor: '면역세포의 활동을 돕는 영양소입니다.' },
-  presenting: { ko: '항원 제시', en: 'Antigen presentation', col: '#ff7ad9', icon: 'target', max: 5, per: '치명타 확률 +6%', flavor: '항원 제시 세포가 표적을 정확히 알려줍니다.' },
+  vitamin: { ko: '비타민 C', en: 'Vitamin C', col: '#ffd45e', icon: 'heart', max: 5, per: '최대 체력 +16, 즉시 회복', flavor: '면역세포의 활동을 돕는 영양소입니다.' },
+  presenting: { ko: '항원 제시', en: 'Antigen presentation', col: '#ff7ad9', icon: 'target', max: 5, per: '치명타 확률 +5%', flavor: '항원 제시 세포가 표적을 정확히 알려줍니다.' },
 };
 const PASSIVE_IDS = Object.keys(PASSIVES);
 
 const VACCINES = [
-  { id: 'hp', ko: 'BCG 백신', eff: '최대 체력 +8%', max: 5, base: 50, icon: 'heart' },
-  { id: 'dmg', ko: 'MMR 백신', eff: '공격력 +4%', max: 5, base: 80, icon: 'burst' },
+  { id: 'hp', ko: 'BCG 백신', eff: '최대 체력 +6%', max: 5, base: 50, icon: 'heart' },
+  { id: 'dmg', ko: 'MMR 백신', eff: '공격력 +3%', max: 5, base: 80, icon: 'burst' },
   { id: 'spd', ko: '독감 백신', eff: '이동 속도 +3%', max: 5, base: 50, icon: 'flow' },
   { id: 'armor', ko: '파상풍 백신', eff: '받는 피해 -1', max: 3, base: 110, icon: 'shield' },
-  { id: 'xp', ko: '보강제', eff: '경험치 획득 +6%', max: 5, base: 70, icon: 'gem' },
+  { id: 'xp', ko: '보강제', eff: '경험치 획득 +5%', max: 5, base: 70, icon: 'gem' },
   { id: 'magnet', ko: '림프 부스터', eff: '획득 범위 +15%', max: 5, base: 40, icon: 'magnet' },
   { id: 'reroll', ko: '추가 접종', eff: '재선택 횟수 +1', max: 3, base: 100, icon: 'reroll' },
   { id: 'revive', ko: '항체 보유', eff: '사망 시 1회 부활', max: 1, base: 240, icon: 'revive' },
 ];
-const vaccCost = (v, lv) => Math.round(v.base * (1 + lv * .8));
+const vaccCost = (v, lv) => Math.round(v.base * 1.6 * (1 + lv * 1.1));
 
 /* ============================================================
    무한 진행: 난이도 · 유행 주기 · 정예 변이 · 무한 강화
    ============================================================ */
 const DIFFS = {
-  std: { ko: '표준', en: 'STANDARD', hp: 1, dmg: 1, spawn: 1, reward: 1, rank: 1, desc: '기본 난이도. 유행이 거듭될수록 빠르게 강해집니다.' },
-  hz: { ko: '위험', en: 'HAZARD', hp: 1.5, dmg: 1.3, spawn: 1.2, reward: 1.7, rank: 1.4 },
-  cat: { ko: '재앙', en: 'CATASTROPHE', hp: 2.2, dmg: 1.7, spawn: 1.4, reward: 2.6, rank: 2 },
-  ext: { ko: '절멸', en: 'EXTINCTION', hp: 3.2, dmg: 2.2, spawn: 1.6, reward: 4, rank: 2.8 },
+  std: { ko: '표준', en: 'STANDARD', hp: 1.15, dmg: 1.15, spawn: 1.1, reward: 1, rank: 1 },
+  hz: { ko: '위험', en: 'HAZARD', hp: 1.8, dmg: 1.5, spawn: 1.3, reward: 1.7, rank: 1.4 },
+  cat: { ko: '재앙', en: 'CATASTROPHE', hp: 2.6, dmg: 2, spawn: 1.5, reward: 2.6, rank: 2 },
+  ext: { ko: '절멸', en: 'EXTINCTION', hp: 3.8, dmg: 2.6, spawn: 1.8, reward: 4, rank: 2.8 },
 };
 for (const k in DIFFS) { const d = DIFFS[k]; if (!d.desc) d.desc = `적 체력 +${Math.round((d.hp - 1) * 100)}% · 피해 +${Math.round((d.dmg - 1) * 100)}% · 출현 +${Math.round((d.spawn - 1) * 100)}% · 보상 ×${d.reward}`; }
 const DIFF_ORDER = ['std', 'hz', 'cat', 'ext'];
@@ -834,16 +1056,190 @@ const AURA_R = 118;              // 소아마비 바이러스의 마비 범위
 const KILL_HEAL_PS = 6;          // 처치 시 회복의 초당 상한
 const EXPLODE_R = 72, EXPLODE_FUSE = 1;   // 홍역(자폭형) 폭발 반경 · 부풀기 시간: 보고 피할 수 있게
 const BOOSTS = {               // 모든 무기·패시브가 최대일 때도 성장이 이어지도록
-  b_dmg: { ko: '세포독성 증폭', en: 'Cytotoxic boost', per: '공격력 +8%', icon: 'burst', col: '#ff9d6c' },
-  b_hp: { ko: '세포막 강화', en: 'Membrane boost', per: '최대 체력 +6%, 체력 25% 회복', icon: 'heart', col: '#ffd45e' },
-  b_cd: { ko: '신호 가속', en: 'Signal boost', per: '재사용 대기시간 -4% (최대 -60%)', icon: 'clonal', col: '#8ef0b8' },
-  b_area: { ko: '수용체 증폭', en: 'Receptor boost', per: '공격 범위 +6% (최대 15단계)', icon: 'receptor', col: '#9fb4ff' },
+  b_dmg: { ko: '세포독성 증폭', en: 'Cytotoxic boost', per: '공격력 +6%', icon: 'burst', col: '#ff9d6c' },
+  b_hp: { ko: '세포막 강화', en: 'Membrane boost', per: '최대 체력 +5%, 체력 25% 회복', icon: 'heart', col: '#ffd45e' },
+  b_cd: { ko: '신호 가속', en: 'Signal boost', per: '재사용 대기시간 -3% (최대 -60%)', icon: 'clonal', col: '#8ef0b8' },
+  b_area: { ko: '수용체 증폭', en: 'Receptor boost', per: '공격 범위 +5% (최대 15단계)', icon: 'receptor', col: '#9fb4ff' },
 };
 /* 등급: 생존 분 + 진압한 유행 ×2 에 난이도 계수를 곱한 값. 표준 난이도 기준 C 7분 · B 12분 · A 20분 · S 32분 · SS 48분 · SSS 70분 */
 const RANKS = [['D', 0], ['C', 7], ['B', 12], ['A', 20], ['S', 32], ['SS', 48], ['SSS', 70]];
 const rankScore = (sec, diff, cleared) => (sec / 60 + (cleared || 0) * 2) * DIFFS[diff].rank;
 const rankIndex = (sec, diff, cleared) => { const m = rankScore(sec, diff, cleared); let i = 0; while (i + 1 < RANKS.length && m >= RANKS[i + 1][1]) i++; return i; };
 const rankOf = (sec, diff, cleared) => RANKS[rankIndex(sec, diff, cleared)][0];
+
+/* ============================================================
+   메타 진행: 연구 등급 · 해금 · 유전자 카드(배양) · 업적 · 출석 보상
+   한 판이 끝날 때마다 연구 경험치가 쌓이고, 등급이 오르면 새 세포·무기·카드 슬롯이 열린다
+   ============================================================ */
+const LEVEL_MAX = 40;
+const xpToNext = L => 90 + 55 * (L - 1);
+const UNLOCK = {
+  cell: { macro: 1, nk: 2, tcell: 4, bcell: 6 },          // 면역세포: 연구 등급
+  weapon: { fever: 3, complement: 5 },                    // 레벨업 선택지에 등장하는 무기 (시작 무기는 항상 가능)
+  vaccine: { armor: 4, reroll: 6, revive: 8 },            // 백신
+  slots: [1, 5, 10, 18],                                  // 유전자 카드 슬롯이 열리는 등급
+  diff: { hz: ['std', 300], cat: ['hz', 360], ext: ['cat', 360] },   // 난이도: [이전 난이도, 필요한 최고 생존(초)]
+};
+const slotCount = () => UNLOCK.slots.filter(l => save.level >= l).length;
+const cellOpen = id => save.level >= (UNLOCK.cell[id] || 1);
+const weaponOpen = id => save.level >= (UNLOCK.weapon[id] || 1);
+const vaccineOpen = id => save.level >= (UNLOCK.vaccine[id] || 1);
+const diffOpen = k => { const u = UNLOCK.diff[k]; return !u || bestOf(u[0]).time >= u[1]; };
+const diffNeed = k => { const u = UNLOCK.diff[k]; return u ? `${DIFFS[u[0]].ko} 난이도에서 ${Math.round(u[1] / 60)}분 생존` : ''; };
+const dexCount = () => VIRUS_ORDER.concat(BOSS_ORDER).filter(k => save.seen[k]).length;
+
+/* 등급이 오를 때 열리는 것들 (토스트 / 결과 화면용) */
+function unlocksAt(L) {
+  const out = [];
+  for (const id in UNLOCK.cell) if (UNLOCK.cell[id] === L && L > 1) out.push(`면역세포 · ${CHARS[id].ko}`);
+  for (const id in UNLOCK.weapon) if (UNLOCK.weapon[id] === L) out.push(`무기 · ${WEAPONS[id].ko}`);
+  for (const id in UNLOCK.vaccine) if (UNLOCK.vaccine[id] === L) out.push(`백신 · ${VACCINES.find(v => v.id === id).ko}`);
+  UNLOCK.slots.forEach((l, i) => { if (l === L && L > 1) out.push(`유전자 카드 슬롯 ${i + 1}`); });
+  return out;
+}
+function addAccountXp(n) {
+  const before = save.level;
+  save.xp += Math.max(0, Math.floor(n));
+  while (save.level < LEVEL_MAX && save.xp >= xpToNext(save.level)) { save.xp -= xpToNext(save.level); save.level++; }
+  if (save.level >= LEVEL_MAX) save.xp = 0;
+  return [before, save.level];
+}
+function grant(rw) {
+  if (rw.serum) save.serum += rw.serum;
+  if (rw.tk) save.tickets += rw.tk;
+  if (rw.xp) addAccountXp(rw.xp);
+}
+const rwText = rw => [rw.serum ? `혈청 ${fmtNum(rw.serum)}` : '', rw.tk ? `배양권 ${rw.tk}` : '', rw.xp ? `연구 경험치 ${rw.xp}` : ''].filter(Boolean).join(' · ');
+
+/* ---- 유전자 카드 ---- */
+const CARD_MAX = 5, PULL_COST = 250;
+const RARITY = [
+  { ko: '일반', col: '#9fb0c0', w: 60, back: 40 },
+  { ko: '희귀', col: '#5fb4ff', w: 28, back: 110 },
+  { ko: '영웅', col: '#c58bff', w: 10.5, back: 320 },
+  { ko: '전설', col: '#ffc23d', w: 1.5, back: 900 },        // back: 최대 단계인 카드가 또 나오면 돌려받는 혈청
+];
+const CARDS = {
+  hp: { ko: '단백질 합성', en: 'Protein synthesis', r: 0, icon: 'heart', fx: { hp: .04 }, t: l => `최대 체력 +${4 * l}%` },
+  dmg: { ko: '세포 활성', en: 'Cell activation', r: 0, icon: 'burst', fx: { dmg: .025 }, t: l => `공격력 +${2.5 * l}%` },
+  spd: { ko: '편모 단련', en: 'Flagella', r: 0, icon: 'flow', fx: { spd: .02 }, t: l => `이동 속도 +${2 * l}%` },
+  mag: { ko: '수용 안테나', en: 'Antenna', r: 0, icon: 'magnet', fx: { mag: .08 }, t: l => `획득 범위 +${8 * l}%` },
+  xp: { ko: '경험 기억', en: 'Experience memory', r: 0, icon: 'gem', fx: { xp: .03 }, t: l => `경험치 +${3 * l}%` },
+  crit: { ko: '항원 인식', en: 'Antigen sensing', r: 1, icon: 'target', fx: { crit: .02 }, t: l => `치명타 확률 +${2 * l}%` },
+  cd: { ko: '빠른 분열', en: 'Rapid division', r: 1, icon: 'clonal', fx: { cd: .015 }, t: l => `재사용 대기시간 -${1.5 * l}%` },
+  area: { ko: '넓은 수용체', en: 'Wide receptor', r: 1, icon: 'receptor', fx: { area: .025 }, t: l => `공격 범위 +${2.5 * l}%` },
+  dr: { ko: '점막 방어', en: 'Mucosal defense', r: 1, icon: 'shield', fx: { dr: .02 }, t: l => `받는 피해 -${2 * l}%` },
+  regen: { ko: '재생 호르몬', en: 'Regeneration', r: 1, icon: 'cross', fx: { regen: .15 }, t: l => `초당 체력 +${(.15 * l).toFixed(2)} 회복` },
+  reroll: { ko: '추가 접종', en: 'Booster', r: 2, icon: 'reroll', t: l => `재선택 +${Math.ceil(l / 2)}회` },
+  start: { ko: '선행 학습', en: 'Prior learning', r: 2, icon: 'book', t: l => `시작 시 강화 선택 +${Math.ceil(l / 2)}회` },
+  serum: { ko: '혈청 농축', en: 'Serum concentrate', r: 2, icon: 'vax', fx: { serum: .08 }, t: l => `획득 혈청 +${8 * l}%` },
+  phoenix: { ko: '불사의 기억', en: 'Undying memory', r: 3, icon: 'revive', t: l => `사망 시 부활 ${l >= 5 ? 2 : 1}회` },
+  helix: { ko: '황금 나선', en: 'Golden helix', r: 3, icon: 'dna', fx: { hp: .04, dmg: .04, xp: .04 }, t: l => `체력 · 공격력 · 경험치 +${4 * l}%` },
+};
+const CARD_IDS = Object.keys(CARDS);
+function cardFx() {
+  const o = { hp: 0, dmg: 0, spd: 0, mag: 0, xp: 0, crit: 0, cd: 0, area: 0, dr: 0, regen: 0, serum: 0, reroll: 0, start: 0, revive: 0 };
+  for (const id of save.equip) {
+    const c = CARDS[id], lv = save.cards[id];
+    if (!c || !lv) continue;
+    if (c.fx) for (const k in c.fx) o[k] += c.fx[k] * lv;
+    if (id === 'reroll') o.reroll += Math.ceil(lv / 2);
+    if (id === 'start') o.start += Math.ceil(lv / 2);
+    if (id === 'phoenix') o.revive += lv >= 5 ? 2 : 1;
+  }
+  o.dr = Math.min(.4, o.dr);
+  return o;
+}
+/* 배양: 영웅 이상은 10회 안에 확정, 전설은 60회 안에 확정 (40회부터 확률 상승) */
+function rollRarity() {
+  const p = save.pity, soft = Math.max(0, p.l - 39) * 1.2;
+  const w = RARITY.map((r, i) => (i === 3 ? r.w + soft : r.w));
+  let lo = 0; if (p.e >= 9) lo = 2; if (p.l >= 59) lo = 3;
+  let sum = 0; for (let i = lo; i < 4; i++) sum += w[i];
+  let x = Math.random() * sum;
+  for (let i = lo; i < 4; i++) { x -= w[i]; if (x <= 0) return i; }
+  return 3;
+}
+function pullOnce() {
+  const r = rollRarity(), pool = CARD_IDS.filter(k => CARDS[k].r === r), id = pool[randi(0, pool.length - 1)];
+  const p = save.pity; p.total++; p.e = r >= 2 ? 0 : p.e + 1; p.l = r === 3 ? 0 : p.l + 1;
+  const had = save.cards[id] || 0; let refund = 0;
+  if (had >= CARD_MAX) { refund = RARITY[r].back; save.serum += refund; }
+  else { save.cards[id] = had + 1; if (!had && save.equip.length < slotCount()) save.equip.push(id); }
+  if (r === 3) save.stats.legend = 1;
+  return { id, r, isNew: !had, lv: save.cards[id], refund };
+}
+const pullCost = n => { const tk = Math.min(save.tickets, n); return { tk, serum: (n - tk) * PULL_COST }; };
+function pullMany(n) {
+  const c = pullCost(n);
+  if (save.serum < c.serum) return null;
+  save.tickets -= c.tk; save.serum -= c.serum;
+  const out = []; for (let i = 0; i < n; i++) out.push(pullOnce());
+  return out;
+}
+
+/* ---- 업적 (달성하면 자동으로 보상을 받는다) ---- */
+function achStats() {
+  const st = save.stats;
+  return { runs: st.runs, best: Math.max(...DIFF_ORDER.map(k => bestOf(k).time)), kills: st.kills, bosses: st.bosses, elites: st.elites, lv: st.lv, combo: st.combo, cleared: st.cleared,
+    dex: dexCount(), rank: st.rank, cells: Object.keys(st.cells).length, pulls: save.pity.total, legend: st.legend, acct: save.level, tH: bestOf('hz').time, tC: bestOf('cat').time, tE: bestOf('ext').time };
+}
+const ACH = [
+  { id: 'run1', ko: '첫 감염', desc: '한 판을 끝까지 마치기', p: s => [s.runs, 1], rw: { serum: 100 } },
+  { id: 'run10', ko: '단골 방역관', desc: '10판 플레이', p: s => [s.runs, 10], rw: { serum: 250, tk: 1 } },
+  { id: 'run50', ko: '베테랑 방역관', desc: '50판 플레이', p: s => [s.runs, 50], rw: { serum: 800, tk: 3 } },
+  { id: 't5', ko: '5분 생존', desc: '어느 난이도에서든 5분 생존', p: s => [s.best, 300], rw: { serum: 150 } },
+  { id: 't10', ko: '10분 생존', desc: '10분 생존', p: s => [s.best, 600], rw: { serum: 250, tk: 1 } },
+  { id: 't20', ko: '20분 생존', desc: '20분 생존', p: s => [s.best, 1200], rw: { serum: 500, tk: 2 } },
+  { id: 't30', ko: '30분 생존', desc: '30분 생존', p: s => [s.best, 1800], rw: { serum: 900, tk: 3 } },
+  { id: 'cyc1', ko: '유행 진압', desc: '한 판에서 유행 1회 진압', p: s => [s.cleared, 1], rw: { serum: 300, tk: 1 } },
+  { id: 'cyc3', ko: '유행 통제', desc: '한 판에서 유행 3회 진압', p: s => [s.cleared, 3], rw: { serum: 900, tk: 3 } },
+  { id: 'k1k', ko: '청소부', desc: '누적 처치 1,000', p: s => [s.kills, 1000], rw: { serum: 120 } },
+  { id: 'k10k', ko: '대청소', desc: '누적 처치 10,000', p: s => [s.kills, 10000], rw: { serum: 400, tk: 1 } },
+  { id: 'k100k', ko: '병원체 학살자', desc: '누적 처치 100,000', p: s => [s.kills, 100000], rw: { serum: 1500, tk: 3 } },
+  { id: 'b5', ko: '변이 사냥꾼', desc: '변종 누적 5회 제압', p: s => [s.bosses, 5], rw: { serum: 150 } },
+  { id: 'b50', ko: '변이 연구가', desc: '변종 누적 50회 제압', p: s => [s.bosses, 50], rw: { serum: 600, tk: 2 } },
+  { id: 'e50', ko: '정예 사냥', desc: '정예 변이 누적 50마리 제거', p: s => [s.elites, 50], rw: { serum: 200 } },
+  { id: 'e500', ko: '정예 학살', desc: '정예 변이 누적 500마리 제거', p: s => [s.elites, 500], rw: { serum: 800, tk: 2 } },
+  { id: 'lv50', ko: '면역 폭주', desc: '한 판에서 면역 Lv 50', p: s => [s.lv, 50], rw: { serum: 300 } },
+  { id: 'lv100', ko: '면역 초월', desc: '한 판에서 면역 Lv 100', p: s => [s.lv, 100], rw: { serum: 800, tk: 2 } },
+  { id: 'cb100', ko: '연쇄 반응', desc: '최대 콤보 100', p: s => [s.combo, 100], rw: { serum: 150 } },
+  { id: 'cb1k', ko: '멈추지 않는 연쇄', desc: '최대 콤보 1,000', p: s => [s.combo, 1000], rw: { serum: 500, tk: 1 } },
+  { id: 'dex10', ko: '병원체 연구', desc: '도감 10종 등록', p: s => [s.dex, 10], rw: { serum: 200 } },
+  { id: 'dex22', ko: '병원체 학자', desc: '도감 22종 등록', p: s => [s.dex, 22], rw: { serum: 500, tk: 2 } },
+  { id: 'dexall', ko: '병원체 박사', desc: '도감 전부 등록', p: s => [s.dex, VIRUS_ORDER.length + BOSS_ORDER.length], rw: { serum: 1500, tk: 4 } },
+  { id: 'rkA', ko: 'A 등급', desc: '결과 등급 A 이상', p: s => [s.rank, 3], rw: { serum: 400, tk: 1 } },
+  { id: 'rkS', ko: 'S 등급', desc: '결과 등급 S 이상', p: s => [s.rank, 4], rw: { serum: 1000, tk: 3 } },
+  { id: 'rkSS', ko: 'SS 등급', desc: '결과 등급 SS 이상', p: s => [s.rank, 5], rw: { serum: 2500, tk: 5 } },
+  { id: 'dH', ko: '위험을 넘어', desc: '위험 난이도에서 5분 생존', p: s => [s.tH, 300], rw: { serum: 300 } },
+  { id: 'dC', ko: '재앙을 넘어', desc: '재앙 난이도에서 5분 생존', p: s => [s.tC, 300], rw: { serum: 700, tk: 2 } },
+  { id: 'dE', ko: '절멸을 넘어', desc: '절멸 난이도에서 5분 생존', p: s => [s.tE, 300], rw: { serum: 1800, tk: 4 } },
+  { id: 'cells', ko: '모든 세포 체험', desc: '면역세포 4종으로 모두 플레이', p: s => [s.cells, 4], rw: { serum: 300, tk: 1 } },
+  { id: 'gc10', ko: '배양 입문', desc: '유전자 배양 10회', p: s => [s.pulls, 10], rw: { serum: 200 } },
+  { id: 'gc100', ko: '배양 중독', desc: '유전자 배양 100회', p: s => [s.pulls, 100], rw: { serum: 800, tk: 2 } },
+  { id: 'gcL', ko: '전설의 유전자', desc: '전설 카드 획득', p: s => [s.legend, 1], rw: { serum: 500 } },
+  { id: 'ac10', ko: '연구 등급 10', desc: '연구 등급 10 달성', p: s => [s.acct, 10], rw: { serum: 500, tk: 2 } },
+  { id: 'ac25', ko: '연구 등급 25', desc: '연구 등급 25 달성', p: s => [s.acct, 25], rw: { serum: 1500, tk: 4 } },
+];
+function checkAch() {
+  const got = []; let again = true;
+  while (again) {
+    again = false; const s = achStats();
+    for (const a of ACH) { if (save.ach[a.id]) continue; const [c, g] = a.p(s); if (c >= g) { save.ach[a.id] = 1; grant(a.rw); got.push(a); again = true; } }
+  }
+  return got;
+}
+
+/* ---- 출석 보상: 하루에 한 번, 7일 주기로 반복 (빠진 날이 있어도 이어서 받는다) ---- */
+const DAILY = [{ serum: 150 }, { tk: 1 }, { serum: 250 }, { tk: 1, serum: 100 }, { serum: 400 }, { tk: 2 }, { tk: 3, serum: 600 }];
+const dayKey = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const dailyReady = () => save.daily.last !== dayKey();
+function claimDaily() {
+  if (!dailyReady()) return null;
+  const rw = DAILY[save.daily.n % DAILY.length];
+  grant(rw); save.daily.n++; save.daily.last = dayKey();
+  return rw;
+}
 
 /* ============================================================
    아이콘 (32×32 선 아이콘)
@@ -1472,7 +1868,7 @@ const enemies = [], gems = [], pickups = [], projs = [], eprojs = [], strikes = 
 let P = null, G = null, nextId = 1, novaSeq = 0;
 const STEP = 1 / 60;
 const MAX_ENEMIES = 340;
-const needFor = lv => Math.round(5 + 3.5 * (lv - 1) + 1.0 * (lv - 1) * (lv - 1));
+const needFor = lv => Math.round(6 + 4.2 * (lv - 1) + 1.2 * (lv - 1) * (lv - 1));
 const spawnDist = () => Math.hypot(W / VS, H / VS) / 2 + 70;
 const VIEW_K = 1;
 
@@ -1493,22 +1889,22 @@ const SPAWN = [   // [종, 시작, 시작 가중치, 최종 가중치, 증가 �
   ['rabies', 315, 2, 4, 200], ['ebola', 330, 1.3, 2.8, 200], ['pox', 345, .8, 1.8, 200], ['cmv', 360, .7, 1.4, 200], ['dengue', 375, 1.2, 2.6, 200], ['nipah', 390, .8, 1.8, 200],
 ];
 
-function newGame(charId) {
+function newGame(charId, diffKey = save.diff, fresh = true) {
   [enemies, gems, pickups, projs, eprojs, strikes, novas, pools, parts, rings, nums].forEach(a => { a.length = 0; });
-  const ch = CHARS[charId];
+  const ch = CHARS[charId], cfx = cardFx();
   G = {
     state: 'play', t: 0, frame: 0, kills: 0, tk: [0, 0, 0], bossKills: 0, spawnAcc: 0,
-    bw: {}, bs: {}, ev: {}, seen: [true, false, false], boss: null, pending: 0,
+    bw: {}, bs: {}, ev: {}, seen: [true, false, false], boss: null, pending: fresh ? cfx.start : 0,
     over: false, won: false, endTimer: 0, timeScale: 1, shake: 0, hint: 7,
     char: charId, loadoutDirty: true, zone: 0, prevZone: 0, zf: 1, mut: {}, pendCounter: [], forced: [], bonusSerum: 0, newSeen: 0,
-    diffKey: save.diff, diff: DIFFS[save.diff] || DIFFS.std, cycle: 0, ct: 0, dm: 1, cleared: 0,
+    diffKey: DIFFS[diffKey] ? diffKey : 'std', diff: DIFFS[diffKey] || DIFFS.std, cycle: 0, ct: 0, dm: 1, cleared: 0,
     score: 0, combo: 0, comboT: 0, maxCombo: 0, eliteKills: 0, eliteAlive: 0, eliteCd: 0,
   };
   P = {
     id: charId, ch, x: 0, y: 0, vx: 0, vy: 0, fx: 1, fy: 0, r: 11,
     hp: 1, maxHp: 1, weapons: [], passives: {}, counter: {}, boost: {}, lv: 1, xp: 0, xpNeed: needFor(1),
-    inv: 0, slowT: 0, hurtT: 0, revive: save.vacc.revive ? 1 : 0, rerolls: 1 + (save.vacc.reroll || 0),
-    dmgM: 1, cdM: 1, areaM: 1, speed: 100, magnet: 70, xpM: 1, regen: 0, armor: 0, crit: .05, moving: false, khB: 0,
+    inv: 0, slowT: 0, hurtT: 0, revive: (save.vacc.revive ? 1 : 0) + cfx.revive, rerolls: 1 + (save.vacc.reroll || 0) + cfx.reroll,
+    dmgM: 1, cdM: 1, areaM: 1, speed: 100, magnet: 70, xpM: 1, regen: 0, armor: 0, dr: 0, crit: .05, moving: false, khB: 0, cfx,
   };
   recalc();
   P.hp = P.maxHp;
@@ -1516,19 +1912,68 @@ function newGame(charId) {
   addWeapon(ch.start);
 }
 
+/* ---- 판 저장 / 이어하기 ----
+   무기·패시브·레벨·진행 시간·유행 차수·점수 같은 '성장'을 저장한다.
+   화면의 적·탄·아이템은 저장하지 않고, 이어할 때 3초 무적 뒤에 다시 몰려온다.
+   변종과 싸우던 중이었다면 그 변종은 처음부터 다시 나타난다. */
+function runSnapshot(extraPending) {
+  if (!G || G.demo || G.over || G.finished || !P) return null;
+  const bs = Object.assign({}, G.bs), bw = Object.assign({}, G.bw);
+  if (G.boss) { const fk = G.boss.key + '_' + G.cycle; delete bs[fk]; delete bw[fk]; }
+  return {
+    v: 1, ts: Date.now(), char: G.char, diff: G.diffKey,
+    G: { t: G.t, kills: G.kills, tk: G.tk, bossKills: G.bossKills, bonusSerum: G.bonusSerum, cycle: G.cycle, cleared: G.cleared, score: Math.floor(G.score), maxCombo: G.maxCombo, eliteKills: G.eliteKills,
+      pending: G.pending + (extraPending || 0), zone: G.zone, seen: G.seen, bs, bw, ev: G.ev, mut: G.mut, pendCounter: G.pendCounter },
+    P: { x: Math.round(P.x), y: Math.round(P.y), hp: Math.round(P.hp), lv: P.lv, xp: Math.round(P.xp), revive: P.revive, rerolls: P.rerolls,
+      passives: P.passives, counter: P.counter, boost: P.boost, weapons: P.weapons.map(w => ({ id: w.id, lv: w.lv })) },
+  };
+}
+function writeRun(extraPending) { const s = runSnapshot(extraPending); if (s) store.set(RUN_KEY, JSON.stringify(s)); }
+function clearRun() { store.del(RUN_KEY); }
+function readRun() {
+  try {
+    const s = JSON.parse(store.get(RUN_KEY));
+    if (s && s.v === 1 && CHARS[s.char] && DIFFS[s.diff] && s.G && s.P && Number.isFinite(+s.G.t) && Array.isArray(s.P.weapons)) return s;
+  } catch (e) { /* 손상된 저장 */ }
+  return null;
+}
+function restoreRun(s) {
+  newGame(s.char, s.diff, false);
+  const g = s.G, p = s.P, int = (v, d = 0) => (Number.isFinite(+v) ? Math.floor(+v) : d);
+  ['t', 'kills', 'bossKills', 'bonusSerum', 'cycle', 'cleared', 'score', 'maxCombo', 'eliteKills', 'pending'].forEach(k => { G[k] = Math.max(0, +g[k] || 0); });
+  if (Array.isArray(g.tk) && g.tk.length === 3) G.tk = g.tk.map(v => int(v));
+  G.zone = clamp(int(g.zone), 0, ZONES.length - 1); G.prevZone = G.zone; G.zf = 1;
+  if (Array.isArray(g.seen)) G.seen = [0, 1, 2].map(i => !!g.seen[i]);
+  ['bs', 'bw', 'ev', 'mut'].forEach(k => { if (g[k] && typeof g[k] === 'object') G[k] = Object.assign({}, g[k]); });
+  G.pendCounter = Array.isArray(g.pendCounter) ? g.pendCounter.filter(l => LIN_NAME[l]) : [];
+  G.ct = G.t - Math.floor(G.t / CYCLE) * CYCLE; G.hint = 0; G.loadoutDirty = true;
+  P.weapons.length = 0;
+  for (const w of p.weapons) if (w && WEAPONS[w.id] && !weaponOf(w.id)) { addWeapon(w.id); weaponOf(w.id).lv = clamp(int(w.lv, 1), 1, 6); }
+  if (!P.weapons.length) addWeapon(CHARS[s.char].start);
+  PASSIVE_IDS.forEach(id => { const l = int(p.passives && p.passives[id]); if (l > 0) P.passives[id] = Math.min(PASSIVES[id].max, l); });
+  Object.keys(p.counter || {}).forEach(l => { if (LIN_NAME[l]) P.counter[l] = true; });
+  ['dmg', 'hp', 'cd', 'area'].forEach(k => { const l = int(p.boost && p.boost[k]); if (l > 0) P.boost[k] = l; });
+  P.lv = Math.max(1, int(p.lv, 1)); P.xpNeed = needFor(P.lv); P.xp = clamp(+p.xp || 0, 0, P.xpNeed - 1);
+  P.revive = clamp(int(p.revive), 0, 9); P.rerolls = clamp(int(p.rerolls), 0, 99);
+  P.x = Number.isFinite(+p.x) ? +p.x : 0; P.y = Number.isFinite(+p.y) ? +p.y : 0; cam.x = P.x; cam.y = P.y;
+  recalc();
+  P.hp = clamp(+p.hp || 1, 1, P.maxHp); P.inv = 3;
+}
+
 function recalc() {
-  const ch = P.ch, v = save.vacc, L = id => P.passives[id] || 0, B = id => P.boost[id] || 0;
+  const ch = P.ch, v = save.vacc, C = P.cfx, L = id => P.passives[id] || 0, B = id => P.boost[id] || 0;
   const oldMax = P.maxHp;
-  P.maxHp = Math.round((ch.hp * 1.25 + L('vitamin') * 20) * (1 + (v.hp || 0) * .08) * (1 + B('hp') * .06));
-  P.dmgM = (1 + L('activation') * .10) * (1 + (v.dmg || 0) * .04) * (ch.dmg || 1) * (1 + B('dmg') * .08);
-  P.cdM = Math.max(.4, 1 - L('clonal') * .07 - (ch.cd || 0) - B('cd') * .04);
-  P.areaM = 1 + L('receptor') * .10 + Math.min(B('area'), AREA_BOOST_MAX) * .06;
-  P.speed = ch.spd * (1 + L('flow') * .08) * (1 + (v.spd || 0) * .03);
-  P.magnet = 70 * (1 + L('lymph') * .25) * (1 + (v.magnet || 0) * .15);
-  P.xpM = (1 + L('memory') * .10) * (1 + (v.xp || 0) * .06) * (ch.xp || 1);
-  P.regen = .3 + L('homeo') * .4 + (ch.regen || 0);
+  P.maxHp = Math.round((ch.hp * 1.25 + L('vitamin') * 16) * (1 + (v.hp || 0) * .06 + C.hp) * (1 + B('hp') * .05));
+  P.dmgM = (1 + L('activation') * .08) * (1 + (v.dmg || 0) * .03 + C.dmg) * (ch.dmg || 1) * (1 + B('dmg') * .06);
+  P.cdM = Math.max(.4, 1 - L('clonal') * .055 - (ch.cd || 0) - B('cd') * .03 - C.cd);
+  P.areaM = 1 + L('receptor') * .08 + Math.min(B('area'), AREA_BOOST_MAX) * .05 + C.area;
+  P.speed = ch.spd * (1 + L('flow') * .06) * (1 + (v.spd || 0) * .03 + C.spd);
+  P.magnet = 70 * (1 + L('lymph') * .25) * (1 + (v.magnet || 0) * .15 + C.mag);
+  P.xpM = (1 + L('memory') * .08) * (1 + (v.xp || 0) * .05 + C.xp) * (ch.xp || 1);
+  P.regen = .3 + L('homeo') * .3 + (ch.regen || 0) + C.regen;
   P.armor = L('barrier') + (v.armor || 0);
-  P.crit = .05 + (ch.crit || 0) + L('presenting') * .06;
+  P.dr = C.dr;
+  P.crit = .05 + (ch.crit || 0) + L('presenting') * .05 + C.crit;
   if (P.maxHp > oldMax && oldMax > 1) P.hp += P.maxHp - oldMax;
 }
 
@@ -1614,12 +2059,12 @@ function addPool(x, y, r, life, delay) { if (pools.length < 64) pools.push({ x, 
    플레이어 성장(무한 강화)은 선형이라 언젠가는 반드시 따라잡힌다 → 끝없는 게임이지만 결국 끝나는 판 */
 /* 위험·재앙 난이도의 배율은 처음엔 40%만 걸리고 3분 30초에 걸쳐 전부 적용된다 (초반 진입 장벽 완화) */
 const diffK = v => 1 + (v - 1) * Math.min(1, .4 + G.t / 350);
-const hpEsc = () => diffK(G.diff.hp) * Math.pow(2, Math.max(0, G.t - 300) / CYCLE);
+const hpEsc = () => diffK(G.diff.hp) * Math.pow(2.2, Math.max(0, G.t - 270) / CYCLE);
 function spawnEnemy(key, x, y, isBoss, el) {
   const def = isBoss ? BOSS[key] : VIRUS[key];
   const m = G.t / 60, cyc = G.cycle;
   const mut = !isBoss && !!G.mut[def.lin];
-  const base = isBoss ? (1 + m * .06) * (1 + cyc * .8) : 1 + m * .17 + m * m * .02 + Math.max(0, G.t - 240) / 180 * .4;
+  const base = isBoss ? (1 + m * .06) * (1 + cyc * .8) : 1 + m * .19 + m * m * .022 + Math.max(0, G.t - 220) / 170 * .45;
   const hpMul = base * hpEsc() * (mut ? 1.25 : 1) * (el ? el.hp : 1);
   const sc = el ? el.scale : 1;
   if (el) G.eliteAlive++;
@@ -1761,7 +2206,7 @@ function updatePlayer(dt) {
 }
 function hurt(dmg, inv) {
   if (G.demo || P.inv > 0 || G.over || G.won) return false;
-  const d = Math.max(1, Math.round(dmg - P.armor));
+  const d = Math.max(1, Math.round((dmg - P.armor) * (1 - P.dr)));
   P.hp -= d; P.inv = inv || .5; P.hurtT = .35;
   G.combo = 0;                                   // 피격 시 콤보 초기화
   G.shake = Math.max(G.shake, 7);
@@ -1785,6 +2230,7 @@ function die() {
     return;
   }
   G.over = true; G.endTimer = 1.3; G.timeScale = .3;
+  clearRun();                                   // 끝난 판은 이어할 수 없다
   burst(P.x, P.y, '#ffffff', 26, 220, 3);
   Sfx.lose();
 }
@@ -1875,7 +2321,7 @@ function spawnDirector(dt) {
   const t = G.t, cyc = Math.floor(t / CYCLE), ct = t - cyc * CYCLE;
   G.ct = ct;
   // 적이 주는 피해: 5분 뒤부터 5분마다 +50%, 2차 유행부터는 주기마다 ×1.25 가 더 붙는다
-  G.dm = diffK(G.diff.dmg) * (1 + Math.max(0, t - 300) / 300 * .5) * Math.pow(1.35, Math.max(0, t - CYCLE) / CYCLE);
+  G.dm = diffK(G.diff.dmg) * (1 + Math.max(0, t - 240) / 300 * .55) * Math.pow(1.4, Math.max(0, t - CYCLE) / CYCLE);
   const zi = ct >= ZONES[2].at ? 2 : ct >= ZONES[1].at ? 1 : 0;
   if (zi !== G.zone) {
     G.prevZone = G.zone; G.zone = zi; G.zf = 0;
@@ -2489,6 +2935,7 @@ function rollChoices(n, forced) {
   const pool = [], early = P.lv <= 3, taken = new Set(forced.map(c => c.kind + c.id));
   for (const id of WEAPON_IDS) {
     const w = weaponOf(id), lv = w ? w.lv : 0;
+    if (!w && !weaponOpen(id) && !G.demo) continue;                    // 아직 해금하지 못한 무기
     if (lv < 5 && !taken.has('weapon' + id)) pool.push({ kind: 'weapon', id, lv: lv + 1, wt: w ? 1.15 : (early ? 2.2 : 1.4) });
   }
   for (const id of PASSIVE_IDS) {
@@ -2920,7 +3367,7 @@ const el = {
   xp: $('#xpfill'), hp: $('#hpfill'), ghost: $('#hpghost'), hptxt: $('#hptxt'), lv: $('#lv'), timer: $('#timerTxt'), kill: $('#killn'),
   tiers: $$('#tiers .tier'), wslots: $('#wslots'), pslots: $('#pslots'), bossbar: $('#bossbar'), bossname: $('#bossname'),
   bosssub: $('#bosssub'), bossfill: $('#bossfill'), banner: $('#banner'), warn: $('#warn'), toasts: $('#toasts'), hint: $('#hint'),
-  score: $('#scoreN'), combo: $('#comboN'),
+  score: $('#scoreN'), combo: $('#comboN'), daily: $('#daily'),
   hurt: $('#hurt'), hpState: $('#hpState'), ecg: $('#ecg'), nextboss: $('#nextboss'), vTemp: $('#vTemp'), vLoad: $('#vLoad'), vTiter: $('#vTiter'), vSpark: $('#vSpark'), zone: $('#zone'), status: $('#status'),
 };
 const hc = {};
@@ -3078,8 +3525,9 @@ function updateHud(dt) {
 let mode = 'menu';
 function setMode(m) {
   mode = m;
-  el.menu.hidden = !(m === 'menu' || m === 'lab' || m === 'dex');
-  el.lab.hidden = m !== 'lab'; el.dex.hidden = m !== 'dex';
+  el.menu.hidden = !(m === 'menu' || m === 'lab' || m === 'dex' || m === 'daily');
+  el.lab.hidden = m !== 'lab'; el.dex.hidden = m !== 'dex'; el.daily.hidden = m !== 'daily';
+  if (m !== 'lab') $('#pullRes').hidden = true;
   el.levelup.hidden = m !== 'levelup'; el.pause.hidden = m !== 'pause'; el.result.hidden = m !== 'result';
   el.hud.hidden = !(m === 'play' || m === 'levelup' || m === 'pause');
   if (m !== 'play') { joy.on = false; joy.dx = joy.dy = 0; }
@@ -3091,9 +3539,10 @@ const seenCount = () => VIRUS_ORDER.concat(BOSS_ORDER).filter(k => save.seen[k])
 function renderMenu() {
   $('#serumTop').textContent = fmtNum(save.serum);
   $('#btnSound').innerHTML = save.sound ? SND_ON : SND_OFF;
+  renderAcct();
   $('#cellPick').innerHTML = CHAR_ORDER.map(id => {
-    const c = CHARS[id], on = id === save.char;
-    return `<button class="cellbtn${on ? ' on' : ''}" role="radio" aria-checked="${on}" data-id="${id}"><canvas width="140" height="140"></canvas>${c.ko}</button>`;
+    const c = CHARS[id], on = id === save.char, open = cellOpen(id);
+    return `<button class="cellbtn${on ? ' on' : ''}${open ? '' : ' lock'}" role="radio" aria-checked="${on}" data-id="${id}"><canvas width="140" height="140"></canvas>${c.ko}${open ? '' : `<span class="lk">연구 Lv ${UNLOCK.cell[id]}</span>`}</button>`;
   }).join('');
   const c = CHARS[save.char], w = WEAPONS[c.start];
   $('#heroInfo').innerHTML = `
@@ -3108,9 +3557,29 @@ function renderMenu() {
   $('#recTime').textContent = b.time > 0 ? fmtTime(b.time) : '--:--';
   $('#recKills').textContent = fmtNum(b.score);
   $('#recWins').textContent = b.cycle > 0 ? `${b.cycle}차` : '-';
-  $('#diffSel').innerHTML = DIFF_ORDER.map(k => `<button class="dbtn${k === save.diff ? ' on' : ''}" role="radio" aria-checked="${k === save.diff}" data-d="${k}"><b>${DIFFS[k].ko}</b><small>${DIFFS[k].en}</small></button>`).join('');
+  $('#diffSel').innerHTML = DIFF_ORDER.map(k => `<button class="dbtn${k === save.diff ? ' on' : ''}${diffOpen(k) ? '' : ' lock'}" role="radio" aria-checked="${k === save.diff}" data-d="${k}"><b>${DIFFS[k].ko}</b><small>${diffOpen(k) ? DIFFS[k].en : '잠김'}</small></button>`).join('');
   $('#diffDesc').textContent = d.desc;
   $('#dexCount').textContent = `${seenCount()}/${VIRUS_ORDER.length + BOSS_ORDER.length}`;
+  const run = readRun();                                   // 저장된 판이 있으면 '이어하기'가 먼저 나온다
+  $('#btnContinue').hidden = !run; $('#btnStart').classList.toggle('main', !run);
+  $('#btnStart b').textContent = '시작하기';
+  if (run) $('#contInfo').textContent = `${run.G.cycle + 1}차 유행 · ${fmtTime(run.G.t)} · Lv ${run.P.lv} · ${CHARS[run.char].ko} · ${DIFFS[run.diff].ko}`;
+  renderSaveChip();
+}
+function renderAcct() {
+  const L = save.level, need = xpToNext(L);
+  $('#acctLv').textContent = `연구 Lv ${L}`;
+  $('#acctXp').style.width = (L >= LEVEL_MAX ? 100 : Math.round(save.xp / need * 100)) + '%';
+  $('#acctTxt').textContent = L >= LEVEL_MAX ? 'MAX' : `${fmtNum(save.xp)} / ${fmtNum(need)}`;
+  $('#tkTop').textContent = fmtNum(save.tickets);
+  $('#dailyDot').hidden = !dailyReady(); $('#labDot').hidden = save.tickets < 1;
+}
+let mtoastT = 0;
+function menuToast(t) { const m = $('#mtoast'); m.textContent = t; m.classList.add('on'); clearTimeout(mtoastT); mtoastT = setTimeout(() => m.classList.remove('on'), 2600); }
+function renderSaveChip() {
+  const k = store.kind, c = $('#saveChip');
+  c.className = 'savechip' + (k === 'local' ? '' : ' ' + k);
+  c.textContent = k === 'local' ? '자동 저장' : k === 'tab' ? '임시 저장 · 이 탭에서만 유지 (연구소에서 내보내기)' : '저장 불가 · 연구소에서 내보내기';
 }
 function animatePortraits(now) {
   const t = now / 1000;
@@ -3122,15 +3591,100 @@ function animatePortraits(now) {
   };
   $$('#cellPick .cellbtn').forEach(b => draw($('canvas', b), b.dataset.id, 38));
 }
+let labTab = 'vacc';
+const LAB_DESC = {
+  vacc: '출격에서 얻은 혈청으로 백신을 접종하면 다음 판부터 영구적으로 강해집니다. 연구 등급이 오르면 새 백신이 열립니다.',
+  gene: '유전자 카드를 배양해 장착하면 모든 판에 영구 강화가 붙습니다. 배양권이나 혈청으로 뽑을 수 있습니다.',
+  ach: '업적을 달성하면 혈청과 배양권을 자동으로 받습니다.',
+};
 function renderLab() {
-  $('#serumLab').textContent = fmtNum(save.serum);
+  $('#serumLab').textContent = fmtNum(save.serum); $('#tkLab').textContent = fmtNum(save.tickets);
+  $('#labDesc').textContent = LAB_DESC[labTab];
+  $$('#labTabs button').forEach(b => { const on = b.dataset.t === labTab; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+  $('#paneVacc').hidden = labTab !== 'vacc'; $('#paneGene').hidden = labTab !== 'gene'; $('#paneAch').hidden = labTab !== 'ach';
+  $('#achCnt').textContent = `${Object.keys(save.ach).length}/${ACH.length}`;
+  if (labTab === 'vacc') renderVacc(); else if (labTab === 'gene') renderGene(); else renderAch();
+}
+function renderVacc() {
   $('#vGrid').innerHTML = VACCINES.map(v => {
     const lv = save.vacc[v.id] || 0, max = lv >= v.max, cost = vaccCost(v, lv);
+    if (!vaccineOpen(v.id)) return `<div class="vcard lock">${badge('#566271', v.icon)}<div><b>${v.ko}</b><p>${v.eff}</p></div><span class="lockcap">연구 Lv ${UNLOCK.vaccine[v.id]}</span></div>`;
     const pips = Array.from({ length: v.max }, (_, i) => `<i class="${i < lv ? 'on' : ''}"></i>`).join('');
     return `<div class="vcard">${badge('#ff9cbb', v.icon)}<div><b>${v.ko}</b><p>${v.eff}</p><div class="pips">${pips}</div></div>
-      <button class="btn pink" data-id="${v.id}" ${max || save.serum < cost ? 'disabled' : ''}>${max ? '완료' : '접종 ' + cost}</button></div>`;
+      <button class="btn pink" data-id="${v.id}" ${max || save.serum < cost ? 'disabled' : ''}>${max ? '완료' : '접종 ' + fmtNum(cost)}</button></div>`;
   }).join('');
 }
+/* ---- 유전자 카드 ---- */
+const cardPips = lv => `<div class="pips">${Array.from({ length: CARD_MAX }, (_, i) => `<i class="${i < lv ? 'on' : ''}"></i>`).join('')}</div>`;
+function cardTile(id) {
+  const c = CARDS[id], lv = save.cards[id] || 0, r = RARITY[c.r], eq = save.equip.includes(id);
+  if (!lv) return `<div class="gcard none" style="--c:${r.col}"><span class="rar">${r.ko}</span><div class="gi">${icon(c.icon)}</div><b>미획득</b><p>배양에서 얻을 수 있습니다</p></div>`;
+  return `<button class="gcard${eq ? ' eq' : ''}" data-id="${id}" style="--c:${r.col}" title="${c.en}"><span class="rar">${r.ko}</span><div class="gi">${icon(c.icon)}</div><b>${c.ko} <small>Lv ${lv}</small></b><p>${c.t(lv)}</p>${cardPips(lv)}<em>${eq ? '장착 중 · 눌러서 해제' : '눌러서 장착'}</em></button>`;
+}
+function renderGene() {
+  const p = save.pity, own = CARD_IDS.filter(k => save.cards[k]).length, slots = slotCount();
+  $('#pityE').textContent = `영웅 이상 확정까지 ${Math.max(1, 10 - p.e)}회`;
+  $('#pityL').textContent = `전설 확정까지 ${Math.max(1, 60 - p.l)}회`;
+  const lab = c => [c.tk ? `배양권 ${c.tk}` : '', c.serum ? `혈청 ${fmtNum(c.serum)}` : ''].filter(Boolean).join(' + ');
+  [[1, '#btnPull1'], [10, '#btnPull10']].forEach(([n, id]) => { const c = pullCost(n), b = $(id); b.innerHTML = `<b>${n}회 배양</b><small>${lab(c)}</small>`; b.disabled = save.serum < c.serum; });
+  $('#slotInfo').textContent = `${save.equip.length} / ${slots}`;
+  $('#gSlots').innerHTML = UNLOCK.slots.map((lvl, i) => {
+    if (i >= slots) return `<div class="gslot lock">연구 Lv ${lvl}<br>해금</div>`;
+    const id = save.equip[i];
+    return `<div class="gslot">${id ? cardTile(id) : '빈 슬롯'}</div>`;
+  }).join('');
+  $('#cardInfo').textContent = `${own} / ${CARD_IDS.length} 종 보유`;
+  $('#cGrid').innerHTML = CARD_IDS.slice().sort((a, b) => (CARDS[b].r - CARDS[a].r) || ((save.cards[b] || 0) - (save.cards[a] || 0))).map(cardTile).join('');
+}
+function toggleEquip(id) {
+  if (!save.cards[id]) return;
+  const i = save.equip.indexOf(id);
+  if (i >= 0) save.equip.splice(i, 1);
+  else if (save.equip.length < slotCount()) save.equip.push(id);
+  else { dataMsg('슬롯이 가득 찼습니다 · 장착한 카드를 눌러 해제하세요'); return; }
+  writeSave(); Sfx.init(); Sfx.pick(); renderGene();
+}
+function doPull(n) {
+  Sfx.init();
+  const res = pullMany(n);
+  if (!res) { dataMsg('혈청이 부족합니다'); return; }
+  const ach = checkAch(); writeSave();
+  const best = Math.max(...res.map(r => r.r));
+  $('#prTitle').textContent = n === 1 ? '배양 결과' : `${n}회 배양 결과`;
+  $('#prGrid').className = 'pr-grid' + (n === 1 ? ' one' : '');
+  $('#prGrid').innerHTML = res.map((r, i) => {
+    const c = CARDS[r.id], rar = RARITY[r.r];
+    return `<div class="pr-card r${r.r}" style="--c:${rar.col};--i:${i}">${r.isNew ? '<span class="tagn">NEW</span>' : ''}<small>${rar.ko}</small><div class="gi">${icon(c.icon)}</div><b>${c.ko}</b>
+      <p>${r.refund ? `최대 단계 · 혈청 +${r.refund}` : `Lv ${r.lv} · ${c.t(r.lv)}`}</p></div>`;
+  }).join('');
+  const dup = res.reduce((s, r) => s + r.refund, 0);
+  $('#prSum').textContent = (ach.length ? `업적 달성: ${ach.map(a => a.ko).join(', ')} · ` : '') + (dup ? `중복 환급 혈청 +${fmtNum(dup)}` : '');
+  $('#pullRes').hidden = false;
+  if (best >= 3) Sfx.evo(); else if (best >= 2) Sfx.level(); else Sfx.pick();
+  renderLab(); renderMenu();
+}
+/* ---- 업적 ---- */
+const ACH_TIME = new Set(['t5', 't10', 't20', 't30', 'dH', 'dC', 'dE']);
+function renderAch() {
+  const s = achStats();
+  const rows = ACH.map(a => { const [c, g] = a.p(s), done = !!save.ach[a.id]; return { a, c: Math.min(c, g), g, done, pct: Math.min(100, Math.round(Math.min(c, g) / g * 100)) }; })
+    .sort((x, y) => (x.done - y.done) || (y.pct - x.pct));
+  $('#aGrid').innerHTML = rows.map(({ a, c, g, done, pct }) => {
+    const f = ACH_TIME.has(a.id) ? fmtTime : fmtNum;
+    return `<div class="arow${done ? ' done' : ''}"><div class="ck">${done ? '✓' : ''}</div><div><b>${a.ko}</b><p>${a.desc}</p><div class="abar"><i style="width:${pct}%"></i></div></div><div class="arw"><small>${f(c)} / ${f(g)}</small><span>${rwText(a.rw)}</span></div></div>`;
+  }).join('');
+}
+/* ---- 출석 보상 ---- */
+function renderDaily() {
+  const n = save.daily.n, ready = dailyReady(), cur = n % DAILY.length, cycleDone = !ready && cur === 0 && n > 0;
+  $('#dGrid').innerHTML = DAILY.map((rw, i) => {
+    const done = cycleDone || i < cur, today = ready && i === cur;
+    return `<div class="dday${done ? ' done' : ''}${today ? ' today' : ''}${i === DAILY.length - 1 ? ' big' : ''}"><small>DAY ${i + 1}</small><b>${[rw.serum ? `혈청 ${fmtNum(rw.serum)}` : '', rw.tk ? `배양권 ${rw.tk}` : ''].filter(Boolean).join('<br>')}</b></div>`;
+  }).join('');
+  $('#dailySub').textContent = ready ? `오늘의 보상을 받으세요 · 누적 출석 ${n}일` : `오늘 보상을 이미 받았습니다. 내일 다시 오세요 · 누적 출석 ${n}일`;
+  $('#btnClaim').disabled = !ready;
+}
+function openDaily() { renderDaily(); setMode('daily'); }
 function renderDex() {
   const all = VIRUS_ORDER.map(k => [k, VIRUS[k], false]).concat(BOSS_ORDER.map(k => [k, BOSS[k], true]));
   $('#dexSum').textContent = `확인된 병원체 ${seenCount()}종 / 전체 ${all.length}종. 분류(과)와 유전체 형태, 크기, 전파 경로는 처음 조우하면 등록됩니다.`;
@@ -3184,6 +3738,7 @@ function openLevelUp() {
   luLock = performance.now() + 350;
   renderChoices();
   setMode('levelup');
+  autoSave();
   ring(P.x, P.y, 220, '#4fd8ff', .6, 5);
   Sfx.level();
 }
@@ -3197,30 +3752,63 @@ function rerollChoices() {
   P.rerolls--; choices = buildChoices(true); renderChoices(); Sfx.pick();
 }
 function resumePlay() { setMode('play'); acc = 0; last = performance.now(); }
-function pauseGame() { if (mode !== 'play') return; $('#pauseBuild').innerHTML = buildHtml(); setMode('pause'); }
+function pauseGame() { if (mode !== 'play') return; $('#pauseBuild').innerHTML = buildHtml(); setMode('pause'); autoSave(); }
 
+/* 판 자동 저장: 8초마다 · 일시정지 · 레벨업 선택 · 탭을 닫거나 숨길 때 */
+function autoSave() {
+  if (!G || G.demo || G.over || G.finished) return;
+  if (mode === 'play' || mode === 'pause' || mode === 'levelup') writeRun(mode === 'levelup' ? 1 : 0);
+}
+let runSaveT = 0;
 function startRun() {
   DEMO_MUTE = false;
   Sfx.init();
+  if (!cellOpen(save.char)) save.char = 'macro';
+  if (!diffOpen(save.diff)) save.diff = 'std';
   newGame(save.char);
   resetHud();
   setMode('play');
-  acc = 0; last = performance.now();
+  acc = 0; last = performance.now(); runSaveT = 0;
+}
+function continueRun() {
+  const s = readRun();
+  if (!s) { renderMenu(); return; }
+  DEMO_MUTE = false;
+  Sfx.init();
+  restoreRun(s);
+  resetHud();
+  setMode('play');
+  acc = 0; last = performance.now(); runSaveT = 0;
+  banner(`이어하기 · ${G.cycle + 1}차 유행`, '면역 상태를 복구했습니다 · 3초간 무적', 0);
 }
 function finishRun() {
   if (G.finished) return;                        // 한 판의 결과는 한 번만 정산
   G.finished = true;
+  clearRun();
   const sec = G.t, score = Math.floor(G.score), dk = G.diffKey, b = bestOf(dk);
-  const earned = Math.floor((G.kills * .12 + sec / 6 + G.bossKills * 20 + G.eliteKills * 3 + G.bonusSerum) * G.diff.reward);
+  const ri = rankIndex(sec, dk, G.cleared), rk = RANKS[ri][0];
+  const earned = Math.floor((G.kills * .12 + sec / 6 + G.bossKills * 20 + G.eliteKills * 3 + G.bonusSerum) * G.diff.reward * (1 + P.cfx.serum));
   const newTime = sec > b.time, newScore = score > b.score;
+  const diffsBefore = DIFF_ORDER.filter(diffOpen);
   save.serum += earned;
   b.time = Math.max(b.time, sec); b.score = Math.max(b.score, score); b.cycle = Math.max(b.cycle, G.cycle + 1); b.kills = Math.max(b.kills, G.kills); b.runs++;
   save.best.time = Math.max(save.best.time, sec); save.best.kills = Math.max(save.best.kills, G.kills);
+  /* 연구 경험치 · 누적 기록 · 업적 */
+  const xpGain = Math.floor((sec / 4 + G.kills * .04 + G.bossKills * 12 + G.eliteKills * 2 + G.cleared * 60) * (1 + (G.diff.reward - 1) * .5));
+  const [lv0, lv1] = addAccountXp(xpGain);
+  const st = save.stats;
+  st.runs++; st.sec += sec; st.kills += G.kills; st.bosses += G.bossKills; st.elites += G.eliteKills;
+  st.lv = Math.max(st.lv, P.lv); st.combo = Math.max(st.combo, G.maxCombo); st.cleared = Math.max(st.cleared, G.cleared); st.rank = Math.max(st.rank, ri); st.cells[G.char] = 1;
+  const ach = checkAch();
   writeSave();
+  const meta = [`<div class="mrow"><b>연구 경험치 +${fmtNum(xpGain)}</b><span>${lv1 > lv0 ? `Lv ${lv0} → <em>Lv ${lv1}</em>` : lv1 >= LEVEL_MAX ? 'Lv MAX' : `Lv ${lv1} · 다음 등급까지 ${fmtNum(xpToNext(lv1) - save.xp)}`}</span></div>`];
+  for (let L = lv0 + 1; L <= lv1; L++) unlocksAt(L).forEach(u => meta.push(`<div class="mrow unlock"><i>해금</i><b>${u}</b></div>`));
+  DIFF_ORDER.filter(k => diffOpen(k) && !diffsBefore.includes(k)).forEach(k => meta.push(`<div class="mrow unlock"><i>해금</i><b>난이도 · ${DIFFS[k].ko}</b></div>`));
+  ach.forEach(a => meta.push(`<div class="mrow ach"><i>업적</i><b>${a.ko}</b><span>${rwText(a.rw)}</span></div>`));
+  $('#resMeta').innerHTML = meta.join('');
   $('#resultPop').className = 'pop panel ' + (G.cleared ? 'win' : 'lose');
   $('#resTitle').textContent = `${G.cycle + 1}차 유행에서 면역 붕괴`;
   $('#resSub').textContent = `${G.diff.ko} 난이도 · 진압한 유행 ${G.cleared}회. 유행은 끝나지 않습니다. 백신을 접종하고 더 오래 버텨 보세요.`;
-  const ri = rankIndex(sec, dk, G.cleared), rk = RANKS[ri][0];
   $('#resRank').textContent = rk; $('#resRank').dataset.r = rk;
   const need = ri + 1 < RANKS.length ? Math.ceil((RANKS[ri + 1][1] / G.diff.rank - G.cleared * 2) * 60 - sec) : 0;
   $('#resNext').textContent = ri + 1 < RANKS.length ? `${RANKS[ri + 1][0]}까지 +${fmtTime(Math.max(1, need))}` : '최고 등급';
@@ -3245,7 +3833,8 @@ addEventListener('keydown', e => {
   if (e.repeat) return;
   if (mode === 'play' && (e.code === 'KeyP' || e.code === 'Escape')) pauseGame();
   else if (mode === 'pause' && (e.code === 'KeyP' || e.code === 'Escape')) resumePlay();
-  else if ((mode === 'lab' || mode === 'dex') && e.code === 'Escape') toMenu();
+  else if (mode === 'lab' && e.code === 'Escape' && !$('#pullRes').hidden) $('#pullRes').hidden = true;
+  else if ((mode === 'lab' || mode === 'dex' || mode === 'daily') && e.code === 'Escape') toMenu();
   else if (mode === 'levelup') {
     if (e.code === 'Digit1' || e.code === 'Numpad1') pickChoice(0);
     else if (e.code === 'Digit2' || e.code === 'Numpad2') pickChoice(1);
@@ -3255,7 +3844,8 @@ addEventListener('keydown', e => {
 });
 addEventListener('keyup', e => { keys[e.code] = false; });
 addEventListener('blur', () => { Object.keys(keys).forEach(k => { keys[k] = false; }); if (mode === 'play') pauseGame(); });
-document.addEventListener('visibilitychange', () => { if (document.hidden && mode === 'play') pauseGame(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) { if (mode === 'play') pauseGame(); else autoSave(); } });
+addEventListener('pagehide', autoSave);
 
 cv.addEventListener('pointerdown', e => {
   if (mode !== 'play') return;
@@ -3278,10 +3868,49 @@ $('#luCards').addEventListener('click', e => { const c = e.target.closest('.card
 $('#btnReroll').addEventListener('click', rerollChoices);
 $('#btnPause').addEventListener('click', pauseGame);
 $('#btnResume').addEventListener('click', resumePlay);
-$('#btnQuit').addEventListener('click', toMenu);
+$('#btnSaveQuit').addEventListener('click', () => { writeRun(0); toMenu(); });
+$('#btnQuit').addEventListener('click', finishRun);
 $('#btnAgain').addEventListener('click', startRun);
 $('#btnMenu').addEventListener('click', toMenu);
-$('#btnStart').addEventListener('click', startRun);
+let startArm = 0;                                  // 저장된 판이 있을 때 실수로 덮어쓰지 않도록 한 번 더 누르게 한다
+$('#btnStart').addEventListener('click', () => {
+  if (readRun() && !startArm) {
+    startArm = 1; $('#btnStart b').textContent = '저장된 판이 사라집니다 · 한 번 더';
+    setTimeout(() => { startArm = 0; if (mode === 'menu') renderMenu(); }, 3500);
+    return;
+  }
+  startArm = 0; startRun();
+});
+$('#btnContinue').addEventListener('click', continueRun);
+/* 저장 데이터 내보내기 / 불러오기 (저장소가 막힌 환경이나 기기 이동용) */
+let dataMsgT = 0;
+function dataMsg(t) { const m = $('#dataMsg'); m.textContent = t; clearTimeout(dataMsgT); dataMsgT = setTimeout(() => { m.textContent = ''; }, 4000); }
+$('#btnExport').addEventListener('click', () => {
+  const data = JSON.stringify({ game: 'immune-zero', v: 1, save, run: readRun() });
+  try {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([data], { type: 'application/json' }));
+    a.download = 'immune-zero-save.json'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000); dataMsg('저장 파일을 내려받았습니다');
+  } catch (e) {
+    if (navigator.clipboard) navigator.clipboard.writeText(data).then(() => dataMsg('클립보드에 복사했습니다'), () => dataMsg('내보내기에 실패했습니다'));
+    else dataMsg('내보내기에 실패했습니다');
+  }
+});
+$('#btnImport').addEventListener('click', () => $('#fileImport').click());
+$('#fileImport').addEventListener('change', e => {
+  const f = e.target.files && e.target.files[0]; e.target.value = ''; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const d = JSON.parse(r.result);
+      if (!d || d.game !== 'immune-zero' || !d.save) throw new Error('형식');
+      adoptSave(d.save); writeSave();
+      if (d.run) store.set(RUN_KEY, JSON.stringify(d.run)); else clearRun();
+      renderLab(); renderMenu(); dataMsg('저장 데이터를 불러왔습니다');
+    } catch (err) { dataMsg('올바른 저장 파일이 아닙니다'); }
+  };
+  r.readAsText(f);
+});
 $('#btnLab').addEventListener('click', () => { renderLab(); setMode('lab'); });
 $('#btnDex').addEventListener('click', () => { renderDex(); setMode('dex'); });
 $('#btnLabClose').addEventListener('click', toMenu);
@@ -3289,11 +3918,31 @@ $('#btnDexClose').addEventListener('click', toMenu);
 $('#btnSound').addEventListener('click', () => { save.sound = !save.sound; writeSave(); Sfx.init(); $('#btnSound').innerHTML = save.sound ? SND_ON : SND_OFF; });
 $('#cellPick').addEventListener('click', e => {
   const b = e.target.closest('.cellbtn'); if (!b) return;
-  save.char = b.dataset.id; writeSave(); renderMenu(); beginDemo();
+  const id = b.dataset.id;
+  if (!cellOpen(id)) { menuToast(`${CHARS[id].ko}은(는) 연구 Lv ${UNLOCK.cell[id]}에 해금됩니다 · 판을 마칠 때마다 연구 경험치가 쌓입니다`); return; }
+  save.char = id; writeSave(); renderMenu(); beginDemo();
 });
 $('#diffSel').addEventListener('click', e => {
   const b = e.target.closest('.dbtn'); if (!b) return;
-  save.diff = b.dataset.d; writeSave(); Sfx.init(); Sfx.pick(); renderMenu();
+  const k = b.dataset.d;
+  if (!diffOpen(k)) { menuToast(`${DIFFS[k].ko} 난이도 해금 조건: ${diffNeed(k)}`); return; }
+  save.diff = k; writeSave(); Sfx.init(); Sfx.pick(); renderMenu();
+});
+/* 연구소 · 배양 · 출석 */
+$('#labTabs').addEventListener('click', e => { const b = e.target.closest('button[data-t]'); if (!b) return; labTab = b.dataset.t; Sfx.init(); Sfx.pick(); renderLab(); });
+$('#btnPull1').addEventListener('click', () => doPull(1));
+$('#btnPull10').addEventListener('click', () => doPull(10));
+$('#btnPullOk').addEventListener('click', () => { $('#pullRes').hidden = true; });
+const equipClick = e => { const b = e.target.closest('.gcard[data-id]'); if (b) toggleEquip(b.dataset.id); };
+$('#cGrid').addEventListener('click', equipClick);
+$('#gSlots').addEventListener('click', equipClick);
+$('#btnDaily').addEventListener('click', () => { Sfx.init(); openDaily(); });
+$('#btnDailyClose').addEventListener('click', toMenu);
+$('#btnClaim').addEventListener('click', () => {
+  const rw = claimDaily(); if (!rw) return;
+  const ach = checkAch(); writeSave(); Sfx.init(); Sfx.level();
+  renderDaily(); renderAcct();
+  $('#dailySub').textContent = `받았습니다 · ${rwText(rw)}${ach.length ? ' · 업적 ' + ach.map(a => a.ko).join(', ') : ''}`;
 });
 $('#vGrid').addEventListener('click', e => {
   const b = e.target.closest('button[data-id]'); if (!b) return;
@@ -3317,12 +3966,13 @@ function frame(now) {
       if (G.pending > 0 && !G.over && !G.won) { openLevelUp(); break; }
     }
     if (n >= 6) acc = 0;
+    if (!G.demo && (runSaveT += rdt) >= 8) { runSaveT = 0; autoSave(); }
     if ((G.over || G.won) && mode === 'play') { G.endTimer -= rdt; if (G.endTimer <= 0) finishRun(); }
   }
-  if (mode === 'menu' || mode === 'lab' || mode === 'dex') stepDemo(rdt);
+  if (mode === 'menu' || mode === 'lab' || mode === 'dex' || mode === 'daily') stepDemo(rdt);
   render(now, rdt);
   if (mode === 'play' || mode === 'levelup' || mode === 'pause') updateHud(rdt);
-  if (mode === 'menu' || mode === 'lab') animatePortraits(now);
+  if (mode === 'menu' || mode === 'lab' || mode === 'daily') animatePortraits(now);
 }
 
 /* ============================================================
@@ -3380,11 +4030,14 @@ setMode('menu');
 layoutStage();
 beginDemo();
 requestAnimationFrame(frame);
+if (dailyReady()) setTimeout(() => { if (mode === 'menu') openDaily(); }, 450);     // 오늘 출석 보상을 아직 안 받았으면 바로 보여 준다
 
 // 테스트용 훅 (플레이에는 영향 없음)
 window.__immune = {
   get G() { return G; }, get P() { return P; }, get mode() { return mode; }, enemies, gems, BOT, save,
   pools: { pickups, projs, eprojs, strikes, novas, pools, parts, rings, nums },
+  store, readRun, writeRun, clearRun, continueRun, autoSave, adoptSave, renderMenu,
+  claimDaily, checkAch, pullMany, doPull, openDaily, renderLab, cardFx, addAccountXp, setTab: t => { labTab = t; },
   start: id => { if (id) save.char = id; startRun(); },
   step: n => { for (let i = 0; i < n; i++) { if (mode !== 'play') break; update(STEP); if (G.pending > 0 && !G.over && !G.won) openLevelUp(); } },
   pickAny: () => { if (mode === 'levelup') { luLock = 0; pickChoice(Math.floor(Math.random() * 3)); } },
