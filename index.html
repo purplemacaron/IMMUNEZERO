@@ -174,10 +174,10 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
 .coin b{font-weight:900;color:#fff;font-size:15px;letter-spacing:0;font-variant-numeric:tabular-nums}
 .tt-right{position:absolute;right:clamp(24px,5vw,80px);bottom:calc(11vh + 20px);width:min(400px,calc(100% - 48px));display:flex;flex-direction:column;gap:14px}
 .diff{padding:10px;clip-path:var(--cut)}
-.dsel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.dbtn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 4px;border:0;background:rgba(255,255,255,.04);color:var(--mut);cursor:pointer;box-shadow:inset 0 0 0 1px var(--line);transition:background .12s,color .12s}
+.dsel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.dbtn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 2px;border:0;background:rgba(255,255,255,.04);color:var(--mut);cursor:pointer;box-shadow:inset 0 0 0 1px var(--line);transition:background .12s,color .12s}
 .dbtn b{font:900 15px/1 var(--font)}
-.dbtn small{font:700 9px/1 var(--font);letter-spacing:.2em}
+.dbtn small{font:700 8px/1 var(--font);letter-spacing:.08em}
 .dbtn:hover{color:#fff;background:rgba(255,255,255,.08)}
 .dbtn.on{color:#fff;background:rgba(224,49,49,.2);box-shadow:inset 0 0 0 1px var(--red),inset 0 -3px 0 var(--red)}
 .diff p{margin:9px 2px 0;font:500 12px/1.5 var(--font);color:var(--tx2);min-height:3em}
@@ -271,7 +271,12 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
 .resrow{display:flex;gap:12px;align-items:stretch}
 .rank{flex:none;width:104px;background:linear-gradient(160deg,#1a2430,#0a0f14);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:inset 0 0 0 1px var(--line2)}
 .rank small{font:700 9px/1 var(--font);letter-spacing:.24em;color:var(--red2)}
-.rank b{font:900 56px/1.05 var(--font)}
+.rank b{font:900 56px/1.05 var(--font);letter-spacing:-.04em}
+.rank b[data-r="SSS"]{font-size:44px}
+.rank b[data-r="C"]{color:#8be04e}.rank b[data-r="B"]{color:#5fd6ff}.rank b[data-r="A"]{color:#ffd45e}
+.rank b[data-r="S"],.rank b[data-r="SS"],.rank b[data-r="SSS"]{color:#ff7a45;text-shadow:0 0 18px rgba(255,90,40,.55)}
+.rank b[data-r="SSS"]{color:#ff4560}
+.rank em{margin-top:8px;font:700 10px/1.3 var(--font);font-style:normal;color:var(--mut);text-align:center;padding:0 6px}
 .kv{flex:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line)}
 .kv div{padding:11px 14px;background:#0a1016}
 .kv small{display:block;font:700 10px/1 var(--font);color:var(--mut);letter-spacing:.1em;margin-bottom:6px}
@@ -494,7 +499,7 @@ svg.ic{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke
       <div class="eyebrow">임상 경과 보고서</div>
       <h2 id="resTitle"></h2>
       <p class="sub" id="resSub"></p>
-      <div class="sec"><div class="resrow"><div class="rank"><small>GRADE</small><b id="resRank">A</b></div><div class="kv" id="resKv"></div></div></div>
+      <div class="sec"><div class="resrow"><div class="rank"><small>GRADE</small><b id="resRank">A</b><em id="resNext"></em></div><div class="kv" id="resKv"></div></div></div>
       <div class="sec"><div class="lbl">위협 단계별 제거</div><div class="t3" id="resTier"></div></div>
       <div class="sec"><div class="lbl">최종 구성</div><div class="build" id="resBuild"></div></div>
       <div class="row">
@@ -530,7 +535,7 @@ const turn = (a, b, max) => { const d = ((b - a + Math.PI) % TAU + TAU) % TAU - 
    저장 (localStorage가 막혀 있어도 게임은 동작)
    ============================================================ */
 const SAVE_KEY = 'immune-survivors-v2';
-const DIFFS_KEYS = ['std', 'hz', 'cat'];
+const DIFFS_KEYS = ['std', 'hz', 'cat', 'ext'];
 const save = { serum: 0, vacc: {}, best: { time: 0, kills: 0, wins: 0, score: 0 }, bests: {}, diff: 'std', char: 'macro', sound: true, seen: {} };
 const bestOf = d => (save.bests[d] = Object.assign({ time: 0, score: 0, cycle: 0, kills: 0, runs: 0 }, save.bests[d]));
 function loadSave() {
@@ -609,7 +614,7 @@ const ZONES = [
 const LIN_NAME = { rhino: '리노바이러스', flu: '인플루엔자', corona: '코로나바이러스', ebola: '에볼라', rabies: '광견병' };
 
 /* ============================================================
-   병원체 17종 (+ 신호용 자식 개체)
+   병원체 28종 (+ 신호용 자식 개체)
    draw: 스프라이트 종류 / ai: 행동 / lin: 변이 계열
    ============================================================ */
 const VIRUS = {
@@ -633,6 +638,18 @@ const VIRUS = {
   cmv: { ko: '거대세포바이러스', en: 'Cytomegalovirus', tier: 2, lin: 'cmv', r: 20, hp: 160, spd: 38, dmg: 10, xp: 24, ai: 'summoner', bar: true, col: [162, 90, 214], draw: 'cmv', mood: 'o', size: '200 nm', note: '입에서 작은 바이러스를 계속 뱉어냅니다. 번식 공장입니다.' },
   dengue: { ko: '뎅기 바이러스', en: 'Dengue', tier: 2, lin: 'dengue', r: 14, hp: 95, spd: 72, dmg: 14, xp: 18, ai: 'blinker', col: [214, 80, 160], draw: 'dengue', mood: 'o', size: '50 nm', note: '모기를 타고 날아옵니다. 순간이동으로 갑자기 나타납니다.' },
   nipah: { ko: '니파 바이러스', en: 'Nipah', tier: 2, lin: 'nipah', r: 17, hp: 110, spd: 48, dmg: 10, xp: 20, ai: 'spread', col: [150, 70, 190], draw: 'nipah', mood: 'fang', size: '40~1,900 nm', note: '박쥐에서 건너왔습니다. 가시를 부채꼴로 세 갈래 쏩니다.' },
+  // ---- 2차 도감: 움직임이 새로운 병원체 11종 ----
+  coxsackie: { ko: '콕사키바이러스', en: 'Coxsackievirus', tier: 0, lin: 'coxsackie', r: 11, hp: 9, spd: 58, dmg: 4, xp: 2, ai: 'hopper', col: [150, 220, 120], draw: 'cox', size: '30 nm', note: '수족구병의 원인. 웅크렸다가 폴짝 뛰어 달려듭니다.' },
+  rsv: { ko: 'RS바이러스', en: 'RSV', tier: 0, lin: 'rsv', r: 9, hp: 8, spd: 74, dmg: 3, xp: 1, ai: 'orbiter', pack: [4, 6], col: [196, 222, 92], draw: 'rsv', size: '120~200 nm', note: '아기 폐렴의 주범. 무리가 빙글빙글 돌면서 포위망을 좁혀 옵니다.' },
+  hpv: { ko: '사람유두종바이러스', en: 'HPV', tier: 0, lin: 'hpv', r: 14, hp: 36, spd: 34, dmg: 5, armor: 2, xp: 4, ai: 'chase', col: [142, 196, 112], draw: 'hpv', size: '55 nm', note: '사마귀를 일으킵니다. 느리지만 울퉁불퉁한 껍질이 약한 공격을 막습니다.' },
+  hanta: { ko: '한타바이러스', en: 'Hantavirus', tier: 1, lin: 'hanta', r: 15, hp: 56, spd: 44, dmg: 13, xp: 9, ai: 'hopper', hop: [1.2, .5, 4.4], col: [255, 172, 92], draw: 'hanta', size: '80~120 nm', note: '쥐가 옮기는 출혈열. 몸을 부풀려 힘을 모은 뒤 크게 도약합니다.' },
+  polio: { ko: '소아마비 바이러스', en: 'Poliovirus', tier: 1, lin: 'polio', r: 15, hp: 66, spd: 40, dmg: 8, xp: 9, ai: 'aura', bar: true, col: [255, 204, 112], draw: 'polio', size: '30 nm', note: '신경을 마비시킵니다. 주변 점선 안에 들어가면 이동이 느려집니다.' },
+  zika: { ko: '지카 바이러스', en: 'Zika', tier: 1, lin: 'zika', r: 14, hp: 48, spd: 52, dmg: 8, xp: 8, ai: 'caster', cast: [3.2, 4.4, 1, 46], col: [255, 142, 122], draw: 'zika', size: '50 nm', note: '모기가 옮깁니다. 멀리서 발밑에 독 웅덩이를 예고하고 터뜨립니다.' },
+  hcv: { ko: 'C형 간염 바이러스', en: 'Hepatitis C', tier: 1, lin: 'hcv', r: 17, hp: 95, spd: 38, dmg: 9, xp: 11, ai: 'pulser', pulse: [84, 2.8, 3.8], bar: true, col: [240, 122, 66], draw: 'hcv', size: '55 nm', note: '조용히 퍼지는 간 질환의 원인. 멈춰 서서 충격파 장판을 깝니다.' },
+  lassa: { ko: '라사 바이러스', en: 'Lassa', tier: 2, lin: 'lassa', r: 17, hp: 150, spd: 46, dmg: 12, xp: 22, ai: 'caster', cast: [2.4, 3.2, 2, 54], bar: true, col: [212, 92, 72], draw: 'lassa', size: '70~150 nm', note: '서아프리카의 라사열. 두 곳에 동시에 독 웅덩이를 던져 움직임을 막습니다.' },
+  cchf: { ko: '크림-콩고 출혈열 바이러스', en: 'CCHF', tier: 2, lin: 'cchf', r: 13, hp: 96, spd: 80, dmg: 15, xp: 18, ai: 'orbiter', pack: [2, 3], orbit: [.8, 55], col: [196, 44, 66], draw: 'cchf', size: '100 nm', note: '진드기가 옮기는 출혈열. 빠르게 돌며 순식간에 에워쌉니다.' },
+  jc: { ko: 'JC 바이러스', en: 'JC virus', tier: 2, lin: 'jc', r: 21, hp: 420, spd: 30, dmg: 14, armor: 6, xp: 30, ai: 'chase', onHit: 'slow', bar: true, col: [156, 66, 96], draw: 'jc', size: '40 nm', note: '뇌 백질을 파괴합니다. 두꺼운 장갑과 마비 효과를 가진 느린 거구입니다.' },
+  tbe: { ko: '진드기 매개 뇌염 바이러스', en: 'TBEV', tier: 2, lin: 'tbe', r: 18, hp: 210, spd: 40, dmg: 12, xp: 24, ai: 'pulser', pulse: [104, 2.4, 3.2], bar: true, col: [176, 84, 224], draw: 'tbe', size: '50 nm', note: '뇌염을 일으킵니다. 멈춰 서서 넓은 충격파를 연달아 터뜨립니다.' },
   mpox: { ko: '농포', en: 'Pustule', tier: 2, lin: 'pox', r: 9, hp: 14, spd: 76, dmg: 7, xp: 3, ai: 'chase', col: [214, 100, 100], draw: 'ico', mood: 'angry', size: '—', note: '', hidden: true },
 };
 const VIRUS_ORDER = Object.keys(VIRUS).filter(k => !VIRUS[k].hidden);
@@ -645,6 +662,10 @@ const TAXON = {
   measles: ['Paramyxoviridae', 'ssRNA(−)', '공기'], hiv: ['Retroviridae', 'ssRNA-RT', '체액'], hbv: ['Hepadnaviridae', 'dsDNA(부분)', '혈액·체액'],
   rabies: ['Rhabdoviridae', 'ssRNA(−)', '교상(침)'], ebola: ['Filoviridae', 'ssRNA(−)', '체액 접촉'], pox: ['Poxviridae', 'dsDNA', '비말·접촉'],
   cmv: ['Herpesviridae', 'dsDNA', '체액'], dengue: ['Flaviviridae', 'ssRNA(+)', '모기 매개'], nipah: ['Paramyxoviridae', 'ssRNA(−)', '동물·접촉'],
+  coxsackie: ['Picornaviridae', 'ssRNA(+)', '분변-구강·비말'], rsv: ['Pneumoviridae', 'ssRNA(−)', '비말·접촉'], hpv: ['Papillomaviridae', 'dsDNA', '접촉'],
+  hanta: ['Hantaviridae', 'ssRNA(−) 분절', '설치류 배설물'], polio: ['Picornaviridae', 'ssRNA(+)', '분변-구강'], zika: ['Flaviviridae', 'ssRNA(+)', '모기 매개·성접촉'],
+  hcv: ['Flaviviridae', 'ssRNA(+)', '혈액'], lassa: ['Arenaviridae', 'ssRNA(−) 분절', '설치류 배설물'], cchf: ['Nairoviridae', 'ssRNA(−) 분절', '진드기 매개'],
+  jc: ['Polyomaviridae', 'dsDNA', '호흡기·잠복'], tbe: ['Flaviviridae', 'ssRNA(+)', '진드기 매개'],
   riC: ['Picornaviridae', 'ssRNA(+)', '비말·접촉'], h1n1: ['Orthomyxoviridae', 'ssRNA(−) 분절', '비말'], covid: ['Coronaviridae', 'ssRNA(+)', '비말·에어로졸'],
   zaire: ['Filoviridae', 'ssRNA(−)', '체액 접촉'], rabx: ['Rhabdoviridae', 'ssRNA(−)', '교상(침)'],
 };
@@ -792,11 +813,13 @@ const vaccCost = (v, lv) => Math.round(v.base * (1 + lv * .8));
    무한 진행: 난이도 · 유행 주기 · 정예 변이 · 무한 강화
    ============================================================ */
 const DIFFS = {
-  std: { ko: '표준', en: 'STANDARD', hp: 1, dmg: 1, spawn: 1, reward: 1, rank: 1, desc: '기본 난이도. 유행이 거듭될수록 강해집니다.' },
-  hz: { ko: '위험', en: 'HAZARD', hp: 1.4, dmg: 1.25, spawn: 1.15, reward: 1.6, rank: 1.35, desc: '적 체력 +40% · 피해 +25% · 출현 +15% · 보상 ×1.6' },
-  cat: { ko: '재앙', en: 'CATASTROPHE', hp: 1.9, dmg: 1.5, spawn: 1.3, reward: 2.4, rank: 1.8, desc: '적 체력 +90% · 피해 +50% · 출현 +30% · 보상 ×2.4' },
+  std: { ko: '표준', en: 'STANDARD', hp: 1, dmg: 1, spawn: 1, reward: 1, rank: 1, desc: '기본 난이도. 유행이 거듭될수록 빠르게 강해집니다.' },
+  hz: { ko: '위험', en: 'HAZARD', hp: 1.5, dmg: 1.3, spawn: 1.2, reward: 1.7, rank: 1.4 },
+  cat: { ko: '재앙', en: 'CATASTROPHE', hp: 2.2, dmg: 1.7, spawn: 1.4, reward: 2.6, rank: 2 },
+  ext: { ko: '절멸', en: 'EXTINCTION', hp: 3.2, dmg: 2.2, spawn: 1.6, reward: 4, rank: 2.8 },
 };
-const DIFF_ORDER = ['std', 'hz', 'cat'];
+for (const k in DIFFS) { const d = DIFFS[k]; if (!d.desc) d.desc = `적 체력 +${Math.round((d.hp - 1) * 100)}% · 피해 +${Math.round((d.dmg - 1) * 100)}% · 출현 +${Math.round((d.spawn - 1) * 100)}% · 보상 ×${d.reward}`; }
+const DIFF_ORDER = ['std', 'hz', 'cat', 'ext'];
 const CYCLE = 480;                    // 한 유행 주기(초). 끝나면 더 강한 다음 유행이 시작된다
 const ELITES = {
   giant: { ko: '거대', col: [255, 196, 60], hp: 4, dmg: 1.5, spd: .85, scale: 1.45 },
@@ -807,6 +830,7 @@ const ELITES = {
 };
 const ELITE_KEYS = Object.keys(ELITES);
 const AREA_BOOST_MAX = 15;
+const AURA_R = 118;              // 소아마비 바이러스의 마비 범위
 const KILL_HEAL_PS = 6;          // 처치 시 회복의 초당 상한
 const EXPLODE_R = 72, EXPLODE_FUSE = 1;   // 홍역(자폭형) 폭발 반경 · 부풀기 시간: 보고 피할 수 있게
 const BOOSTS = {               // 모든 무기·패시브가 최대일 때도 성장이 이어지도록
@@ -815,7 +839,11 @@ const BOOSTS = {               // 모든 무기·패시브가 최대일 때도 �
   b_cd: { ko: '신호 가속', en: 'Signal boost', per: '재사용 대기시간 -4% (최대 -60%)', icon: 'clonal', col: '#8ef0b8' },
   b_area: { ko: '수용체 증폭', en: 'Receptor boost', per: '공격 범위 +6% (최대 15단계)', icon: 'receptor', col: '#9fb4ff' },
 };
-const rankOf = (sec, diff) => { const m = sec / 60 * DIFFS[diff].rank; return m >= 22 ? 'SS' : m >= 16 ? 'S' : m >= 11 ? 'A' : m >= 7.5 ? 'B' : m >= 4 ? 'C' : 'D'; };
+/* 등급: 생존 분 + 진압한 유행 ×2 에 난이도 계수를 곱한 값. 표준 난이도 기준 C 7분 · B 12분 · A 20분 · S 32분 · SS 48분 · SSS 70분 */
+const RANKS = [['D', 0], ['C', 7], ['B', 12], ['A', 20], ['S', 32], ['SS', 48], ['SSS', 70]];
+const rankScore = (sec, diff, cleared) => (sec / 60 + (cleared || 0) * 2) * DIFFS[diff].rank;
+const rankIndex = (sec, diff, cleared) => { const m = rankScore(sec, diff, cleared); let i = 0; while (i + 1 < RANKS.length && m >= RANKS[i + 1][1]) i++; return i; };
+const rankOf = (sec, diff, cleared) => RANKS[rankIndex(sec, diff, cleared)][0];
 
 /* ============================================================
    아이콘 (32×32 선 아이콘)
@@ -1091,8 +1119,97 @@ function drawNipah(g, r, c) {
   g.strokeStyle = rgbs(mixc(c, -.3)); g.lineWidth = Math.max(1, r * .06); g.beginPath();
   for (let i = 0; i < 4; i++) { const y = -r * .3 + i * r * .2; g.moveTo(-r * .4, y); g.quadraticCurveTo(0, y + r * .16, r * .4, y); }
   g.stroke();
-}const DRAW = { ico: drawIco, adeno: drawAdeno, noro: drawNoro, rota: drawRota, herpes: drawHerpes, flu: drawFlu, corona: drawCorona, omicron: drawOmicron, measles: drawMeasles, hiv: drawHiv, hbv: drawHbv, bullet: drawBullet, filo: drawFilo, pox: drawPox, cmv: drawCmv, dengue: drawDengue, nipah: drawNipah };
-const EXT = { ico: [1.3, 1.5], adeno: [1.4, 1.4], noro: [1.3, 1.3], rota: [1.3, 1.3], herpes: [1.4, 1.5], flu: [1.35, 1.5], corona: [1.4, 1.4], omicron: [1.4, 1.4], measles: [1.4, 1.6], hiv: [1.4, 1.4], hbv: [1.4, 1.4], bullet: [1.9, 1.55], filo: [2.4, 1.75], pox: [1.35, 1.35], cmv: [1.5, 1.5], dengue: [1.85, 1.4], nipah: [1.4, 1.65] };
+}
+/* ---- 2차 도감 11종 ---- */
+function drawCox(g, r, c) {                         // 점박이 육각
+  const R = r * .9;
+  polyPath(g, 6, R, 0); body(g, R, c); facets(g, R, 0, 6); shine(g, R);
+  g.fillStyle = rgbs(mixc(c, -.45));
+  [[-.42, -.16], [.36, -.36], [.1, .42], [-.32, .46], [.52, .18]].forEach(p => { g.beginPath(); g.arc(p[0] * R, p[1] * R, R * .1, 0, TAU); g.fill(); });
+  core(g, 0, 0, r * .26);
+}
+function drawRsv(g, r, c) {                         // 가는 털이 빽빽한 구
+  const b = r * .64;
+  rays(g, 28, b * .9, r * 1.04, r * .05, c, 0, 0);
+  g.beginPath(); g.arc(0, 0, b, 0, TAU); body(g, b, c); shine(g, b);
+  g.strokeStyle = rgbs(mixc(c, .42)); g.lineWidth = Math.max(.8, r * .05); g.beginPath(); g.arc(0, 0, b * .62, .5, TAU - .8); g.stroke();
+  core(g, 0, 0, r * .3);
+}
+function drawHpv(g, r, c) {                         // 울퉁불퉁한 콜리플라워 껍질
+  g.beginPath();
+  for (let i = 0; i <= 72; i++) { const a = i / 72 * TAU, rr = r * (.78 + .12 * Math.abs(Math.sin(a * 5.5))); i ? g.lineTo(Math.cos(a) * rr, Math.sin(a) * rr) : g.moveTo(rr, 0); }
+  g.closePath(); body(g, r, c); shine(g, r * .9);
+  g.fillStyle = rgbs(mixc(c, .38));
+  [[-.5, -.2], [.1, -.55], [.5, .1], [-.2, .5], [.45, -.45]].forEach(p => { g.beginPath(); g.arc(p[0] * r, p[1] * r, r * .12, 0, TAU); g.fill(); });
+  core(g, 0, 0, r * .3);
+}
+function drawHanta(g, r, c) {                       // 격자무늬 구
+  const b = r * .76;
+  rays(g, 10, b * .92, r * 1.02, r * .13, c, r * .09, .3);
+  g.beginPath(); g.arc(0, 0, b, 0, TAU); body(g, b, c);
+  g.save(); g.beginPath(); g.arc(0, 0, b * .96, 0, TAU); g.clip();
+  g.strokeStyle = 'rgba(0,10,24,.3)'; g.lineWidth = Math.max(.8, r * .05); g.beginPath();
+  for (let i = -3; i <= 3; i++) { g.moveTo(i * b * .3, -b); g.lineTo(i * b * .3, b); g.moveTo(-b, i * b * .3); g.lineTo(b, i * b * .3); }
+  g.stroke(); g.restore();
+  shine(g, b); core(g, 0, 0, r * .3);
+}
+function drawPolio(g, r, c) {                       // 정십각 정이십면체
+  const R = r * .88, a0 = -Math.PI / 2;
+  polyPath(g, 10, R, a0); body(g, R, c); facets(g, R, a0, 10); shine(g, R);
+  g.strokeStyle = rgbs(mixc(c, .5)); g.lineWidth = Math.max(.9, r * .05); polyPath(g, 10, R * .56, a0); g.stroke();
+  core(g, 0, 0, r * .24);
+}
+function drawZika(g, r, c) {                        // 가로 띠가 있는 매끈한 구
+  const R = r * .88;
+  g.beginPath(); g.arc(0, 0, R, 0, TAU); body(g, R, c);
+  g.save(); g.beginPath(); g.arc(0, 0, R * .97, 0, TAU); g.clip();
+  g.strokeStyle = rgbs(mixc(c, .4)); g.lineWidth = Math.max(.8, r * .055);
+  [-.55, -.18, .22, .58].forEach(y => { g.beginPath(); g.ellipse(0, y * R, Math.sqrt(Math.max(.01, 1 - y * y)) * R, R * .1, 0, 0, TAU); g.stroke(); });
+  g.restore(); shine(g, R); core(g, 0, 0, r * .28);
+}
+function drawHcv(g, r, c) {                         // 당단백질 혹이 돋은 구
+  const b = r * .72;
+  rays(g, 18, b * .94, r * .98, r * .03, c, r * .1, 0);
+  g.beginPath(); g.arc(0, 0, b, 0, TAU); body(g, b, c); shine(g, b);
+  g.strokeStyle = rgbs(mixc(c, .45)); g.lineWidth = Math.max(.9, r * .05); g.beginPath(); g.arc(0, 0, b * .62, 0, TAU); g.stroke();
+  core(g, 0, 0, r * .3);
+}
+function drawLassa(g, r, c) {                       // 모래알(리보솜) 같은 알갱이가 박힌 구
+  const b = r * .84;
+  rays(g, 14, b * .94, r * 1.02, r * .06, c, r * .06, .2);
+  g.beginPath(); g.arc(0, 0, b, 0, TAU); body(g, b, c); shine(g, b);
+  g.fillStyle = 'rgba(40,16,10,.55)';
+  for (let i = 0; i < 12; i++) { const a = i * 2.4, rr = b * (.28 + (i % 4) * .15); g.beginPath(); g.arc(Math.cos(a) * rr, Math.sin(a) * rr, r * .06, 0, TAU); g.fill(); }
+  core(g, 0, 0, r * .24);
+}
+function drawCchf(g, r, c) {                        // 진드기 다리 여덟 개
+  g.strokeStyle = OUT; g.lineWidth = Math.max(2, r * .16);
+  const leg = (a, s) => { g.beginPath(); g.moveTo(Math.cos(a) * r * .5, Math.sin(a) * r * .5); g.quadraticCurveTo(Math.cos(a + s * .5) * r * 1.05, Math.sin(a + s * .5) * r * 1.05, Math.cos(a + s * .15) * r * 1.22, Math.sin(a + s * .15) * r * 1.22); };
+  for (let i = 0; i < 8; i++) { const a = i / 8 * TAU + .2; leg(a, i % 2 ? 1 : -1); g.stroke(); }
+  g.strokeStyle = rgbs(mixc(c, -.1)); g.lineWidth = Math.max(1.2, r * .07);
+  for (let i = 0; i < 8; i++) { const a = i / 8 * TAU + .2; leg(a, i % 2 ? 1 : -1); g.stroke(); }
+  const b = r * .72; g.beginPath(); g.arc(0, 0, b, 0, TAU); body(g, b, c); shine(g, b);
+  g.strokeStyle = rgbs(mixc(c, -.35)); g.lineWidth = Math.max(1, r * .06); g.beginPath(); g.moveTo(-b * .6, -b * .12); g.lineTo(b * .6, -b * .12); g.moveTo(-b * .5, b * .22); g.lineTo(b * .5, b * .22); g.stroke();
+  core(g, 0, -r * .05, r * .26);
+}
+function drawJc(g, r, c) {                          // 장갑판을 두른 팔각 거구
+  const R = r * .92;
+  polyPath(g, 8, R, Math.PI / 8); body(g, R, c); facets(g, R, Math.PI / 8, 8); shine(g, R);
+  g.strokeStyle = 'rgba(0,10,24,.55)'; g.lineWidth = Math.max(1.2, r * .08); polyPath(g, 8, R * .72, Math.PI / 8); g.stroke();
+  g.fillStyle = rgbs(mixc(c, .45));
+  for (let i = 0; i < 8; i++) { const a = Math.PI / 8 + i / 8 * TAU; g.beginPath(); g.arc(Math.cos(a) * R * .72, Math.sin(a) * R * .72, r * .07, 0, TAU); g.fill(); }
+  core(g, 0, 0, r * .3);
+}
+function drawTbe(g, r, c) {                         // 겹겹의 충격파 고리
+  const b = r * .7;
+  rays(g, 16, b * .94, r * 1.04, r * .08, c, r * .1, .15);
+  g.beginPath(); g.arc(0, 0, b, 0, TAU); body(g, b, c); shine(g, b);
+  g.strokeStyle = rgbs(mixc(c, .5)); g.lineWidth = Math.max(.9, r * .05);
+  [.4, .65, .9].forEach(k => { g.beginPath(); g.arc(0, 0, b * k, .3, TAU - .3); g.stroke(); });
+  core(g, 0, 0, r * .2);
+}
+const DRAW = { cox: drawCox, rsv: drawRsv, hpv: drawHpv, hanta: drawHanta, polio: drawPolio, zika: drawZika, hcv: drawHcv, lassa: drawLassa, cchf: drawCchf, jc: drawJc, tbe: drawTbe, ico: drawIco, adeno: drawAdeno, noro: drawNoro, rota: drawRota, herpes: drawHerpes, flu: drawFlu, corona: drawCorona, omicron: drawOmicron, measles: drawMeasles, hiv: drawHiv, hbv: drawHbv, bullet: drawBullet, filo: drawFilo, pox: drawPox, cmv: drawCmv, dengue: drawDengue, nipah: drawNipah };
+const EXT = { cox: [1.35, 1.35], rsv: [1.4, 1.4], hpv: [1.35, 1.35], hanta: [1.4, 1.4], polio: [1.35, 1.35], zika: [1.35, 1.35], hcv: [1.4, 1.4], lassa: [1.4, 1.4], cchf: [1.6, 1.6], jc: [1.35, 1.35], tbe: [1.4, 1.4], ico: [1.3, 1.5], adeno: [1.4, 1.4], noro: [1.3, 1.3], rota: [1.3, 1.3], herpes: [1.4, 1.5], flu: [1.35, 1.5], corona: [1.4, 1.4], omicron: [1.4, 1.4], measles: [1.4, 1.6], hiv: [1.4, 1.4], hbv: [1.4, 1.4], bullet: [1.9, 1.55], filo: [2.4, 1.75], pox: [1.35, 1.35], cmv: [1.5, 1.5], dengue: [1.85, 1.4], nipah: [1.4, 1.65] };
 
 const SPR = {}, SPRW = {}, SPRM = {}, SPRD = {};
 function bakeVirus(key, def, boss) {
@@ -1369,6 +1486,9 @@ const EVENTS = [
 ];
 const SPAWN = [   // [종, 시작, 시작 가중치, 최종 가중치, 증가 구간(초)]
   ['rhino', 0, 10, 3, 270], ['adeno', 20, 2.5, 4, 200], ['noro', 45, 1.2, 2.5, 200], ['rota', 75, 1.8, 3, 200], ['herpes', 100, .8, 1.6, 200],
+  ['coxsackie', 60, 1.4, 2.8, 200], ['rsv', 95, 1, 2.2, 200], ['hpv', 120, .8, 1.8, 200],
+  ['hanta', 215, .9, 2.2, 200], ['polio', 235, .8, 1.9, 200], ['zika', 250, .8, 2, 200], ['hcv', 270, .7, 1.6, 200],
+  ['lassa', 335, .7, 1.6, 200], ['cchf', 355, .8, 1.8, 200], ['jc', 375, .5, 1.2, 200], ['tbe', 395, .6, 1.4, 200],
   ['flu', 140, 2.5, 5, 200], ['corona', 160, 2, 4, 200], ['measles', 185, 1.5, 3, 200], ['omicron', 205, 1.5, 3, 200], ['hiv', 230, 1, 2.4, 200], ['hbv', 255, .8, 1.8, 200],
   ['rabies', 315, 2, 4, 200], ['ebola', 330, 1.3, 2.8, 200], ['pox', 345, .8, 1.8, 200], ['cmv', 360, .7, 1.4, 200], ['dengue', 375, 1.2, 2.6, 200], ['nipah', 390, .8, 1.8, 200],
 ];
@@ -1494,12 +1614,12 @@ function addPool(x, y, r, life, delay) { if (pools.length < 64) pools.push({ x, 
    플레이어 성장(무한 강화)은 선형이라 언젠가는 반드시 따라잡힌다 → 끝없는 게임이지만 결국 끝나는 판 */
 /* 위험·재앙 난이도의 배율은 처음엔 40%만 걸리고 3분 30초에 걸쳐 전부 적용된다 (초반 진입 장벽 완화) */
 const diffK = v => 1 + (v - 1) * Math.min(1, .4 + G.t / 350);
-const hpEsc = () => diffK(G.diff.hp) * Math.pow(1.8, Math.max(0, G.t - 360) / CYCLE);
+const hpEsc = () => diffK(G.diff.hp) * Math.pow(2, Math.max(0, G.t - 300) / CYCLE);
 function spawnEnemy(key, x, y, isBoss, el) {
   const def = isBoss ? BOSS[key] : VIRUS[key];
   const m = G.t / 60, cyc = G.cycle;
   const mut = !isBoss && !!G.mut[def.lin];
-  const base = isBoss ? (1 + m * .05) * (1 + cyc * .6) : 1 + m * .15 + m * m * .015 + Math.max(0, G.t - 300) / 200 * .35;
+  const base = isBoss ? (1 + m * .06) * (1 + cyc * .8) : 1 + m * .17 + m * m * .02 + Math.max(0, G.t - 240) / 180 * .4;
   const hpMul = base * hpEsc() * (mut ? 1.25 : 1) * (el ? el.hp : 1);
   const sc = el ? el.scale : 1;
   if (el) G.eliteAlive++;
@@ -1553,8 +1673,8 @@ function spawnGroup() {
   const n = def.pack ? randi(def.pack[0], def.pack[1]) : key === 'rhino' ? randi(1, 3) : 1;
   const pe = G.t < 150 ? 0 : Math.min(.14, (.004 + G.t / 7000) * (1 + G.cycle * .5));  // 정예 변이 확률 (2분 30초부터)
   for (let i = 0; i < n; i++) {
-    const el = i === 0 && G.eliteAlive < 6 && G.t >= G.eliteCd && Math.random() < pe ? ELITES[ELITE_KEYS[randi(0, ELITE_KEYS.length - 1)]] : null;
-    if (el) G.eliteCd = G.t + 6 / (1 + G.cycle * .4);                  // 정예는 몰려나오지 않게 간격을 둔다
+    const el = i === 0 && G.eliteAlive < 8 && G.t >= G.eliteCd && Math.random() < pe ? ELITES[ELITE_KEYS[randi(0, ELITE_KEYS.length - 1)]] : null;
+    if (el) G.eliteCd = G.t + 5 / (1 + G.cycle * .4);                  // 정예는 몰려나오지 않게 간격을 둔다
     spawnEnemy(key, cx + rand(-26, 26), cy + rand(-26, 26), false, el);
   }
 }
@@ -1569,7 +1689,7 @@ function spawnRing(ev) {
 }
 function recycle(e) {
   const a = rand(0, TAU), d = spawnDist() + rand(0, 40);
-  e.x = P.x + Math.cos(a) * d; e.y = P.y + Math.sin(a) * d; e.kx = e.ky = 0;
+  e.x = P.x + Math.cos(a) * d; e.y = P.y + Math.sin(a) * d; e.kx = e.ky = 0; e.rad = null;
 }
 function dropGem(x, y, v) {
   v *= 1 + G.cycle * .5;
@@ -1755,7 +1875,7 @@ function spawnDirector(dt) {
   const t = G.t, cyc = Math.floor(t / CYCLE), ct = t - cyc * CYCLE;
   G.ct = ct;
   // 적이 주는 피해: 5분 뒤부터 5분마다 +50%, 2차 유행부터는 주기마다 ×1.25 가 더 붙는다
-  G.dm = diffK(G.diff.dmg) * (1 + Math.max(0, t - 300) / 300 * .5) * Math.pow(1.25, Math.max(0, t - CYCLE) / CYCLE);
+  G.dm = diffK(G.diff.dmg) * (1 + Math.max(0, t - 300) / 300 * .5) * Math.pow(1.35, Math.max(0, t - CYCLE) / CYCLE);
   const zi = ct >= ZONES[2].at ? 2 : ct >= ZONES[1].at ? 1 : 0;
   if (zi !== G.zone) {
     G.prevZone = G.zone; G.zone = zi; G.zf = 0;
@@ -1775,7 +1895,7 @@ function spawnDirector(dt) {
   }
   for (const ev of EVENTS) { const fk = ev.at + '_' + cyc; if (!G.ev[fk] && ct >= ev.at) { G.ev[fk] = true; spawnRing(ev); } }
   if (G.won || G.over) return;
-  const rate = Math.min(32, (1.3 + .02 * t) * (1 + Math.max(0, t - 300) / 300 * .9)) * diffK(G.diff.spawn) * (G.boss ? .6 : 1);
+  const rate = Math.min(38, (1.3 + .022 * t) * (1 + Math.max(0, t - 300) / 300 * 1.1)) * diffK(G.diff.spawn) * (G.boss ? .6 : 1);
   const cap = Math.min(420, MAX_ENEMIES + 30 * cyc);
   G.spawnAcc += rate * dt;
   while (G.spawnAcc >= 1) {
@@ -1922,6 +2042,53 @@ const AI = {
   toxic(e, dt, d, nx, ny, sp) {
     e.mx = nx * sp; e.my = ny * sp; e.st -= dt;
     if (e.st <= 0) { e.st = 1.6; addPool(e.x, e.y, 38, 6); }
+    e.tang = Math.atan2(ny, nx);
+  },
+  /* ---- 2차 도감 ---- */
+  hopper(e, dt, d, nx, ny, sp) {                          // 웅크림(부풀며 예고) → 폴짝 도약
+    const h = e.def.hop || [.55, .32, 3.2];
+    e.st -= dt;
+    if (e.state === 0) {
+      e.mx = nx * sp * .25; e.my = ny * sp * .25; e.swell = Math.max(0, 1 - e.st / h[0]) * .3;
+      if (e.st <= 0) { e.state = 1; e.st = h[1]; e.ax = nx; e.ay = ny; e.swell = 0; }
+    } else {
+      e.mx = e.ax * sp * h[2]; e.my = e.ay * sp * h[2];
+      if (e.st <= 0) { e.state = 0; e.st = h[0] * rand(.8, 1.3); }
+    }
+    e.tang = Math.atan2(ny, nx);
+  },
+  orbiter(e, dt, d, nx, ny, sp) {                         // 플레이어 둘레를 돌며 포위망을 좁힌다
+    const o = e.def.orbit || [.55, 38];
+    if (e.rad == null) { e.rad = Math.min(d, 420); e.orb = Math.atan2(e.y - P.y, e.x - P.x) + rand(-1.3, 1.3); }
+    e.rad = Math.max(6, e.rad - o[1] * dt);
+    e.orb += o[0] * dt * (e.id & 1 ? 1 : -1);
+    const dx = P.x + Math.cos(e.orb) * e.rad - e.x, dy = P.y + Math.sin(e.orb) * e.rad - e.y, dd = Math.hypot(dx, dy) || 1, v = Math.min(sp * 2.2, dd * 4);
+    e.mx = dx / dd * v; e.my = dy / dd * v; e.tang = Math.atan2(ny, nx);
+  },
+  aura(e, dt, d, nx, ny, sp) {                            // 점선 범위 안에서는 플레이어가 느려진다
+    e.mx = nx * sp; e.my = ny * sp; e.tang = Math.atan2(ny, nx);
+    if (d < AURA_R + P.r) P.slowT = Math.max(P.slowT, .35);
+  },
+  caster(e, dt, d, nx, ny, sp) {                          // 거리를 두고 발밑에 독 웅덩이를 예고 → 터뜨린다
+    const c = e.def.cast;
+    keepDistance(e, d, nx, ny, sp, 220, 330); e.st -= dt;
+    if (e.st <= 0 && d < 620) {
+      e.st = rand(c[0], c[1]);
+      for (let i = 0; i < c[2]; i++) addPool(P.x + rand(-70, 70) * (i ? 1.6 : .4), P.y + rand(-70, 70) * (i ? 1.6 : .4), c[3], 3.6, .95);
+      ring(e.x, e.y, 40, css(e.def.col), .3, 3);
+    }
+    e.tang = Math.atan2(ny, nx);
+  },
+  pulser(e, dt, d, nx, ny, sp) {                          // 멈춰 서서 제자리에 충격파 장판을 깐다
+    const p = e.def.pulse;
+    e.st -= dt;
+    if (e.state === 0) {
+      e.mx = nx * sp; e.my = ny * sp;
+      if (e.st <= 0 && d < 320) { e.state = 1; e.st = 1.15; addPool(e.x, e.y, p[0], .9, .95); }
+    } else {
+      e.mx = 0; e.my = 0;
+      if (e.st <= 0) { e.state = 0; e.st = rand(p[1], p[2]); }
+    }
     e.tang = Math.atan2(ny, nx);
   },
   /* ---- 변종 ---- */
@@ -2511,6 +2678,9 @@ function drawWorld(g) {
     } else if (ai === 'buffer') {
       g.setLineDash([10, 10]); g.lineDashOffset = -t * 20; g.lineWidth = 2.4; g.strokeStyle = 'rgba(139,224,78,.55)';
       g.beginPath(); g.arc(e.x, e.y, 150, 0, TAU); g.stroke(); g.setLineDash([]);
+    } else if (ai === 'aura') {
+      g.fillStyle = 'rgba(255,204,112,.06)'; g.beginPath(); g.arc(e.x, e.y, AURA_R, 0, TAU); g.fill();
+      g.setLineDash([4, 9]); g.lineDashOffset = t * 18; g.lineWidth = 2.2; g.strokeStyle = 'rgba(255,214,130,.7)'; g.stroke(); g.setLineDash([]);
     }
   }
   // 적: 그림자 → 스프라이트 (일반 → 변종)
@@ -3050,7 +3220,10 @@ function finishRun() {
   $('#resultPop').className = 'pop panel ' + (G.cleared ? 'win' : 'lose');
   $('#resTitle').textContent = `${G.cycle + 1}차 유행에서 면역 붕괴`;
   $('#resSub').textContent = `${G.diff.ko} 난이도 · 진압한 유행 ${G.cleared}회. 유행은 끝나지 않습니다. 백신을 접종하고 더 오래 버텨 보세요.`;
-  $('#resRank').textContent = rankOf(sec, dk);
+  const ri = rankIndex(sec, dk, G.cleared), rk = RANKS[ri][0];
+  $('#resRank').textContent = rk; $('#resRank').dataset.r = rk;
+  const need = ri + 1 < RANKS.length ? Math.ceil((RANKS[ri + 1][1] / G.diff.rank - G.cleared * 2) * 60 - sec) : 0;
+  $('#resNext').textContent = ri + 1 < RANKS.length ? `${RANKS[ri + 1][0]}까지 +${fmtTime(Math.max(1, need))}` : '최고 등급';
   const nb = f => f ? ' <i class="new">NEW</i>' : '';
   $('#resKv').innerHTML = `<div><small>생존 시간</small><b>${fmtTime(sec)}${nb(newTime)}</b></div><div><small>점수</small><b>${fmtNum(score)}${nb(newScore)}</b></div>
     <div><small>도달 유행</small><b>${G.cycle + 1}차</b></div><div><small>면역 Lv</small><b>${P.lv}</b></div>
